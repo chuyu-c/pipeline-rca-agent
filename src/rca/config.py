@@ -29,6 +29,9 @@ class Settings(BaseSettings):
     dags_dir: Path = Path("dags")
     sim_seed: int = 42
 
+    # Monitors (DESIGN §5.1).
+    monitors_config: Path = Path("monitors/datasets.yaml")
+
     # LLM. The key uses the Anthropic SDK's conventional, unprefixed env var.
     anthropic_api_key: SecretStr | None = Field(default=None, validation_alias="ANTHROPIC_API_KEY")
     model: str = "claude-sonnet-5-5"

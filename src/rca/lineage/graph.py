@@ -98,6 +98,11 @@ class LineageGraph:
             self._check(table)
         return [t for t in order if t in wanted]
 
+    def outputs(self, task_id: str) -> list[str]:
+        """Tables written by `task_id`, upstream-first (empty if the task is unknown)."""
+        written = {e.dst_table for e in self.edges if e.task_id == task_id}
+        return self.topo_order(written) if written else []
+
     def producers(self, table: str) -> set[str]:
         """Task ids that write `table`."""
         self._check(table)

@@ -17,6 +17,7 @@ RUN uv sync --frozen --no-install-project
 COPY src/ ./src/
 RUN uv sync --frozen
 COPY dags/ ./dags/
+COPY monitors/ ./monitors/
 
 RUN useradd --create-home --uid 1000 rca
 USER rca

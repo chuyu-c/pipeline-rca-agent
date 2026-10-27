@@ -1,0 +1,39 @@
+# Data monitors per dataset (rca.monitor). Task-failure alerts need no config: every failed task alerts.
+#   freshness: alert when the logical_date partition has no rows
+#   volume:    alert when today's row count is a z-score outlier vs the trailing partitions
+#   null_rate: alert when a column's null fraction exceeds the threshold
+
+defaults:
+  volume:
+    lookback_days: 7
+    z_threshold: 3.0
+    min_history: 5
+
+datasets:
+  raw.orders:
+    freshness: true
+    volume: {}
+    null_rate: {region: 0.05}
+  raw.order_items:
+    freshness: true
+    volume: {}
+  raw.inventory_snapshots:
+    freshness: true
+    volume: {}
+
+  stg.orders:
+    freshness: true
+    volume: {}
+  stg.order_items:
+    freshness: true
+    volume: {}
+
+  mart.daily_gmv_by_region:
+    freshness: true
+    null_rate: {region: 0.01}
+  mart.sku_sell_through:
+    freshness: true
+    volume: {}
+  mart.inventory_health:
+    freshness: true
+    volume: {}
