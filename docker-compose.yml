@@ -21,6 +21,7 @@ services:
     environment:
       RCA_DATABASE_URL: postgresql://rca_app:rca_app@db:5432/${POSTGRES_DB}
       RCA_READONLY_DATABASE_URL: postgresql://rca_readonly:rca_readonly@db:5432/${POSTGRES_DB}
+      RCA_ADMIN_DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
     depends_on:
       db:
         condition: service_healthy
