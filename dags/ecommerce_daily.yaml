@@ -1,0 +1,36 @@
+dag_id: ecommerce_daily
+description: >
+  Daily e-commerce pipeline: ingest raw orders and inventory, clean into staging,
+  build GMV, sell-through and inventory-health marts. One partition per logical_date.
+
+tasks:
+  # raw ------------------------------------------------------------------------------------
+  - id: ingest_orders
+    python: rca.simulator.ingest:ingest_orders
+    retries: 2
+
+  - id: ingest_inventory
+    python: rca.simulator.ingest:ingest_inventory
+    retries: 2
+
+  # stg ------------------------------------------------------------------------------------
+  - id: stg_orders
+    sql_file: sql/stg/orders.sql
+    depends_on: [ingest_orders]
+
+  - id: stg_order_items
+    sql_file: sql/stg/order_items.sql
+    depends_on: [ingest_orders]
+
+  # mart -----------------------------------------------------------------------------------
+  - id: mart_daily_gmv_by_region
+    sql_file: sql/mart/daily_gmv_by_region.sql
+    depends_on: [stg_orders, stg_order_items]
+
+  - id: mart_sku_sell_through
+    sql_file: sql/mart/sku_sell_through.sql
+    depends_on: [stg_order_items, ingest_inventory]
+
+  - id: mart_inventory_health
+    sql_file: sql/mart/inventory_health.sql
+    depends_on: [stg_order_items, ingest_inventory]
