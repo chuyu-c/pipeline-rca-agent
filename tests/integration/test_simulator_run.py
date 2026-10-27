@@ -1,18 +1,15 @@
 from datetime import date
-from pathlib import Path
 
 import psycopg
 import pytest
 
 from rca.db import connect
 from rca.db.migrate import apply_migrations
-from rca.simulator.dag import Dag, load_dag
-from rca.simulator.runner import DagRunResult, PgExecutor, PgRunStore, TaskStatus, run_dag
-from tests.integration.conftest import SEED, ScratchDb
+from rca.simulator.runner import DagRunResult, TaskStatus
+from tests.integration.conftest import ScratchDb, run_on, subdag
 
 pytestmark = pytest.mark.integration
 
-DAG_PATH = Path(__file__).parents[2] / "dags" / "ecommerce_daily.yaml"
 D = date(2026, 3, 2)
 TABLES = (
     "raw.orders", "raw.order_items", "raw.inventory_snapshots", "stg.orders", "stg.order_items",
@@ -21,11 +18,7 @@ TABLES = (
 
 
 def run(db: ScratchDb, logical_date: date = D) -> DagRunResult:
-    with (
-        connect(db.app_url, autocommit=True) as work,
-        connect(db.app_url, autocommit=True) as ops,
-    ):
-        return run_dag(load_dag(DAG_PATH), logical_date, PgExecutor(work, SEED), PgRunStore(ops))
+    return run_on(db, logical_date)
 
 
 def row_counts(db: ScratchDb) -> dict[str, int]:
@@ -52,33 +45,13 @@ def test_full_run_succeeds_and_is_idempotent(test_db: ScratchDb) -> None:
     assert row_counts(test_db) == first  # partition overwrite, not append
 
 
-def downstream_of_ingest() -> Dag:
-    """The DAG minus its ingest tasks: reprocess data that has already landed in raw."""
-    full = load_dag(DAG_PATH)
-    ingest = {t.id for t in full.tasks if t.python}
-    sub = Dag(
-        dag_id=full.dag_id,
-        tasks=[
-            t.model_copy(update={"depends_on": [d for d in t.depends_on if d not in ingest]})
-            for t in full.tasks
-            if t.id not in ingest
-        ],
-    )
-    sub._root = full.root
-    return sub
-
-
 def test_schema_drift_fails_stg_and_skips_downstream(test_db: ScratchDb) -> None:
     assert run(test_db).ok
     # Upstream producer renames a column after the data has landed.
     with connect(test_db.admin_url, autocommit=True) as conn:
         conn.execute("ALTER TABLE raw.order_items RENAME COLUMN unit_price TO price")
 
-    with (
-        connect(test_db.app_url, autocommit=True) as work,
-        connect(test_db.app_url, autocommit=True) as ops,
-    ):
-        result = run_dag(downstream_of_ingest(), D, PgExecutor(work, SEED), PgRunStore(ops))
+    result = run_on(test_db, D, subdag(lambda t: t.python is None))
 
     statuses = {tid: run.status for tid, run in result.final.items()}
     assert statuses["stg_orders"] is TaskStatus.SUCCESS
