@@ -4,6 +4,7 @@ Keep in sync with `.env.example`.
 """
 
 from functools import lru_cache
+from pathlib import Path
 from typing import Literal
 
 from pydantic import Field, SecretStr
@@ -21,6 +22,12 @@ class Settings(BaseSettings):
     # Database: `rca_app` for read/write ops; `rca_readonly` for agent SQL (DESIGN §4, §8).
     database_url: str = "postgresql://rca_app:rca_app@localhost:5432/rca"
     readonly_database_url: str = "postgresql://rca_readonly:rca_readonly@localhost:5432/rca"
+    # Superuser from the compose `db` service; only migrations and test-DB setup use it.
+    admin_database_url: str = "postgresql://rca_admin:rca_admin@localhost:5432/rca"
+
+    # Simulator (DESIGN §3.1).
+    dags_dir: Path = Path("dags")
+    sim_seed: int = 42
 
     # LLM. The key uses the Anthropic SDK's conventional, unprefixed env var.
     anthropic_api_key: SecretStr | None = Field(default=None, validation_alias="ANTHROPIC_API_KEY")
