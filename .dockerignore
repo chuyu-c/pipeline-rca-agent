@@ -1,0 +1,12 @@
+.git
+.venv
+.env
+.claude
+**/__pycache__
+.mypy_cache
+.ruff_cache
+.pytest_cache
+.fastembed_cache
+tests
+eval/reports
+docs
