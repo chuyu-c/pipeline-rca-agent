@@ -80,6 +80,8 @@ class Task(BaseModel):
     sql_file: str | None = None
     python: str | None = Field(default=None, description="'module:function' taking a TaskContext")
     depends_on: list[str] = []
+    # python tasks are opaque to lineage; declare the tables they load (e.g. raw.orders).
+    produces: list[str] = []
     retries: int = Field(default=1, ge=0)
     timeout_s: int = Field(default=60, gt=0)
 

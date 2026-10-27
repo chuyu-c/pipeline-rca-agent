@@ -7,10 +7,12 @@ tasks:
   # raw ------------------------------------------------------------------------------------
   - id: ingest_orders
     python: rca.simulator.ingest:ingest_orders
+    produces: [raw.orders, raw.order_items]
     retries: 2
 
   - id: ingest_inventory
     python: rca.simulator.ingest:ingest_inventory
+    produces: [raw.inventory_snapshots]
     retries: 2
 
   # stg ------------------------------------------------------------------------------------
