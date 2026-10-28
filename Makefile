@@ -1,9 +1,10 @@
 SCENARIO ?= schema_drift
 LLM ?= anthropic
+EVAL_LLM ?= replay
 DATE ?= $(shell date +%F)
 EXEC := docker compose exec app
 
-.PHONY: install up down migrate seed lineage index run monitor reset demo triage retrieval-eval test test-integration eval lint fmt
+.PHONY: install up down migrate seed lineage index run monitor reset demo triage retrieval-eval test test-integration eval eval-baseline lint fmt
 
 install:  ## Create .venv with dev extras
 	uv sync --extra dev
@@ -52,8 +53,11 @@ test-integration:  ## Needs `make up`
 retrieval-eval:  ## recall@k / MRR per scenario for vector, keyword, hybrid -> eval/reports/retrieval.md
 	$(EXEC) python eval/retrieval_eval.py
 
-eval:  ## Run all scenarios, write eval/reports/latest.md
-	@echo "make eval: not implemented yet (Phase 9)" && exit 1
+eval:  ## All scenarios end to end (EVAL_LLM=replay|live) -> eval/reports/latest.md
+	$(EXEC) python eval/run_eval.py --llm $(EVAL_LLM) --date $(DATE)
+
+eval-baseline:  ## Deterministic fallback only -> eval/reports/baseline.md
+	$(EXEC) python eval/run_eval.py --baseline --date $(DATE)
 
 lint:  ## ruff + mypy
 	uv run --extra dev ruff check src tests eval

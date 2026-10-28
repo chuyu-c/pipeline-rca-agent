@@ -26,6 +26,7 @@ services:
     volumes:
       - models:/models                       # fastembed model, downloaded once
       - ./eval/reports:/app/eval/reports     # eval reports land on the host
+      - ./tests/fixtures/llm:/app/tests/fixtures/llm  # LLM transcripts: replayed and recorded
     depends_on:
       db:
         condition: service_healthy
