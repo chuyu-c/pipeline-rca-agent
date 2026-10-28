@@ -1,0 +1,23 @@
+id: null_spike
+title: 40% of orders arrive without a region
+description: >
+  A checkout change stops sending region for many orders. Every task succeeds; GMV by region gains
+  a NULL region bucket.
+
+setup:
+  - python: rca.faults.hooks:set_fault
+    args: {target: "source:orders", params: {null_region_rate: 0.4}}
+
+expected_alerts:
+  - {detector: null_rate, dataset: raw.orders, error_class: "null_rate:region"}
+  - {detector: null_rate, dataset: mart.daily_gmv_by_region, error_class: "null_rate:region"}
+
+ground_truth:
+  category: data_quality
+  root_entity: raw.orders.region
+  expected_doc_ids:
+    - runbooks/data_quality
+    - postmortems/2026-01-null-region-from-checkout
+  expected_impacted:
+    - stg.orders
+    - mart.daily_gmv_by_region

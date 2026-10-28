@@ -1,0 +1,36 @@
+id: bad_deploy
+title: Deploy joins products on category, fanning out order lines
+description: >
+  A deploy to stg_order_items 20 minutes before the run re-joins products on category instead of
+  product_id. Each order line matches every product in its category: row explosion, wrong SKUs,
+  inflated GMV. No task fails.
+
+setup:
+  - python: rca.faults.hooks:deploy_sql
+    args:
+      task_id: stg_order_items
+      repo_sql_file: sql/stg/order_items.sql
+      new_sql_file: sql/bad_deploy_stg_order_items.sql
+      deploy_id: d-1042
+      commit_sha: 9f3c2ab
+      author: dev.user7
+      message: "stg_order_items: join products via category for the new category taxonomy"
+
+teardown:
+  - python: rca.faults.hooks:remove_deploy
+    args: {deploy_id: d-1042}
+
+expected_alerts:
+  - {detector: volume, dataset: stg.order_items, error_class: volume_high}
+
+ground_truth:
+  category: bad_deploy
+  root_entity: deploy:d-1042
+  expected_doc_ids:
+    - runbooks/bad_deploy
+    - postmortems/2026-02-fanout-join-after-deploy
+  expected_impacted:
+    - stg.order_items
+    - mart.daily_gmv_by_region
+    - mart.sku_sell_through
+    - mart.inventory_health

@@ -1,0 +1,27 @@
+id: resource
+title: Oversized orders partition times out stg_order_items
+description: >
+  A 100x orders day (bulk backfill landing in one partition) meets a tight statement timeout on
+  stg_order_items. Both attempts hit `canceling statement due to statement timeout`.
+
+setup:
+  - python: rca.faults.hooks:set_fault
+    args: {target: "source:orders", params: {volume_multiplier: 100}}
+  - python: rca.faults.hooks:set_fault
+    args: {target: "task:stg_order_items", params: {statement_timeout_ms: 50}}
+
+expected_alerts:
+  - {detector: task_failure, dataset: stg.order_items, error_class: QueryCanceled}
+  - {detector: volume, dataset: raw.order_items, error_class: volume_high}
+
+ground_truth:
+  category: resource
+  root_entity: stg_order_items
+  expected_doc_ids:
+    - runbooks/resource
+    - postmortems/2025-10-black-friday-timeouts
+  expected_impacted:
+    - stg.order_items
+    - mart.daily_gmv_by_region
+    - mart.sku_sell_through
+    - mart.inventory_health

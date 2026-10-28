@@ -1,0 +1,39 @@
+id: schema_drift
+title: Upstream export renamed order_items.unit_price to price
+description: >
+  The orders source renames a column. The loader auto-evolves raw.order_items to match, so ingest
+  succeeds, but stg_order_items still selects unit_price and fails; the three marts built from it
+  are skipped and go stale.
+
+setup:
+  - sql: ALTER TABLE raw.order_items RENAME COLUMN unit_price TO price
+  - python: rca.faults.hooks:set_fault
+    args: {target: "source:orders", params: {column_renames: {unit_price: price}}}
+
+teardown:
+  - sql: |
+      DO $$
+      BEGIN
+        IF EXISTS (SELECT 1 FROM information_schema.columns
+                   WHERE table_schema = 'raw' AND table_name = 'order_items'
+                     AND column_name = 'price') THEN
+          ALTER TABLE raw.order_items RENAME COLUMN price TO unit_price;
+        END IF;
+      END
+      $$;
+
+expected_alerts:
+  - {detector: task_failure, dataset: stg.order_items, error_class: UndefinedColumn}
+  - {detector: freshness, dataset: mart.daily_gmv_by_region}
+
+ground_truth:
+  category: schema_drift
+  root_entity: raw.order_items
+  expected_doc_ids:
+    - runbooks/schema_drift
+    - postmortems/2025-09-vendor-renamed-price-column
+  expected_impacted:
+    - stg.order_items
+    - mart.daily_gmv_by_region
+    - mart.sku_sell_through
+    - mart.inventory_health

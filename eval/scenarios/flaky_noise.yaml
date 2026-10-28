@@ -1,0 +1,23 @@
+id: flaky_noise
+title: Transient source timeout, healed by retry
+description: >
+  ingest_orders times out once reading the export, then succeeds on retry. Data is complete and
+  correct. Tests calibration: the right answer is low-confidence / no action needed.
+
+setup:
+  - python: rca.faults.hooks:set_fault
+    args:
+      target: "task:ingest_orders"
+      params:
+        transient_failures: 1
+        transient_error: "timed out reading landing/orders/{logical_date}.csv after 30s"
+
+expected_alerts:
+  - {detector: task_retry, dataset: raw.order_items, error_class: TimeoutError}
+
+ground_truth:
+  category: unknown
+  root_entity: ingest_orders
+  expected_doc_ids:
+    - runbooks/oncall_general
+  expected_impacted: []

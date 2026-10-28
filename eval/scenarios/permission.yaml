@@ -1,0 +1,26 @@
+id: permission
+title: SELECT on raw.products revoked from the pipeline role
+description: >
+  A role cleanup revokes rca_app's SELECT on raw.products. stg_order_items fails with
+  `permission denied for table products`; its marts are skipped.
+
+setup:
+  - sql: REVOKE SELECT ON raw.products FROM rca_app
+
+teardown:
+  - sql: GRANT SELECT, INSERT, UPDATE, DELETE ON raw.products TO rca_app
+
+expected_alerts:
+  - {detector: task_failure, dataset: stg.order_items, error_class: InsufficientPrivilege}
+
+ground_truth:
+  category: permission
+  root_entity: raw.products
+  expected_doc_ids:
+    - runbooks/permission
+    - postmortems/2026-03-revoked-grant-after-role-cleanup
+  expected_impacted:
+    - stg.order_items
+    - mart.daily_gmv_by_region
+    - mart.sku_sell_through
+    - mart.inventory_health

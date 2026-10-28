@@ -1,0 +1,26 @@
+id: duplicate_load
+title: Orders batch loaded twice after an upload retry
+description: >
+  ingest_orders re-sends a batch after an acknowledgement timeout, appending it a second time.
+  No task fails; row counts and GMV roughly double.
+
+setup:
+  - python: rca.faults.hooks:set_fault
+    args: {target: "source:orders", params: {replay_batch: true}}
+
+expected_alerts:
+  - {detector: volume, dataset: raw.orders, error_class: volume_high}
+  - {detector: volume, dataset: stg.order_items, error_class: volume_high}
+
+ground_truth:
+  category: duplicate_load
+  root_entity: ingest_orders
+  expected_doc_ids:
+    - runbooks/duplicate_load
+    - postmortems/2025-12-double-loaded-orders-batch
+  expected_impacted:
+    - raw.orders
+    - raw.order_items
+    - stg.orders
+    - stg.order_items
+    - mart.daily_gmv_by_region

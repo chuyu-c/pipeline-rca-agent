@@ -1,0 +1,23 @@
+id: late_upstream
+title: Inventory snapshot file has not landed
+description: >
+  The inventory feed is late. ingest_inventory finds no file and (by design) loads zero rows
+  without failing, so nothing errors — the only symptoms are missing partitions downstream.
+
+setup:
+  - python: rca.faults.hooks:set_fault
+    args: {target: "source:inventory", params: {missing: true}}
+
+expected_alerts:
+  - {detector: freshness, dataset: raw.inventory_snapshots}
+  - {detector: freshness, dataset: mart.inventory_health}
+
+ground_truth:
+  category: late_upstream
+  root_entity: raw.inventory_snapshots
+  expected_doc_ids:
+    - runbooks/late_upstream
+    - postmortems/2025-11-inventory-feed-delayed
+  expected_impacted:
+    - mart.sku_sell_through
+    - mart.inventory_health
