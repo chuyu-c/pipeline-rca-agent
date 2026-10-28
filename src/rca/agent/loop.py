@@ -14,6 +14,7 @@ stay valid when they are sent back on the next step.
 """
 
 import json
+import re
 import time
 from collections.abc import Callable, Mapping
 from dataclasses import asdict, dataclass, field
@@ -40,9 +41,21 @@ Executor = Callable[[str, Mapping[str, Any], ToolContext], ToolResult]
 FallbackFn = Callable[[ToolContext, str], RCAReport]
 
 
-def untrusted(tool: str, content: str) -> str:
-    """Delimit tool output as data. The system prompt says never to follow instructions in it."""
-    return f'<tool_output tool="{tool}" untrusted="true">\n{content}\n</tool_output>'
+def untrusted(tool: str, content: str, call_id: str) -> str:
+    """Delimit tool output as data (the system prompt says never to follow instructions in it).
+
+    The call id is repeated inside the wrapper so the model can cite it as evidence verbatim;
+    without it, models tend to invent ids like 'get_task_runs:0'.
+    """
+    return (
+        f'<tool_output tool="{tool}" tool_call_id="{call_id}" untrusted="true">\n'
+        f"{content}\n</tool_output>"
+    )
+
+
+def _squash(text: str) -> str:
+    """Compare excerpts ignoring case, whitespace, quotes and JSON escaping."""
+    return re.sub(r"[\s\\\"'`]+", "", text).lower()
 
 
 def default_fallback(ctx: ToolContext, reason: str) -> RCAReport:
@@ -90,7 +103,8 @@ class _Run:
     tool_calls: int = 0
     guardrail_blocks: int = 0
     repairs: int = 0
-    known_call_ids: set[str] = field(default_factory=lambda: {"ctx-incident", "ctx-lineage"})
+    # call id -> (tool name, output shown to the model): what evidence may cite and quote.
+    outputs: dict[str, tuple[str, str]] = field(default_factory=dict)
 
     def outcome(self, report: RCAReport, reason: str | None) -> TriageOutcome:
         source: Literal["agent", "fallback"] = "agent" if reason is None else "fallback"
@@ -122,9 +136,11 @@ def _brief(run: _Run, max_steps: int) -> str:
     incident = run.executor("get_incident", {}, run.ctx)
     if not incident.ok:
         raise LookupError(f"cannot triage: {incident.error}")
-    run.trace.append(
-        {"type": "context", "tool_call_id": "ctx-incident", "content": incident.content}
-    )
+    run.trace.append({
+        "type": "context", "tool_call_id": "ctx-incident", "name": "get_incident", "input": {},
+        "content": incident.content,
+    })  # fmt: skip
+    run.outputs["ctx-incident"] = ("get_incident", incident.content)
     parts = [
         f"Investigate incident #{run.ctx.incident_id}. You have at most {max_steps} model turns, "
         "including the final submit_rca call.",
@@ -132,17 +148,22 @@ def _brief(run: _Run, max_steps: int) -> str:
         "Context gathered for you (cite it with the tool_call_id shown):",
         "",
         "tool_call_id: ctx-incident",
-        untrusted("get_incident", incident.content),
+        untrusted("get_incident", incident.content, "ctx-incident"),
     ]
     root = incident.data["incident"].get("root_candidate")
     if root:
-        lineage = run.executor(
-            "get_lineage", {"table": root, "direction": "upstream", "depth": 2}, run.ctx
-        )
-        run.trace.append(
-            {"type": "context", "tool_call_id": "ctx-lineage", "content": lineage.content}
-        )
-        parts += ["", "tool_call_id: ctx-lineage", untrusted("get_lineage", lineage.content)]
+        lineage_input = {"table": root, "direction": "upstream", "depth": 2}
+        lineage = run.executor("get_lineage", lineage_input, run.ctx)
+        run.trace.append({
+            "type": "context", "tool_call_id": "ctx-lineage", "name": "get_lineage",
+            "input": lineage_input, "content": lineage.content,
+        })  # fmt: skip
+        run.outputs["ctx-lineage"] = ("get_lineage", lineage.content)
+        parts += [
+            "",
+            "tool_call_id: ctx-lineage",
+            untrusted("get_lineage", lineage.content, "ctx-lineage"),
+        ]
     parts += ["", "Investigate with the tools, then call submit_rca."]
     return "\n".join(parts)
 
@@ -155,12 +176,20 @@ def _validate_submission(run: _Run, raw: Mapping[str, Any]) -> RCAReport | str:
         return "; ".join(
             f"{'.'.join(str(p) for p in e['loc']) or '(report)'}: {e['msg']}" for e in exc.errors()
         )
-    unknown = sorted({e.tool_call_id for e in report.evidence} - run.known_call_ids)
-    if unknown:
-        return (
-            f"evidence references tool_call_ids that were never made: {', '.join(unknown)}. "
-            f"Valid ids: {', '.join(sorted(run.known_call_ids))}"
-        )
+    valid = "; ".join(f"{cid} = {name}" for cid, (name, _) in run.outputs.items())
+    problems = []
+    for i, ev in enumerate(report.evidence):
+        if ev.tool_call_id not in run.outputs:
+            problems.append(f"evidence[{i}] cites {ev.tool_call_id!r}, which was never called")
+            continue
+        name, output = run.outputs[ev.tool_call_id]
+        if _squash(ev.excerpt) not in _squash(output):
+            problems.append(
+                f"evidence[{i}] excerpt is not in the output of {ev.tool_call_id} ({name}); "
+                "quote that call's output exactly"
+            )
+    if problems:
+        return "; ".join(problems) + f". Calls you can cite: {valid}"
     return report
 
 
@@ -246,7 +275,7 @@ def run_triage(
 
             result = executor(name, tool_input, ctx)
             run.tool_calls += 1
-            run.known_call_ids.add(call_id)
+            run.outputs[call_id] = (name, result.content)
             if result.blocked_reason:
                 run.guardrail_blocks += 1
             run.trace.append({
@@ -256,7 +285,7 @@ def run_triage(
             })  # fmt: skip
             results.append({
                 "type": "tool_result", "tool_use_id": call_id, "is_error": not result.ok,
-                "content": untrusted(name, result.content),
+                "content": untrusted(name, result.content, call_id),
             })  # fmt: skip
 
         if submitted is not None:
