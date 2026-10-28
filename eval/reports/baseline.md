@@ -1,6 +1,6 @@
 # Eval report
 
-generated: `2026-10-28 08:06 UTC` · mode: `baseline (fallback only)` · model: `none` · retrieval: `hybrid` · logical_date: `2026-10-28`
+generated: `2026-10-28 08:24 UTC` · mode: `baseline (fallback only)` · model: `none` · retrieval: `hybrid` · logical_date: `2026-10-28`
 
 ## Summary
 
@@ -13,6 +13,8 @@ generated: `2026-10-28 08:06 UTC` · mode: `baseline (fallback only)` · model: 
 | Guardrail violations | 0 | 0 | ✓ |
 
 Fallbacks: 9/9 · blocked tool calls: 0 · median steps 0 · median tokens 0 · median triage latency 0.0s · est. cost $0.00
+
+Root entity scoring: exact match, or a column of the expected table (more specific is accepted, coarser is not); same rule for agent and baseline.
 
 ## Per scenario
 

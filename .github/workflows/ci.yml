@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  lint-and-unit:
+    name: ruff + mypy + unit tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+      - run: uv sync --extra dev --frozen
+      - run: make lint
+      - run: make test  # no Docker, no network, no API key
+
+  integration:
+    name: integration tests (Postgres + pgvector)
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: pgvector/pgvector:pg16
+        # Same credentials as .env.example; the code's default settings point here.
+        env:
+          POSTGRES_USER: rca_admin
+          POSTGRES_PASSWORD: rca_admin
+          POSTGRES_DB: rca
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U rca_admin -d rca"
+          --health-interval 2s --health-timeout 3s --health-retries 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+      - run: uv sync --extra dev --frozen
+      # Each test creates and drops its own scratch database; embeddings use HashEmbedder.
+      - run: uv run --extra dev pytest -m integration

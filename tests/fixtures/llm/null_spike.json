@@ -1,0 +1,421 @@
+{
+  "label": "null_spike",
+  "model": "claude-opus-5-5",
+  "recorded_at": "2026-10-28T08:27:19+00:00",
+  "turns": [
+    {
+      "request": {
+        "messages": 1,
+        "tool_results": []
+      },
+      "response": {
+        "content": [
+          {
+            "signature": "CAQS3AUKEAgTGAI4AUIIdGhpbmtpbmcSDNzWNRduLC7BtVxjMhoMX9xNk2IFtJKJcvVrIjC49kEVKatMyJW5EKCTj07+2PAq27+PdL/ZTHOFt2EEeQvYS9eWVevs958cEzbdDzwq+QTtzB1/98nTpX4t546yVkDxs144I6bCx/nA81e8HBG6Ovlx8pbZYYu4Dbgt2mPMBA2CMiwg94aybhLORHDBCeZPkgktywHi5yj8dkUOct0oMwwB1Nn/LZUJhamZKZqmKsZCvD73uvpLcK1NgEys2OSB21+QvGPxFwV+31jn1QDFLZLZkl2kptGwHUZNiSF3OHBMJ8hQ9khM42iGG6VomLlGDIRViCXsV+l47Ho3pKXEoixfzTh5b1ZrMPrr2Tpz1eX5GUQVh+2asYubhVApbp9e93Aeev7Gniqq1nU2QgPwZxEAYQv52wswooIGVP3QzBTFyzuCb1dEla/aKThk5aZNzavH7KeCUD+xaDcHXznZh4WT3N8vgWNRuNfr4FwLRMZ3+4MQ9eo6Yu1qkaZYwtTJfJqHLO0Jg6M06YL0+tWhzc/EHZ7CYYE3+jStYZyRXAZDBLW3p+W9QsfAgN2GJziJBhhxg14xSVvd+ZeFlQjkynQouu2lq4YOLq7y8sRydt3eCo/VbtP/ItPVY2ucehlvoTsWms+fpxnXbuncK9/z2Gewp+nkwqPrE2wKL6XbSd9ABqVpSbVlqwUa2uzCSuSnpohckYr8zhYFgvQ9JJHmnvZAa4uXzgFpQfc2pPKKCV5RwHT0/+H7UmSNVIBSAqPBTLfxk0RwRSnySEcFLQEdqQC2IxX3uWLkQPbHDhXDCFcuaBYkeLKeO87RBLvLrW7N5Vd9XCtkl+bFWyEUUtd+wOXENwcwOByNPYXk+b2DVF7d+MH/DaQ8z1Tgi4OuzkGdNJP7aQmo7HJbzG/Jfexuk9YtbE31UpsuHFLJP8oY1QUF7FKWYKJ5EGYYAQ==",
+            "thinking": "",
+            "type": "thinking"
+          },
+          {
+            "id": "toolu_01Cf1hqJTSuWJD7Wvcdg5nK3",
+            "input": {
+              "sql": "SELECT logical_date, count(*) AS rows, sum(CASE WHEN region IS NULL THEN 1 ELSE 0 END) AS nulls FROM raw.orders GROUP BY 1 ORDER BY 1 DESC LIMIT 10"
+            },
+            "name": "run_readonly_sql",
+            "type": "tool_use",
+            "caller": {
+              "type": "direct"
+            }
+          },
+          {
+            "id": "toolu_01Sk3oZHuJTyPbPRpSgLDNZC",
+            "input": {
+              "task_id": "ingest_orders",
+              "limit": 10
+            },
+            "name": "get_task_runs",
+            "type": "tool_use",
+            "caller": {
+              "type": "direct"
+            }
+          },
+          {
+            "id": "toolu_011aaxMAxW2Q5ct77r7Eai7W",
+            "input": {
+              "since_hours": 120
+            },
+            "name": "get_recent_deploys",
+            "type": "tool_use",
+            "caller": {
+              "type": "direct"
+            }
+          },
+          {
+            "id": "toolu_01N2q6iWwukXKiT5yrbssEty",
+            "input": {
+              "query": "null_rate region raw.orders"
+            },
+            "name": "search_knowledge",
+            "type": "tool_use",
+            "caller": {
+              "type": "direct"
+            }
+          }
+        ],
+        "stop_reason": "tool_use",
+        "usage": {
+          "input_tokens": 4,
+          "output_tokens": 370,
+          "cache_read_input_tokens": 0,
+          "cache_creation_input_tokens": 5382
+        },
+        "model": "claude-opus-5-5"
+      }
+    },
+    {
+      "request": {
+        "messages": 3,
+        "tool_results": [
+          "toolu_01Cf1hqJTSuWJD7Wvcdg5nK3",
+          "toolu_01Sk3oZHuJTyPbPRpSgLDNZC",
+          "toolu_011aaxMAxW2Q5ct77r7Eai7W",
+          "toolu_01N2q6iWwukXKiT5yrbssEty"
+        ]
+      },
+      "response": {
+        "content": [
+          {
+            "signature": "CAQSmQYKEAgTGAI4AUIIdGhpbmtpbmcSDIvUup/8VtCwfllHsxoM7Y6QEL1Esd9Zy+3mIjCe0gtjuGH/AwEWctB9zY+jDIawBTzd/wowE40enxlakHidhEM+Aq9Zkk/5szxUm8kqtgXASuxycdfT6X30Ci7AjOJzuHSnwdwy0CKVhnZZhxG8sdJQcGCZXO+vhLCIpZMMyjd+4OpzdOxz6+1UrKW4dr+tKTYL64n2MHZLzaUSRoIMz0rBCmz2tWYOqIEUc3fzMCb3MI5MuDcwBR/T5yMHPbeZB76bMhGZCbJoaXYrkLOxJmRcGFJgL5tSnxcygf9U7lOL6vfbSLN273J2alN2y+88xkiRqbYyhZ0rOSLkTv8oPDaywSSwG12q+yDPftBoSUgB/ZzR4YANl5VkbGWncE4pxqdfbgln2VXsqKIGAwibaLtSLlBCNcsHS5mz4uEPrbxooj5Y/6IGfQiSfzS2zrnMN/pHEsECzBzoxNzbmKPFtGe8tEgxBZYbwPt/pd3r9NHQ4PZ8UAOkmQEsZVg7t+0Nc6MpvFZZb9DCHoz1FBLUAeGjaBQ8nWz55CH+yHQhnRVLLz5iUAgn2Tt+cTQmH56ovzjW1bWy1Z3zm/zYDdE+s9QbvIvXIVkg0zUfCznbg9YnGJjg1SwZFEb3IZK0MW6jpHqB3A8ayt97YiG43+Y0TsQux2HKDRomWKDQ6+gGZPVgUK/5KnTvV5uhUDcIwRqNX8vr1dM+yjhAc36nlOaIc8bS5NmC7vosX6vBvCMa8TtoESbyxr5m4U5rX0mfbue+3UpvKk2Qghcxd0rtd1HCEbKHs/71yTyAEkbpvl+Bbf93bH66BAPcGCB5CqRdvAPq99bB+ETWvV288U9V5n0AHmRxob6/YgQvW0BIi2/FnEKuVs1gh3pK/rCyTt0FeSg/jG2ZKF9GtU6Nk56pcsD2/6pKg+c2OXGoIwpKJhvFoQocy2HD1hu4t0qNz1n38IlWJ7gyhhMsmGqfmvf7ZDolsng8H4asL/YW2OuIRKLqRSIqgdCYpDnh/u/iMU3dMHn+cA2N5HR6GAE=",
+            "thinking": "",
+            "type": "thinking"
+          },
+          {
+            "id": "toolu_019phbqCqFX1fTniGmgkNsNG",
+            "input": {
+              "sql": "SELECT * FROM raw.orders WHERE logical_date = '2026-10-28' AND region IS NULL LIMIT 5"
+            },
+            "name": "run_readonly_sql",
+            "type": "tool_use",
+            "caller": {
+              "type": "direct"
+            }
+          },
+          {
+            "id": "toolu_01BYiaBYUNKjvh1KdFgGgUps",
+            "input": {
+              "query": "data quality null region remediation escalate source team backfill",
+              "doc_type": "runbook",
+              "k": 3
+            },
+            "name": "search_knowledge",
+            "type": "tool_use",
+            "caller": {
+              "type": "direct"
+            }
+          },
+          {
+            "id": "toolu_013m8qjYiENAXe2t5bX4CF6d",
+            "input": {
+              "table": "raw.orders",
+              "direction": "downstream",
+              "include_columns": false
+            },
+            "name": "get_lineage",
+            "type": "tool_use",
+            "caller": {
+              "type": "direct"
+            }
+          }
+        ],
+        "stop_reason": "tool_use",
+        "usage": {
+          "input_tokens": 2,
+          "output_tokens": 340,
+          "cache_read_input_tokens": 5382,
+          "cache_creation_input_tokens": 4230
+        },
+        "model": "claude-opus-5-5"
+      }
+    },
+    {
+      "request": {
+        "messages": 5,
+        "tool_results": [
+          "toolu_019phbqCqFX1fTniGmgkNsNG",
+          "toolu_01BYiaBYUNKjvh1KdFgGgUps",
+          "toolu_013m8qjYiENAXe2t5bX4CF6d"
+        ]
+      },
+      "response": {
+        "content": [
+          {
+            "signature": "CAQS9AYKEAgTGAI4AUIIdGhpbmtpbmcSDNeUHOTwdusW66OXSBoMrCdAqywXXaFiHy/JIjAT21lljK5aXVIV7ybbcYEVqQpWZ+7DDizKROSTARgcqDWx3nubjLeL0BaLTqpy8YQqkQZ+2ECuCCCKGc4AWUxd/6XwHKjH7WKIH+EUjshUvtj9wXhGYGnvgDDY0e321GTe0RDuQWTz9jEzjWMjkmhDkL73A2QEWCx8XK77ktz0t951edncQCeS9vQ8d9fAMFlpOox0K30TRzbvCAMsPRec7Xuj8jV0ILcdMN42f0mamgqtS2kuO6wNAQ5/xbrsTMZT+zx/AagwA7lEgW8FpjqF4Fj8YQxHlVFB9fDeOQ+vCtBG1HW0u4lTcdLAnrfxrk8E4zhrbK5MX9uAZZgCTq7LeufV4Y3AT35OwFF/D65oSkEFKYkeqN2/crZQIIR/T3bXcr6raYvWNcbDObWDGnlR019Fq4JV4TxH34CiSgyp9Kgqiy8lEcK42fPSGBTP5vdNGPWMCuZKOz2FNr3woZXrbvvGkIPQJJgcgEnqpTjWvzIdIbsES5miinAFKBVH2f29txNvbpKqYxV5SBGIfrDvPKU+jo+kZj12/ZbKCxg3JW/VIoyp5ZlVjrJRsANnCoPcNGb4szEKwtO/N0WF6peDpcaUiwDurmaNj6Fyt7qv1bkJ0D0WadVoSwERLW6CPYP5IBMy59/IuhvzLZMwUJzP7kb9IHGLeuA1Ne3kahl1Rz6MtwZOW6L85+nzMWZScDI3f9EQoTVmCfDntDsFJOJVcobL+NQ9a1BwP+VSkTi3xDjGZ3U+mYf6EE3I/08ExfSMqaqN6AO0D1BL+EHrMYLmNkslZ91k+WaWoEKXjfwLDw9I3KB2khc0ik258r96usjm4MFHhXlQDxyGAMXXQbSc1RRXcPPrgvD+3wrXKLqG8jDRyfybOww7Hr4+BwszHWsEWl59nl8hhUuJKqwSd8TDE9XbsC0AxLnWtSVL5TRB8+wKDkygaYQaNmbwFWy6kzcng2i6X4naTdv/Ek7JO3Ols/ChHCx/zk/XHxQGPEJNMLNj1b4rdqQk+1oLglnqss464CIih98Ma/ZuMu3E+I9UqQYBIElR7lx5MHGjlh0gxBmqTEV6mvLUO/bMH66F/HhOk5hKPrgYwkCNL4rOuIL5MclFcxgB",
+            "thinking": "",
+            "type": "thinking"
+          },
+          {
+            "id": "toolu_012UitE3mEX9ADSkzzSj8UpH",
+            "input": {
+              "sql": "SELECT * FROM mart.daily_gmv_by_region WHERE logical_date >= '2026-10-26' ORDER BY logical_date, region LIMIT 30"
+            },
+            "name": "run_readonly_sql",
+            "type": "tool_use",
+            "caller": {
+              "type": "direct"
+            }
+          },
+          {
+            "id": "toolu_01FFD9KYaaAUVYfXdeDBCaHC",
+            "input": {
+              "sql": "SELECT logical_date, status, count(*) AS n, sum(CASE WHEN region IS NULL THEN 1 ELSE 0 END) AS nulls, min(order_ts) AS min_ts, max(order_ts) AS max_ts FROM raw.orders WHERE logical_date >= '2026-10-26' GROUP BY 1,2 ORDER BY 1,2 LIMIT 30"
+            },
+            "name": "run_readonly_sql",
+            "type": "tool_use",
+            "caller": {
+              "type": "direct"
+            }
+          }
+        ],
+        "stop_reason": "tool_use",
+        "usage": {
+          "input_tokens": 2,
+          "output_tokens": 350,
+          "cache_read_input_tokens": 9612,
+          "cache_creation_input_tokens": 2251
+        },
+        "model": "claude-opus-5-5"
+      }
+    },
+    {
+      "request": {
+        "messages": 7,
+        "tool_results": [
+          "toolu_012UitE3mEX9ADSkzzSj8UpH",
+          "toolu_01FFD9KYaaAUVYfXdeDBCaHC"
+        ]
+      },
+      "response": {
+        "content": [
+          {
+            "signature": "CAQSwgsKEAgTGAI4AUIIdGhpbmtpbmcSDIZm9zaGLc6tjWf06hoMGRtHfSXT4aP6p2itIjBQTqvyPdwKyGFpVrYfH8CJLJR6ogcNKFjtl9LbrAwn2mdXLgGKazZJv0777qYjUmoq3wqQrIonKKGMst/EkZZB0VLSJZChsD24QIcUpTBlnFBwHrMH+40Sh6jRRWXfhvnldkC11eOjYU3SfIxqRhB+VuhZHdgoqngn32hCnFjs9OZdwfyTANXs8OJnJyNGOZ1Hsuc7baQ/vkL2mWsh3uKaPiwK105J7YGaWEFaM4uLhdyPQPYdDSZtDKQEjondsKTj66BJYPXNUbKNH9fvv3zHuA2vQ2v5GPF1M62f5bHnpKPZK1wK0RPYeDAaNeIp7XIFq04FWLrvgGADT807LGKmUSNqQBpaAHQgcNL88RGAoe+TE5gY9dGEJLjTjj+L+g9on8g9HNyovutbZWY4lrTcefYqvblG3ke8MqG8lknNKjJ+B8S91x73VCRyIczZIpiapJ/geCa5WRCcf11ypUx2PAO1ty14KYInzpufQPNJWl3DViDqzSzGDb9q7NWkRjeaUR2XqKTkLh9oGIsuzv7yv4wl4rqyViP2LcmnCUomCM/watgTK5S7jXrq+4tQopxgF/yQrU2yxq4MEOeLyl+shR5LBkVwDNXsyNBOGhhIRQtxSuIkKMDM8KTwni/9YNqsUDT1cTlbUcQxY2etjIe0j4LxSvlH25HUtftZnS4WmKw8ldJZiEI78ootlIpZXIl+T1aUPUF+B7kARgvOzVGOnn8O8ZCf8xtFqVVyPQaDTKn3n6XTPal6IcyL2y3DpZS692mvzDGf/82OaCK1MhyDALBumR0+/1n1QU3Y9ga5dhqr/8ZumVfzRqYPIKU6B1I+8ynQDSPoUYo4qFZmYTzXsbql1eAKXHNFiOojO0enBtzGimN4AHW2dJo1oj02HjyAq+u3SLfEVOgOsyVnANr/ggb3674582s/huwKwfAj1GuRNdg3q7nLBsaHM4oNsJMmcWA3WdD2K/IYPYp/ho9DE16MR12OUTenh/LEpFQmeM4+cMiYcysuwpqIfwlb+pmEjOY8Iad87Z9IocNYMiKgmjsx4GZ84Ertd6SHecDQa43UlE7KV09ekJMeC5K0798sXljSbufjwlK8ClhhqgI4zMm4syWrYxK0kSXqp42HqbXgh5f37WR0hzUr49FxZOY0S30oJqOpS2MJw1kIvpfqEG/I4viIJiT6fIMV/GTISj+1Zf8wG/AVVOig6lUaw2xu0H1h3yTJl1HBvX97yxk4XmMXol9/xs4SRmgvWreoFm4VCrn8I2PShVmZU0DoDfR5UQ2Lbmf4Lvtxmc3WwgXO3dEIILW+j8kZO4tE2WkkW3Czjqwb04J9+uHYuu8VktEWcC7RGnNh9RvaAx3sTOWmcVV2dq0bUz/kh7GWo4z6Rw8jzX/V2L9HJiTQNuTUZ5tL9JLrTaBmqpoE13AcwpUV+Vhh4E3JaIvOifzO+gYdXoijqj2BordLbPxFFBoHtCQvFTZpHQZUB0OtaDQA1pHqPIYigsYusOgi45ZLdb/PunEF/alkFM6Y9u5ddv0JS8jV4G2rtuK/q+d5J5FwyBAKo2Xqxqu4zYtSJJIkW6pbbhgE2TT5E0FKWumsue/if1wZReD1xz1Hztj+/OMS8LysqpgcsECh7GIQ30YTnLZStnLSDCvUZvT4bnivmuCHaheOmQzoykMmVN8ZogY0QGSZI4r4khJ2SX11tEEsGjnzhBKo9QIg77HHPVdevossg+c/pe9u8RxfCam7rdt3wuj4PS6vxSVZuGDSpkviL46XB14cCbHO4kUiWrVe/CR8ri69D9jATwyr+BAGUS+OUAXYiYpeKfAp+XF2bPmLC9cExz31VYNN/Z8ELMQ+ERBw3UVbord6fpihKK/vjiILwtZ/esUJE/D8+QSmsG0Fu9RVKp73GAE=",
+            "thinking": "",
+            "type": "thinking"
+          },
+          {
+            "id": "toolu_01LrTL4NZSp7pKbnNFjrCxSZ",
+            "input": {
+              "summary": "The source is sending orders with no region. Starting with logical_date 2026-10-27, a large share of orders arrive in raw.orders with region set to NULL. Staging and the mart are just passing those NULLs along; they are not causing them.\n\nNull counts in raw.orders by day:\n- 2026-10-19 to 2026-10-26: 0 NULLs every day.\n- 2026-10-27: 109 of 287 rows (~38%).\n- 2026-10-28: 123 of 289 rows (42.6%), which set off the alert.\n\ningest_orders succeeded on the first try every day. There were no code deploys in the last 120 hours, so this is not a pipeline code change. The NULL rows come from the normal batch (for example orders_20261028_01, order_ids 739917000001, 739917000004, 739917000006). They cover all statuses (completed, cancelled, returned) and the whole day, so this looks like a one-day step change in what the source sends. That matches the January postmortem, where a checkout release made region optional.\n\nImpact: mart.daily_gmv_by_region has a NULL-region row on both affected days:\n- 2026-10-27: 102 orders, GMV 31674.21.\n- 2026-10-28: 111 orders, GMV 33832.12.\n\nThat is roughly 37\u201343% of GMV, so regional GMV is under-reported by about that much. Only 2026-10-28 was alerted, but 2026-10-27 is equally affected. stg.orders sits in the path between raw and the mart. I did not measure its null rate directly; I'm treating it as affected because the mart reads only from it and the lineage is raw \u2192 stg \u2192 mart.\n\nNo instruction-like or suspicious text appeared in any tool output.",
+              "category": "data_quality",
+              "root_entity": "raw.orders.region",
+              "confidence": 0.85,
+              "evidence": [
+                {
+                  "tool_call_id": "ctx-incident",
+                  "excerpt": "\"rows\": 289, \"nulls\": 123, \"column\": \"region\", \"null_rate\": 0.4256, \"threshold\": 0.05"
+                },
+                {
+                  "tool_call_id": "toolu_01Cf1hqJTSuWJD7Wvcdg5nK3",
+                  "excerpt": "{\"logical_date\": \"2026-10-27\", \"rows\": 287, \"nulls\": 109}, {\"logical_date\": \"2026-10-26\", \"rows\": 253, \"nulls\": 0}"
+                },
+                {
+                  "tool_call_id": "toolu_01Sk3oZHuJTyPbPRpSgLDNZC",
+                  "excerpt": "\"run_id\": \"20261028_696252d1.ingest_orders.1\", \"logical_date\": \"2026-10-28\", \"try_number\": 1, \"status\": \"success\""
+                },
+                {
+                  "tool_call_id": "toolu_011aaxMAxW2Q5ct77r7Eai7W",
+                  "excerpt": "\"since_hours\": 120, \"deploys\": []"
+                },
+                {
+                  "tool_call_id": "toolu_019phbqCqFX1fTniGmgkNsNG",
+                  "excerpt": "\"order_id\": 739917000001, \"logical_date\": \"2026-10-28\", \"order_ts\": \"2026-10-28 03:15:06+00:00\", \"customer_id\": 3766, \"region\": null, \"status\": \"completed\", \"_batch_id\": \"orders_20261028_01\""
+                },
+                {
+                  "tool_call_id": "toolu_01FFD9KYaaAUVYfXdeDBCaHC",
+                  "excerpt": "{\"logical_date\": \"2026-10-28\", \"status\": \"cancelled\", \"n\": 21, \"nulls\": 11"
+                },
+                {
+                  "tool_call_id": "toolu_012UitE3mEX9ADSkzzSj8UpH",
+                  "excerpt": "{\"logical_date\": \"2026-10-27\", \"region\": null, \"order_count\": 102, \"units\": 366, \"gmv\": \"31674.21\"}"
+                },
+                {
+                  "tool_call_id": "toolu_012UitE3mEX9ADSkzzSj8UpH",
+                  "excerpt": "{\"logical_date\": \"2026-10-28\", \"region\": null, \"order_count\": 111, \"units\": 389, \"gmv\": \"33832.12\"}"
+                },
+                {
+                  "tool_call_id": "toolu_013m8qjYiENAXe2t5bX4CF6d",
+                  "excerpt": "{\"from\": \"raw.orders\", \"to\": \"stg.orders\", \"task\": \"stg_orders\"}"
+                }
+              ],
+              "citations": [
+                "runbooks/data_quality#01",
+                "runbooks/data_quality#02",
+                "runbooks/data_quality#03",
+                "postmortems/2026-01-null-region-from-checkout#00"
+              ],
+              "hypotheses_considered": [
+                "Bad deploy to stg_orders/mart SQL introducing NULLs \u2014 rejected: raw already ~40% null and no deploys in 120h",
+                "Ingest failure/partial load \u2014 rejected: ingest_orders succeeded on try 1, row counts normal (287/289)",
+                "Upstream source (checkout/orders export) stopped populating region from 2026-10-27 \u2014 accepted",
+                "Transient noise \u2014 rejected: persistent over two consecutive days"
+              ],
+              "impacted_datasets": [
+                "raw.orders",
+                "stg.orders",
+                "mart.daily_gmv_by_region"
+              ],
+              "proposed_actions": [
+                {
+                  "type": "escalate",
+                  "team": "orders source team (checkout)",
+                  "message": "raw.orders.region has been arriving NULL since logical_date 2026-10-27: 109/287 rows (~38%) on 10-27 and 123/289 (42.6%) on 10-28, vs 0 NULLs every day from 10-19 to 10-26. It affects all statuses and the whole day. Example order_ids: 739917000001, 739917000004, 739917000006 (batch orders_20261028_01). Please check recent checkout/export releases for region becoming optional, fix it, and re-send 10-27 and 10-28.",
+                  "rationale": "Raw is already null at the source rate and there are no pipeline deploys or failures, so the fix belongs to the source (runbook data_quality#03)."
+                },
+                {
+                  "type": "quarantine_partition",
+                  "table": "mart.daily_gmv_by_region",
+                  "logical_date": "2026-10-28",
+                  "rationale": "A NULL-region row holds 33832.12 GMV (~43%), so regional GMV is badly under-reported and finance consumers could act on it."
+                },
+                {
+                  "type": "quarantine_partition",
+                  "table": "mart.daily_gmv_by_region",
+                  "logical_date": "2026-10-27",
+                  "rationale": "Same issue, not alerted: a NULL-region row with 31674.21 GMV (~37%)."
+                }
+              ]
+            },
+            "name": "submit_rca",
+            "type": "tool_use",
+            "caller": {
+              "type": "direct"
+            }
+          }
+        ],
+        "stop_reason": "tool_use",
+        "usage": {
+          "input_tokens": 2,
+          "output_tokens": 2691,
+          "cache_read_input_tokens": 11863,
+          "cache_creation_input_tokens": 2475
+        },
+        "model": "claude-opus-5-5"
+      }
+    }
+  ],
+  "tool_outputs": [
+    {
+      "tool_call_id": "ctx-incident",
+      "name": "get_incident",
+      "input": {},
+      "ok": true,
+      "blocked_reason": null,
+      "content": "{\"ok\": true, \"data\": {\"incident\": {\"incident_id\": 44, \"status\": \"open\", \"root_candidate\": \"raw.orders\", \"created_at\": \"2026-10-28 08:26:41.362868+00:00\"}, \"alerts\": [{\"alert_id\": 161, \"detector\": \"null_rate\", \"dataset\": \"raw.orders\", \"error_class\": \"null_rate:region\", \"severity\": \"medium\", \"logical_date\": \"2026-10-28\", \"count\": 1, \"first_seen\": \"2026-10-28 08:26:41.362868+00:00\", \"last_seen\": \"2026-10-28 08:26:41.362868+00:00\", \"payload\": {\"rows\": 289, \"nulls\": 123, \"column\": \"region\", \"null_rate\": 0.4256, \"threshold\": 0.05}}, {\"alert_id\": 162, \"detector\": \"null_rate\", \"dataset\": \"mart.daily_gmv_by_region\", \"error_class\": \"null_rate:region\", \"severity\": \"medium\", \"logical_date\": \"2026-10-28\", \"count\": 1, \"first_seen\": \"2026-10-28 08:26:41.362868+00:00\", \"last_seen\": \"2026-10-28 08:26:41.362868+00:00\", \"payload\": {\"rows\": 6, \"nulls\": 1, \"column\": \"region\", \"null_rate\": 0.1667, \"threshold\": 0.01}}], \"logical_dates\": [\"2026-10-28\"]}}"
+    },
+    {
+      "tool_call_id": "ctx-lineage",
+      "name": "get_lineage",
+      "input": {
+        "table": "raw.orders",
+        "direction": "upstream",
+        "depth": 2
+      },
+      "ok": true,
+      "blocked_reason": null,
+      "content": "{\"ok\": true, \"data\": {\"table\": \"raw.orders\", \"direction\": \"upstream\", \"depth\": 2, \"tables\": [{\"table\": \"raw.orders\", \"hops\": 0, \"written_by\": [\"ingest_orders\"]}], \"table_edges\": [{\"from\": \"<external>\", \"to\": \"raw.orders\", \"task\": \"ingest_orders\"}], \"column_edges\": []}}"
+    },
+    {
+      "tool_call_id": "toolu_01Cf1hqJTSuWJD7Wvcdg5nK3",
+      "name": "run_readonly_sql",
+      "input": {
+        "sql": "SELECT logical_date, count(*) AS rows, sum(CASE WHEN region IS NULL THEN 1 ELSE 0 END) AS nulls FROM raw.orders GROUP BY 1 ORDER BY 1 DESC LIMIT 10"
+      },
+      "ok": true,
+      "blocked_reason": null,
+      "content": "{\"ok\": true, \"data\": {\"sql_executed\": \"SELECT logical_date, COUNT(*) AS rows, SUM(CASE WHEN region IS NULL THEN 1 ELSE 0 END) AS nulls FROM raw.orders GROUP BY 1 ORDER BY 1 DESC LIMIT 10\", \"columns\": [\"logical_date\", \"rows\", \"nulls\"], \"rows\": [{\"logical_date\": \"2026-10-28\", \"rows\": 289, \"nulls\": 123}, {\"logical_date\": \"2026-10-27\", \"rows\": 287, \"nulls\": 109}, {\"logical_date\": \"2026-10-26\", \"rows\": 253, \"nulls\": 0}, {\"logical_date\": \"2026-10-25\", \"rows\": 367, \"nulls\": 0}, {\"logical_date\": \"2026-10-24\", \"rows\": 375, \"nulls\": 0}, {\"logical_date\": \"2026-10-23\", \"rows\": 351, \"nulls\": 0}, {\"logical_date\": \"2026-10-22\", \"rows\": 329, \"nulls\": 0}, {\"logical_date\": \"2026-10-21\", \"rows\": 299, \"nulls\": 0}, {\"logical_date\": \"2026-10-20\", \"rows\": 307, \"nulls\": 0}, {\"logical_date\": \"2026-10-19\", \"rows\": 254, \"nulls\": 0}], \"row_count\": 10, \"note\": \"row cap of 10 reached; aggregate or filter for the full picture\"}}"
+    },
+    {
+      "tool_call_id": "toolu_01Sk3oZHuJTyPbPRpSgLDNZC",
+      "name": "get_task_runs",
+      "input": {
+        "limit": 10,
+        "task_id": "ingest_orders"
+      },
+      "ok": true,
+      "blocked_reason": null,
+      "content": "{\"ok\": true, \"data\": {\"task_id\": \"ingest_orders\", \"since\": \"2026-10-21\", \"runs\": [{\"run_id\": \"20261028_696252d1.ingest_orders.1\", \"logical_date\": \"2026-10-28\", \"try_number\": 1, \"status\": \"success\", \"started_at\": \"2026-10-28 08:26:41.287629+00:00\", \"ended_at\": \"2026-10-28 08:26:41.299834+00:00\", \"duration_s\": \"0.012\", \"error_class\": null, \"error_message\": null}, {\"run_id\": \"20261027_281c8463.ingest_orders.1\", \"logical_date\": \"2026-10-27\", \"try_number\": 1, \"status\": \"success\", \"started_at\": \"2026-10-28 02:52:18.338601+00:00\", \"ended_at\": \"2026-10-28 02:52:18.350496+00:00\", \"duration_s\": \"0.012\", \"error_class\": null, \"error_message\": null}, {\"run_id\": \"20261026_2545fc26.ingest_orders.1\", \"logical_date\": \"2026-10-26\", \"try_number\": 1, \"status\": \"success\", \"started_at\": \"2026-10-27 03:04:51.987835+00:00\", \"ended_at\": \"2026-10-27 03:04:51.999750+00:00\", \"duration_s\": \"0.012\", \"error_class\": null, \"error_message\": null}, {\"run_id\": \"20261025_98b03dd6.ingest_orders.1\", \"logical_date\": \"2026-10-25\", \"try_number\": 1, \"status\": \"success\", \"started_at\": \"2026-10-27 03:04:51.864968+00:00\", \"ended_at\": \"2026-10-27 03:04:51.889430+00:00\", \"duration_s\": \"0.024\", \"error_class\": null, \"error_message\": null}, {\"run_id\": \"20261024_1aab4275.ingest_orders.1\", \"logical_date\": \"2026-10-24\", \"try_number\": 1, \"status\": \"success\", \"started_at\": \"2026-10-27 03:04:51.786066+00:00\", \"ended_at\": \"2026-10-27 03:04:51.805513+00:00\", \"duration_s\": \"0.019\", \"error_class\": null, \"error_message\": null}, {\"run_id\": \"20261023_607686ef.ingest_orders.1\", \"logical_date\": \"2026-10-23\", \"try_number\": 1, \"status\": \"success\", \"started_at\": \"2026-10-27 03:04:51.720043+00:00\", \"ended_at\": \"2026-10-27 03:04:51.733500+00:00\", \"duration_s\": \"0.013\", \"error_class\": null, \"error_message\": null}, {\"run_id\": \"20261022_d46760f3.ingest_orders.1\", \"logical_date\": \"2026-10-22\", \"try_number\": 1, \"status\": \"success\", \"started_at\": \"2026-10-27 03:04:51.659399+00:00\", \"ended_at\": \"2026-10-27 03:04:51.672869+00:00\", \"duration_s\": \"0.013\", \"error_class\": null, \"error_message\": null}, {\"run_id\": \"20261021_8d87539c.ingest_orders.1\", \"logical_date\": \"2026-10-21\", \"try_number\": 1, \"status\": \"success\", \"started_at\": \"2026-10-27 03:04:51.601776+00:00\", \"ended_at\": \"2026-10-27 03:04:51.613325+00:00\", \"duration_s\": \"0.012\", \"error_class\": null, \"error_message\": null}, {\"run_id\": \"20261026_85acb250.ingest_orders.1\", \"logical_date\": \"2026-10-26\", \"try_number\": 1, \"status\": \"success\", \"started_at\": \"2026-10-27 03:03:10.726851+00:00\", \"ended_at\": \"2026-10-27 03:03:10.738920+00:00\", \"duration_s\": \"0.012\", \"error_class\": null, \"error_message\": null}, {\"run_id\": \"20261026_19a22dc7.ingest_orders.1\", \"logical_date\": \"2026-10-26\", \"try_number\": 1, \"status\": \"success\", \"started_at\": \"2026-10-27 03:03:10.163061+00:00\", \"ended_at\": \"2026-10-27 03:03:10.177523+00:00\", \"duration_s\": \"0.014\", \"error_class\": null, \"error_message\": null}]}}"
+    },
+    {
+      "tool_call_id": "toolu_011aaxMAxW2Q5ct77r7Eai7W",
+      "name": "get_recent_deploys",
+      "input": {
+        "since_hours": 120
+      },
+      "ok": true,
+      "blocked_reason": null,
+      "content": "{\"ok\": true, \"data\": {\"since_hours\": 120, \"deploys\": []}}"
+    },
+    {
+      "tool_call_id": "toolu_01N2q6iWwukXKiT5yrbssEty",
+      "name": "search_knowledge",
+      "input": {
+        "query": "null_rate region raw.orders"
+      },
+      "ok": true,
+      "blocked_reason": null,
+      "content": "{\"ok\": true, \"data\": {\"hits\": [{\"chunk_id\": \"postmortems/2026-01-null-region-from-checkout#00\", \"doc_type\": \"postmortem\", \"title\": \"NULL region bucket in GMV by region after checkout release\", \"section\": \"Full postmortem\", \"score\": 0.0328, \"text\": \"Postmortem: NULL region bucket in GMV by region after checkout release > Full postmortem\\n\\n## Summary\\nA checkout service release stopped populating `region` for orders placed through the new mobile\\nflow. About 38% of orders on 2026-01-20 arrived with a NULL region. All tasks succeeded;\\n`mart.daily_gmv_by_region` grew a NULL region row holding a third of GMV.\\n\\n## Impact\\n- Regional GMV under-reported by roughly 38% for two days; one regional manager escalated a\\n  \\\"sales collapse\\\".\\n\\n## Detection\\nThe null-rate monitor on `raw.orders.region` (threshold 5%) fired along with the mart null-rate\\nmonitor. The incident was opened with root candidate `raw.orders`.\\n\\n## Timeline (UTC)\\n- 2026-01-20 16:00 checkout release ships.\\n- 2026-01-21 01:30 null_rate:region alerts on raw.orders and mart.daily_gmv_by_region.\\n- 08:00 on-call measures null rate per layer: raw already 38% null, so staging and the mart are\\n  propagating, not causing it.\\n- 09:10 null rows traced to orders from the new mobile flow; escalated to the checkout team.\\n- 2026-01-22 checkout fix ships; source re-sends; partitions backfilled.\\n\\n## Root cause\\nA required field became optional in the checkout API payload with no data contract check.\\n\\n## Action items\\n- Contract test that `region` is non-null in the orders export.\\n- Keep null-rate monitors at the raw layer for business-critical dimensions.\"}, {\"chunk_id\": \"runbooks/data_quality#01\", \"doc_type\": \"runbook\", \"title\": \"Data quality anomalies (nulls, invalid values)\", \"section\": \"Triage > Locate where the bad values first appear\", \"score\": 0.0318, \"text\": \"Runbook: Data quality anomalies (nulls, invalid values) > Triage > Locate where the bad values first appear\\n\\nWalk lineage upstream from the alerted mart and measure the same column at each layer for the\\nlogical date:\\n\\n```sql\\nSELECT logical_date,\\n       count(*) FILTER (WHERE region IS NULL)::numeric / count(*) AS null_rate\\nFROM raw.orders\\nWHERE logical_date >= current_date - 7\\nGROUP BY 1 ORDER BY 1;\\n```\\n\\nIf `raw.orders.region` is already null at the same rate, the source sent it that way; staging and\\nmarts are faithfully propagating it. If raw is clean and stg is not, suspect the stg SQL or a\\nrecent deploy.\"}, {\"chunk_id\": \"runbooks/data_quality#00\", \"doc_type\": \"runbook\", \"title\": \"Data quality anomalies (nulls, invalid values)\", \"section\": \"Overview\", \"score\": 0.0318, \"text\": \"Runbook: Data quality anomalies (nulls, invalid values) > Overview\\n\\nUse this when tasks succeed but values are wrong: a null-rate monitor fires\\n(`null_rate:region`), a NULL bucket appears in a mart, or values fall outside expected ranges.\\nNothing errors, so the logs will look clean.\"}, {\"chunk_id\": \"runbooks/data_quality#04\", \"doc_type\": \"runbook\", \"title\": \"Data quality anomalies (nulls, invalid values)\", \"section\": \"Prevention\", \"score\": 0.0317, \"text\": \"Runbook: Data quality anomalies (nulls, invalid values) > Prevention\\n\\n- Keep null-rate thresholds on business-critical dimensions (region, status) at the raw layer, not\\n  only on marts \u2014 earlier detection, clearer ownership.\"}, {\"chunk_id\": \"runbooks/data_quality#02\", \"doc_type\": \"runbook\", \"title\": \"Data quality anomalies (nulls, invalid values)\", \"section\": \"Triage > Characterize the bad rows\", \"score\": 0.0301, \"text\": \"Runbook: Data quality anomalies (nulls, invalid values) > Triage > Characterize the bad rows\\n\\n- Is the null rate sudden (one day) or gradual?\\n- Do the bad rows share an attribute: order_ts window, customer cohort, status, channel?\\n- A sharp step on one date usually means an upstream release (checkout, app version) changed what\\n  is sent.\"}]}}"
+    },
+    {
+      "tool_call_id": "toolu_019phbqCqFX1fTniGmgkNsNG",
+      "name": "run_readonly_sql",
+      "input": {
+        "sql": "SELECT * FROM raw.orders WHERE logical_date = '2026-10-28' AND region IS NULL LIMIT 5"
+      },
+      "ok": true,
+      "blocked_reason": null,
+      "content": "{\"ok\": true, \"data\": {\"sql_executed\": \"SELECT * FROM raw.orders WHERE logical_date = '2026-10-28' AND region IS NULL LIMIT 5\", \"columns\": [\"order_id\", \"logical_date\", \"order_ts\", \"customer_id\", \"region\", \"status\", \"_batch_id\", \"_loaded_at\"], \"rows\": [{\"order_id\": 739917000001, \"logical_date\": \"2026-10-28\", \"order_ts\": \"2026-10-28 03:15:06+00:00\", \"customer_id\": 3766, \"region\": null, \"status\": \"completed\", \"_batch_id\": \"orders_20261028_01\", \"_loaded_at\": \"2026-10-28 08:26:41.288213+00:00\"}, {\"order_id\": 739917000004, \"logical_date\": \"2026-10-28\", \"order_ts\": \"2026-10-28 10:11:58+00:00\", \"customer_id\": 4376, \"region\": null, \"status\": \"completed\", \"_batch_id\": \"orders_20261028_01\", \"_loaded_at\": \"2026-10-28 08:26:41.288213+00:00\"}, {\"order_id\": 739917000006, \"logical_date\": \"2026-10-28\", \"order_ts\": \"2026-10-28 16:13:34+00:00\", \"customer_id\": 4703, \"region\": null, \"status\": \"completed\", \"_batch_id\": \"orders_20261028_01\", \"_loaded_at\": \"2026-10-28 08:26:41.288213+00:00\"}, {\"order_id\": 739917000007, \"logical_date\": \"2026-10-28\", \"order_ts\": \"2026-10-28 03:44:13+00:00\", \"customer_id\": 2511, \"region\": null, \"status\": \"completed\", \"_batch_id\": \"orders_20261028_01\", \"_loaded_at\": \"2026-10-28 08:26:41.288213+00:00\"}, {\"order_id\": 739917000009, \"logical_date\": \"2026-10-28\", \"order_ts\": \"2026-10-28 03:06:01+00:00\", \"customer_id\": 1370, \"region\": null, \"status\": \"completed\", \"_batch_id\": \"orders_20261028_01\", \"_loaded_at\": \"2026-10-28 08:26:41.288213+00:00\"}], \"row_count\": 5, \"note\": \"row cap of 5 reached; aggregate or filter for the full picture\"}}"
+    },
+    {
+      "tool_call_id": "toolu_01BYiaBYUNKjvh1KdFgGgUps",
+      "name": "search_knowledge",
+      "input": {
+        "k": 3,
+        "query": "data quality null region remediation escalate source team backfill",
+        "doc_type": "runbook"
+      },
+      "ok": true,
+      "blocked_reason": null,
+      "content": "{\"ok\": true, \"data\": {\"hits\": [{\"chunk_id\": \"runbooks/data_quality#04\", \"doc_type\": \"runbook\", \"title\": \"Data quality anomalies (nulls, invalid values)\", \"section\": \"Prevention\", \"score\": 0.0328, \"text\": \"Runbook: Data quality anomalies (nulls, invalid values) > Prevention\\n\\n- Keep null-rate thresholds on business-critical dimensions (region, status) at the raw layer, not\\n  only on marts \u2014 earlier detection, clearer ownership.\"}, {\"chunk_id\": \"runbooks/data_quality#03\", \"doc_type\": \"runbook\", \"title\": \"Data quality anomalies (nulls, invalid values)\", \"section\": \"Remediation\", \"score\": 0.0318, \"text\": \"Runbook: Data quality anomalies (nulls, invalid values) > Remediation\\n\\n- Raw data is the system of record; do not patch values in raw.\\n- `quarantine_partition` the affected mart partition if downstream consumers (finance GMV report)\\n  would act on it, and annotate the dashboard.\\n- `escalate` to the source team with the column, rate, first bad date and example order_ids.\\n- Once the source fixes and re-sends, `rerun_task` ingest and `backfill_partition` downstream.\"}, {\"chunk_id\": \"runbooks/data_quality#00\", \"doc_type\": \"runbook\", \"title\": \"Data quality anomalies (nulls, invalid values)\", \"section\": \"Overview\", \"score\": 0.0318, \"text\": \"Runbook: Data quality anomalies (nulls, invalid values) > Overview\\n\\nUse this when tasks succeed but values are wrong: a null-rate monitor fires\\n(`null_rate:region`), a NULL bucket appears in a mart, or values fall outside expected ranges.\\nNothing errors, so the logs will look clean.\"}]}}"
+    },
+    {
+      "tool_call_id": "toolu_013m8qjYiENAXe2t5bX4CF6d",
+      "name": "get_lineage",
+      "input": {
+        "table": "raw.orders",
+        "direction": "downstream",
+        "include_columns": false
+      },
+      "ok": true,
+      "blocked_reason": null,
+      "content": "{\"ok\": true, \"data\": {\"table\": \"raw.orders\", \"direction\": \"downstream\", \"depth\": 2, \"tables\": [{\"table\": \"raw.orders\", \"hops\": 0, \"written_by\": [\"ingest_orders\"]}, {\"table\": \"stg.orders\", \"hops\": 1, \"written_by\": [\"stg_orders\"]}, {\"table\": \"mart.daily_gmv_by_region\", \"hops\": 2, \"written_by\": [\"mart_daily_gmv_by_region\"]}], \"table_edges\": [{\"from\": \"stg.orders\", \"to\": \"mart.daily_gmv_by_region\", \"task\": \"mart_daily_gmv_by_region\"}, {\"from\": \"raw.orders\", \"to\": \"stg.orders\", \"task\": \"stg_orders\"}]}}"
+    },
+    {
+      "tool_call_id": "toolu_012UitE3mEX9ADSkzzSj8UpH",
+      "name": "run_readonly_sql",
+      "input": {
+        "sql": "SELECT * FROM mart.daily_gmv_by_region WHERE logical_date >= '2026-10-26' ORDER BY logical_date, region LIMIT 30"
+      },
+      "ok": true,
+      "blocked_reason": null,
+      "content": "{\"ok\": true, \"data\": {\"sql_executed\": \"SELECT * FROM mart.daily_gmv_by_region WHERE logical_date >= '2026-10-26' ORDER BY logical_date, region LIMIT 30\", \"columns\": [\"logical_date\", \"region\", \"order_count\", \"units\", \"gmv\"], \"rows\": [{\"logical_date\": \"2026-10-26\", \"region\": \"central\", \"order_count\": 33, \"units\": 121, \"gmv\": \"10788.25\"}, {\"logical_date\": \"2026-10-26\", \"region\": \"east\", \"order_count\": 49, \"units\": 167, \"gmv\": \"13909.57\"}, {\"logical_date\": \"2026-10-26\", \"region\": \"north\", \"order_count\": 52, \"units\": 168, \"gmv\": \"14650.63\"}, {\"logical_date\": \"2026-10-26\", \"region\": \"south\", \"order_count\": 50, \"units\": 167, \"gmv\": \"14053.06\"}, {\"logical_date\": \"2026-10-26\", \"region\": \"west\", \"order_count\": 50, \"units\": 174, \"gmv\": \"15454.10\"}, {\"logical_date\": \"2026-10-27\", \"region\": \"central\", \"order_count\": 26, \"units\": 112, \"gmv\": \"9316.53\"}, {\"logical_date\": \"2026-10-27\", \"region\": \"east\", \"order_count\": 39, \"units\": 149, \"gmv\": \"13595.88\"}, {\"logical_date\": \"2026-10-27\", \"region\": \"north\", \"order_count\": 30, \"units\": 93, \"gmv\": \"7537.85\"}, {\"logical_date\": \"2026-10-27\", \"region\": \"south\", \"order_count\": 34, \"units\": 96, \"gmv\": \"8751.02\"}, {\"logical_date\": \"2026-10-27\", \"region\": \"west\", \"order_count\": 42, \"units\": 153, \"gmv\": \"13260.93\"}, {\"logical_date\": \"2026-10-27\", \"region\": null, \"order_count\": 102, \"units\": 366, \"gmv\": \"31674.21\"}, {\"logical_date\": \"2026-10-28\", \"region\": \"central\", \"order_count\": 23, \"units\": 82, \"gmv\": \"7001.61\"}, {\"logical_date\": \"2026-10-28\", \"region\": \"east\", \"order_count\": 41, \"units\": 138, \"gmv\": \"11931.43\"}, {\"logical_date\": \"2026-10-28\", \"region\": \"north\", \"order_count\": 28, \"units\": 83, \"gmv\": \"6728.55\"}, {\"logical_date\": \"2026-10-28\", \"region\": \"south\", \"order_count\": 27, \"units\": 106, \"gmv\": \"9530.46\"}, {\"logical_date\": \"2026-10-28\", \"region\": \"west\", \"order_count\": 31, \"units\": 114, \"gmv\": \"9382.37\"}, {\"logical_date\": \"2026-10-28\", \"region\": null, \"order_count\": 111, \"units\": 389, \"gmv\": \"33832.12\"}], \"row_count\": 17}}"
+    },
+    {
+      "tool_call_id": "toolu_01FFD9KYaaAUVYfXdeDBCaHC",
+      "name": "run_readonly_sql",
+      "input": {
+        "sql": "SELECT logical_date, status, count(*) AS n, sum(CASE WHEN region IS NULL THEN 1 ELSE 0 END) AS nulls, min(order_ts) AS min_ts, max(order_ts) AS max_ts FROM raw.orders WHERE logical_date >= '2026-10-26' GROUP BY 1,2 ORDER BY 1,2 LIMIT 30"
+      },
+      "ok": true,
+      "blocked_reason": null,
+      "content": "{\"ok\": true, \"data\": {\"sql_executed\": \"SELECT logical_date, status, COUNT(*) AS n, SUM(CASE WHEN region IS NULL THEN 1 ELSE 0 END) AS nulls, MIN(order_ts) AS min_ts, MAX(order_ts) AS max_ts FROM raw.orders WHERE logical_date >= '2026-10-26' GROUP BY 1, 2 ORDER BY 1, 2 LIMIT 30\", \"columns\": [\"logical_date\", \"status\", \"n\", \"nulls\", \"min_ts\", \"max_ts\"], \"rows\": [{\"logical_date\": \"2026-10-26\", \"status\": \"cancelled\", \"n\": 10, \"nulls\": 0, \"min_ts\": \"2026-10-26 01:32:55+00:00\", \"max_ts\": \"2026-10-26 16:14:06+00:00\"}, {\"logical_date\": \"2026-10-26\", \"status\": \"completed\", \"n\": 234, \"nulls\": 0, \"min_ts\": \"2026-10-26 00:07:30+00:00\", \"max_ts\": \"2026-10-26 23:49:43+00:00\"}, {\"logical_date\": \"2026-10-26\", \"status\": \"returned\", \"n\": 9, \"nulls\": 0, \"min_ts\": \"2026-10-26 00:34:59+00:00\", \"max_ts\": \"2026-10-26 21:44:40+00:00\"}, {\"logical_date\": \"2026-10-27\", \"status\": \"cancelled\", \"n\": 9, \"nulls\": 4, \"min_ts\": \"2026-10-27 02:36:28+00:00\", \"max_ts\": \"2026-10-27 22:39:05+00:00\"}, {\"logical_date\": \"2026-10-27\", \"status\": \"completed\", \"n\": 273, \"nulls\": 102, \"min_ts\": \"2026-10-27 00:10:19+00:00\", \"max_ts\": \"2026-10-27 23:56:20+00:00\"}, {\"logical_date\": \"2026-10-27\", \"status\": \"returned\", \"n\": 5, \"nulls\": 3, \"min_ts\": \"2026-10-27 00:08:58+00:00\", \"max_ts\": \"2026-10-27 14:41:01+00:00\"}, {\"logical_date\": \"2026-10-28\", \"status\": \"cancelled\", \"n\": 21, \"nulls\": 11, \"min_ts\": \"2026-10-28 02:25:49+00:00\", \"max_ts\": \"2026-10-28 23:51:47+00:00\"}, {\"logical_date\": \"2026-10-28\", \"status\": \"completed\", \"n\": 261, \"nulls\": 111, \"min_ts\": \"2026-10-28 00:00:37+00:00\", \"max_ts\": \"2026-10-28 23:59:02+00:00\"}, {\"logical_date\": \"2026-10-28\", \"status\": \"returned\", \"n\": 7, \"nulls\": 1, \"min_ts\": \"2026-10-28 00:32:31+00:00\", \"max_ts\": \"2026-10-28 15:18:08+00:00\"}], \"row_count\": 9}}"
+    }
+  ]
+}

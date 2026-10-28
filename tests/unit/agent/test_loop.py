@@ -45,7 +45,7 @@ def test_scripted_happy_path() -> None:
     assert [name for name, _ in executor.calls] == ["get_incident", "get_lineage", "get_task_runs"]
     brief = llm.requests[0][0]["content"]
     assert "incident #7" in brief and "tool_call_id: ctx-incident" in brief
-    assert '<tool_output tool="get_incident" untrusted="true">' in brief
+    assert '<tool_output tool="get_incident" tool_call_id="ctx-incident" untrusted="true">' in brief
 
 
 def test_tool_results_are_wrapped_as_untrusted_and_history_is_append_only() -> None:
@@ -58,7 +58,9 @@ def test_tool_results_are_wrapped_as_untrusted_and_history_is_append_only() -> N
     assert second[len(first)]["role"] == "assistant"  # the model's turn appended verbatim
     (result,) = tool_results(second)
     assert result["tool_use_id"] == "toolu_1" and result["is_error"] is False
-    assert result["content"].startswith('<tool_output tool="get_task_runs" untrusted="true">')
+    assert result["content"].startswith(
+        '<tool_output tool="get_task_runs" tool_call_id="toolu_1" untrusted="true">'
+    )
 
 
 def test_parallel_tool_calls_return_in_one_user_message() -> None:
@@ -71,11 +73,16 @@ def test_parallel_tool_calls_return_in_one_user_message() -> None:
 
 
 def test_context_ids_are_valid_evidence() -> None:
-    outcome, *_ = triage([tool_response(use("t", "submit_rca", valid_report("ctx-incident")))])
+    outcome, *_ = triage(
+        [tool_response(use("t", "submit_rca", valid_report("ctx-incident", "UndefinedColumn")))]
+    )
     assert outcome.source == "agent"
 
 
 # --------------------------------------------------------------------------- invalid tool use
+
+
+CTX_REPORT = valid_report("ctx-incident", "UndefinedColumn")
 
 
 def test_invalid_tool_args_are_returned_as_errors_and_the_model_continues() -> None:
@@ -83,7 +90,7 @@ def test_invalid_tool_args_are_returned_as_errors_and_the_model_continues() -> N
         tool_response(use("toolu_1", "get_lineage", {"table": "stg.order_items", "depth": 9})),
         tool_response(use("toolu_2", "run_readonly_sql", {"sql": "DELETE FROM raw.orders"})),
         tool_response(use("toolu_3", "no_such_tool", {})),
-        tool_response(use("toolu_4", "submit_rca", valid_report("toolu_1"))),
+        tool_response(use("toolu_4", "submit_rca", CTX_REPORT)),
     ])  # fmt: skip
     assert outcome.source == "agent"
     errors = [tool_results(r)[0] for r in llm.requests[1:4]]
@@ -144,7 +151,7 @@ def test_stopping_without_submit_gets_one_reminder_then_falls_back() -> None:
 def test_reminder_can_rescue_the_run() -> None:
     outcome, *_ = triage([
         tool_response(text_block("Done investigating.")),
-        tool_response(use("t", "submit_rca", valid_report("ctx-incident"))),
+        tool_response(use("t", "submit_rca", valid_report("ctx-incident", "UndefinedColumn"))),
     ])  # fmt: skip
     assert outcome.source == "agent"
 
@@ -170,10 +177,34 @@ def test_schema_invalid_submit_gets_one_repair() -> None:
 def test_evidence_must_reference_real_tool_calls() -> None:
     outcome, llm, *_ = triage([
         tool_response(use("toolu_1", "submit_rca", valid_report("toolu_made_up"))),
-        tool_response(use("toolu_2", "submit_rca", valid_report("ctx-lineage"))),
+        tool_response(use("toolu_2", "submit_rca", valid_report("ctx-lineage", "raw.order_items"))),
     ])  # fmt: skip
     assert outcome.source == "agent" and outcome.repairs == 1
-    assert "never made: toolu_made_up" in tool_results(llm.requests[1])[0]["content"]
+    rejection = tool_results(llm.requests[1])[0]["content"]
+    assert "cites 'toolu_made_up', which was never called" in rejection
+    assert "ctx-incident = get_incident" in rejection  # valid ids come with their tool names
+
+
+def test_evidence_excerpt_must_come_from_the_cited_call() -> None:
+    # Right id, but the quote is from a different call: the live mis-attribution bug.
+    outcome, llm, *_ = triage([
+        tool_response(use("toolu_1", "get_task_runs", {"task_id": "stg_order_items"}),
+                      use("toolu_2", "get_lineage", {"table": "stg.order_items"})),
+        tool_response(use("toolu_3", "submit_rca", valid_report("toolu_2"))),
+        tool_response(use("toolu_4", "submit_rca", valid_report("toolu_1"))),
+    ])  # fmt: skip
+    assert outcome.source == "agent" and outcome.repairs == 1
+    rejection = tool_results(llm.requests[2])[0]["content"]
+    assert "excerpt is not in the output of toolu_2 (get_lineage)" in rejection
+
+
+def test_excerpt_matching_ignores_quotes_whitespace_and_escaping() -> None:
+    quoted = valid_report("toolu_1", '\\"error_message\\":  "column i.unit_price does not exist"')
+    outcome, *_ = triage([
+        tool_response(use("toolu_1", "get_task_runs", {"task_id": "stg_order_items"})),
+        tool_response(use("toolu_2", "submit_rca", quoted)),
+    ])  # fmt: skip
+    assert outcome.source == "agent" and outcome.repairs == 0
 
 
 def test_second_invalid_submit_falls_back() -> None:

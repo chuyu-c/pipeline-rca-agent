@@ -1,0 +1,547 @@
+{
+  "label": "schema_drift",
+  "model": "claude-opus-5-5",
+  "recorded_at": "2026-10-28T08:29:59+00:00",
+  "turns": [
+    {
+      "request": {
+        "messages": 1,
+        "tool_results": []
+      },
+      "response": {
+        "content": [
+          {
+            "signature": "CAQSwAYKEAgTGAI4AUIIdGhpbmtpbmcSDN5OndFYtDSQGShJ6xoMTsQdrWptVpKq108/IjAAwMR+3M/trlWMiFmKuhweIw8XpYiCDyLm6BigRXSOvcD49KA69x/sDvvKz8W5lc0q3QXE59Zn6Q2ymkWZg8BhEa8F6X1gLbJzd5Bx6JFFHvzjbGCsqgPXjZ8uMeEe/YKIROwFu1nvy7PeJ+IbfpsTi5X809UJ/VXv08FCUeJDKR8tBylU/5fxb/7GK2+IbbX0ZCodNKmdwkwLSRG1zna06UOJXbYUB37qHr/sBRgE6rFl95GLLThwlr2pFRVYbfb2V14KvdLSWyL9kgXZlDCz8At09kpnBxk71kKbxcTKI3KkRyFI7Szk0LRTYoO4lI7VgFBPNUmnhCqkLDekN8stMgOKE6/k9NC+dL8ob/N/aV+PS5S/0LE7+tSxExJ38lUgm93gstK1vo50cI5hctOkkjPn8RjyXeXnnPvzhZ4fdMH7we8OPBL8wJUOIncRuS7wYM1IOPpKDEHnQp50jJR4+M5bGkKJio25p6GylC/u+pwRq3kqHng7ezAemnKXUFnV/Re4LXWpsEkyJsm+zW0LQZk8FDtgz6aAbhsZwi5rmZ+UcLTj6YsqOnbSDRxSTBJe2H/dfHgMSa7dlV2pvKemSfteL7g8pjyHtHiPlnGxwAwiAlNvYyOpcuEYDKeAZ+HzgfTMKBNwOJ8CyUchlkQ+dIH9md1ezujB4dhVqGXKipRmxEOWik40qLSZmjm8vzE/wWkld1uvJMYk8YF7R3dAr9QEoHKGutcZW+ZHdhTou43dKmQt5RDyYO1pMWYlm6WE/ZmZ1axRaV0YbFZb1iceVak5DEg8gbyZhrFTRBrqoiS40LlyQ8j0Z4Bhdm7bGgCY+yC9KJyY0Gv+TBoWbZr4+q/KzpXq5TIidbMS4v8MMp9vKmsEvGH98qMxSfxAqpsr9rVk/b8pX/ppEAF/wFuF0Y6+OkSABa2MlLuz3vK3CcvMUaEJ0691iu7HkgUHf3L1pzxenNLtXLQfMmWdaXuGmlhFfaDsi0zG9wVAparr3R2FdXpyBtMC/qNImxSDVuWehFFftNsOMGPUfhccuJ9qGAE=",
+            "thinking": "",
+            "type": "thinking"
+          },
+          {
+            "id": "toolu_01LRxy2Vq7JY5W99pG63ypau",
+            "input": {
+              "task_id": "stg_order_items",
+              "limit": 10
+            },
+            "name": "get_task_runs",
+            "type": "tool_use",
+            "caller": {
+              "type": "direct"
+            }
+          },
+          {
+            "id": "toolu_01RXu2WHbJ3NnFQz82nNsVrb",
+            "input": {
+              "since_hours": 168
+            },
+            "name": "get_recent_deploys",
+            "type": "tool_use",
+            "caller": {
+              "type": "direct"
+            }
+          },
+          {
+            "id": "toolu_016GoCdBrgvm1M5CXtMPC5mo",
+            "input": {
+              "sql": "SELECT * FROM raw.order_items WHERE logical_date >= '2026-10-27' ORDER BY logical_date DESC LIMIT 3"
+            },
+            "name": "run_readonly_sql",
+            "type": "tool_use",
+            "caller": {
+              "type": "direct"
+            }
+          }
+        ],
+        "stop_reason": "tool_use",
+        "usage": {
+          "input_tokens": 4,
+          "output_tokens": 313,
+          "cache_read_input_tokens": 0,
+          "cache_creation_input_tokens": 6374
+        },
+        "model": "claude-opus-5-5"
+      }
+    },
+    {
+      "request": {
+        "messages": 3,
+        "tool_results": [
+          "toolu_01LRxy2Vq7JY5W99pG63ypau",
+          "toolu_01RXu2WHbJ3NnFQz82nNsVrb",
+          "toolu_016GoCdBrgvm1M5CXtMPC5mo"
+        ]
+      },
+      "response": {
+        "content": [
+          {
+            "signature": "CAQS2gcKEAgTGAI4AUIIdGhpbmtpbmcSDEWoKoV1FgirEDh4GBoMAlwNThPY+3pjNlc2IjCPT/FrDc5G/IjE7GAaEIpu9uLPyFPpN/u8Y2rKDVp4vQIF7oJRJwTOy2R0hOxhqWAq9wYjHpNa7sxqXE+tOM1jmCQ0dpiPWT5ISZCJ2WSHcizgnz4vtBa/lAK5RdROfhmKR4WemWOqYplpjvkxRffyfOWnMSJha7rEjCrYg76BAqN+dmzfiiJ3sceAuNzGDONH1gOZuPoVWlEnBSrCxwSl0aQUriTfcSSeroCb7NPzQ6rOZcJwWXRNRZ476x/2sw2RnA9/isB5dpQe4DwpFte062DpNg5yY81y9QqDq8Z0QyaepkdCV9LIIylwPJQ2TOr7x68USnOkO3t+dCmafd2EsQ9QInKdoRtoeRLz8EXquo6xMGsRAlyQ/2fWYXdul55qPn3QZJMrlD4IOCwpCJhuI5cm/pOTgQr+ClRRiGY37sce7WpfS8Xu83+ZLTC9JMSkTTUIjVOFaLKxASv7aQuH1QYXrkj0AtPNFCULX71n9FJcsW5ISCniYusT6j7Ng8p+HpSyYWVQZ2ZOhpdg+ygVWObr/e/iJ1x/of3LCzL0jHeGK1ArxYUR8xOmWsYFN1cdG/QIKjVWAbrIPDt2pFjEWvrlKVWsdRWuSTMNnpSq7dVA3CwUhesylL0Dvq/2SVMnQNXrPKEWUigm4uB26Q0ivQi0VssZLIAQwUXgBnpx8LNtGy+m6vhtSz9mGQWY9xugv3fPWeaDcgPMqGcLKCFoHW4CZAWAJ3zFKGMLqxxBBiSU/QXdijHVZfePp6zZcqH1a+fFzO9sQY3NPMXg6WoAn6Z6wtyJMPN7S+DtRDGU7a5qlIfA1mmLn1c1KDKqzh8fdtktYanTDb/AJiguhWvljhOAzNIhrOcEzrPX6T4SihBteUGIfSYbseppgFVA+/wEXSGj9egDS3yLb6RPWCZmeKZ3FtXYhAPodM/MGBUF6eOPNSDZPJd/2tTc1jubPnUB4y+oWkydZbKunj8yCcsax6GhcAtyzJt3c4U7GliYdrhOvTgUCHovbcg9xAwVmk+OFluufIfxrn42WBgrw70zhzg989hkPYtkLOrQnFbWwesPvxdwOYlSVzJvbRiXKuPtoHJ8KYz5yde7uQe6t/5jydSpRemrGTyVQJI3vNbxUvEn8HZ0vwAjCHwzt1tAni+rdVG+4RUjHrILpBZEXi0hJx5C3oBBqkWYA21ff1Btp3n/6xdcLxttAa3Cxrat+GauOOApDcaf3JlUeEsHMnk0/mqyQejvihQH3hgB",
+            "thinking": "",
+            "type": "thinking"
+          },
+          {
+            "id": "toolu_01593Do857ozvo9fNyiamXQU",
+            "input": {
+              "task_id": "ingest_orders",
+              "limit": 4
+            },
+            "name": "get_task_runs",
+            "type": "tool_use",
+            "caller": {
+              "type": "direct"
+            }
+          },
+          {
+            "id": "toolu_01LD5Tkpwsn3J4guEjkx2xby",
+            "input": {
+              "query": "column i.unit_price does not exist raw.order_items renamed column schema drift"
+            },
+            "name": "search_knowledge",
+            "type": "tool_use",
+            "caller": {
+              "type": "direct"
+            }
+          },
+          {
+            "id": "toolu_01ALwNgGtR1dJREsjosNg9eV",
+            "input": {
+              "sql": "SELECT logical_date, count(*) AS n, count(price) AS price_nonnull FROM raw.order_items WHERE logical_date >= '2026-10-24' GROUP BY 1 ORDER BY 1 DESC"
+            },
+            "name": "run_readonly_sql",
+            "type": "tool_use",
+            "caller": {
+              "type": "direct"
+            }
+          }
+        ],
+        "stop_reason": "tool_use",
+        "usage": {
+          "input_tokens": 2,
+          "output_tokens": 370,
+          "cache_read_input_tokens": 6374,
+          "cache_creation_input_tokens": 2527
+        },
+        "model": "claude-opus-5-5"
+      }
+    },
+    {
+      "request": {
+        "messages": 5,
+        "tool_results": [
+          "toolu_01593Do857ozvo9fNyiamXQU",
+          "toolu_01LD5Tkpwsn3J4guEjkx2xby",
+          "toolu_01ALwNgGtR1dJREsjosNg9eV"
+        ]
+      },
+      "response": {
+        "content": [
+          {
+            "signature": "CAQSlQcKEAgTGAI4AUIIdGhpbmtpbmcSDBQNFibtvpk4AMzbQxoMw1IA8UB3yrLp8ahjIjCCtn7T8Iy6EWBz6aqfDP1ybBGzPFPyu534sc1/WeL7K0IMVX3sXbDbFQ7G1OJlh0MqsgYaTxd95ighajisBJfW5vUqlLI331YD2zXHbFo66llHxTpkFU5D2GNXFvnhIJgm14zugrT9x5v5on1bkqYJ+qksQFUQ44iUFrJyHd6b9vLceReWHkkfTM5RSpS2BZ3QU1lCDHB+EWFWHtt+WsM+8gaPx1mOZM6V9KLoqLEgSkBLbG8nqeYhpm52/SzD2LruiqZDWqCooVykDwruO1sPG1v4P+zAzJht2eDkBJCbB/4KThqW2dHCyUPaH4ejVS+mggpzaPN+VaflNb5A6/UWAQScV3yLUO5mmOnY29pxT/CrQNdblfG3pIf5XLpJKSB8fkaW0W0q5ny0d/Vej+crUhGITDZAG747kqNdcI/vOnbQ4OAOwNz8zFNcUwr4UvUxgoQ89xiMZsMG9cLvhWRQZ+y/1yRcivu2VxIx0fSFcgyBOFWukiMpdJ2jAi5608LJAQFNxXTkgyDbRnu5DoWIQNB62qCzxTTqGdKnc+byfGXU/ZMcaj6TnBVn37bR78i5yWlZ1R+HGFbW1vvgPyinZBK8BzkUlQZ8X0IP5ok3un2ysLQCJkcdnFHNLh384Fo5HAj+qlq59ZnEQsH0jpfhKll56BQD4QzNSPr1kopDv1EzgEMDyDXyYvhR7ZWgIL/ZWniRPc2T3NE4Ulc6cdm/sz3hmFpIcpNGQJIyFV03yAzyuYL/ydvP+IRWcUsJ99vh4E2Cy2HWkx34JhtBQ+4CgGsENnl7dG9x8pSVtskRELxyr8kE6pFUJCPELGR+vcUsECgqsjPUenbtMjtDkNJXZ1WVesENgQqrGXfzKhHjK/spoAEAClE8ubP8+/NrartU+ulTx4DndATcncobkaQUJbfMoU3LDT0wvM8DNI9LB1++lj9mDVhMKxrOzvuQji9LDdI36WhwkOcvJg7msOklB33I5VMkAzmOCCh0iZetsC5Fvd27vDozPCc2pTFbDgBxKDrwxNUiaQi4puN5Mx4s2CFNAxYG4waq4Pz0cqfJrNplR75PxbzmSzzYZ4FkEVfjWjobEPzKhoQQq7iMuq9MmHOav9GY9//BGpXSFXFSF5rsaIMEcXRDCR/fAbGT/p+lziLukBgB",
+            "thinking": "",
+            "type": "thinking"
+          },
+          {
+            "id": "toolu_01Lg2ZmCE7PdQ3AHD1iv3RWR",
+            "input": {
+              "run_id": "20261028_47f11e8f.ingest_orders.1",
+              "limit": 40
+            },
+            "name": "get_task_logs",
+            "type": "tool_use",
+            "caller": {
+              "type": "direct"
+            }
+          },
+          {
+            "id": "toolu_01WD9L6ESNcHVFcocjA6LwH1",
+            "input": {
+              "run_id": "20261028_47f11e8f.stg_order_items.1",
+              "limit": 30
+            },
+            "name": "get_task_logs",
+            "type": "tool_use",
+            "caller": {
+              "type": "direct"
+            }
+          }
+        ],
+        "stop_reason": "tool_use",
+        "usage": {
+          "input_tokens": 2,
+          "output_tokens": 243,
+          "cache_read_input_tokens": 8901,
+          "cache_creation_input_tokens": 3730
+        },
+        "model": "claude-opus-5-5"
+      }
+    },
+    {
+      "request": {
+        "messages": 7,
+        "tool_results": [
+          "toolu_01Lg2ZmCE7PdQ3AHD1iv3RWR",
+          "toolu_01WD9L6ESNcHVFcocjA6LwH1"
+        ]
+      },
+      "response": {
+        "content": [
+          {
+            "signature": "CAQSsAgKEAgTGAI4AUIIdGhpbmtpbmcSDBKEBf5a7yehbrwNNRoMRotG0PbrDJQOTnUjIjCuw0vV/p3Q2JqEcIQGt8Fr21hCit9yuioEXgQfkJBf37Wb+FSsv6OQQnUMNkc9VEUqzQfy1FWC8fQUhpwRVG6q55Mglipq26k3y9QQBkzijVmkQVZYWasXFLPMEh+D8uwKg5+WqC5Qxhr+NTmhCNEkPGyqJDugnDVgE0qe8cNeSJjjd5Zi9OJM7ACBVfVWhvWmMXvGd69U4KVATDx5a4RSl8I8uom4E3UAHfHcmbNWYhnalqu5Inu6Xz7Mo4ieXuk3mg481QwmBGomRrxlM/YbvOo+jJ9ZdChW1YaT+MDWJcFD9aeJLYlXAEaC/n/dSwnOgUwJDL7P41tTSaUi+fapWV/zVI0ZCqq5fzlYPsFhhOjE4h447uyMo35I0tuDGjIanPk4W8PPf/+CSvT1QIRzWEFFfA+BUf6kCzCIeK+E+lJxO76lsGA55F4PfnDTQUKFGiphiNZ7lNBn3RR2iVrvXkBuubv7+AIllrHBXR1Mh/iSbHE22Dbjg1+1ts6TtITP0UbU7iEy1EGW3tQAKh6EvN5DtPtvujhE+pXLBruOF67er3oHVWjcuuVnqDQZM7CMjcUd2MN4SzW7Zg9qsEVylUVmCJ0ksvMA8IAOtkiFCyEnQJv3k2wqF2H8JZdllVGOL5qc8Px5v/zA6oXYsxQI6Df9XsLjXUEqaUxUCDUnVl9M0zA1tG6XmR5+wvLH/5xJjBolsuRbxQtcId+8sYzujuIdrWyReP60VVlMvS1gdDWscESRZ2CPoAoxwm1NwHk4ldEsDKOtTcoqHfz31SCGfLElotIpARzagl/5gwUi0wEaCfaJ9SoJu4zlWbtixSmhiPeDBdFtqCZG4F97OjfPeSR+4JWEsL51I6o6SLde64kslntnmjeqLpuQqW/ctGspxdyEHjDp0AczBsjprkYEOFk8pSfmnlUi2JoleheOo/wuYE7y0ioV475qgdqgkXq7SkHN/mEu3xyBaz/xO8C5eP8xnOCpKklkRYRTP/frluhYmPQIwA/IgPlnfTjKdvFtLnhP3P4HwQ7rBIYbJZGAt4IQN+fQSXQJyKLGDCvpUMfBIFpoQF34qqgwmDtcZHgYu9hDi6JjDMfer0qR4e6JLsA64aOl18n2/H4rr+SFbCvPH2sYFH9FY/uRpbu373xl4lde/pGeRQG3tnyMQOCwYql2E5Vl9IEDoK8FfID9HGn67Rs4CaDEHiAEvxbArhmfhcITghx6WnA/7m+wYjyTOt7noTGU3cGfx933BX7XRfLYlI9sTSzMXIimt2dC7FZ/qBSHGut8JS1F6Xg9QRIKQm3+/qlIMHqAgdzOY3UdY3ZUKI1XY8Do2lG+d0nYE33SH6xKx6IlXQBTCvGYUpcKGAE=",
+            "thinking": "",
+            "type": "thinking"
+          },
+          {
+            "id": "toolu_01UwFT7dfDtyXAWxypcwXs1x",
+            "input": {
+              "summary": "I'm fairly confident this is schema drift, not a deploy and not a flaky task. The orders source renamed `unit_price` to `price`, and the loader updated `raw.order_items` to match without raising anything. `ingest_orders` succeeded for 2026-10-28 and loaded 739 order items. `raw.order_items` now has a `price` column and no `unit_price` column. `sql/stg/order_items.sql` still reads `i.unit_price`, so both attempts of `stg_order_items` failed with \"UndefinedColumn: column i.unit_price does not exist\". `stg_order_items` ran fine every day from 2026-10-21 through 2026-10-27, and there were no deploys to any task in the last 168 hours. So the staging SQL didn't change; the source data did. Because staging failed, the 2026-10-28 partitions are missing in `stg.order_items`, `mart.daily_gmv_by_region`, `mart.sku_sell_through` and `mart.inventory_health`. The raw data itself looks complete: every 2026-10-28 row has a `price` value, and the row count (739) is in line with recent days (597\u2013968). This matches the runbook's sign of an upstream rename and a past postmortem (2025-09) with the same error and the same rename. `stg.order_items` is the root candidate, but it only shows the symptom. No suspicious instruction-like text showed up in any tool output.",
+              "category": "schema_drift",
+              "root_entity": "raw.order_items.unit_price",
+              "confidence": 0.88,
+              "evidence": [
+                {
+                  "tool_call_id": "ctx-incident",
+                  "excerpt": "\"error_message\": \"column i.unit_price does not exist\""
+                },
+                {
+                  "tool_call_id": "toolu_016GoCdBrgvm1M5CXtMPC5mo",
+                  "excerpt": "\"columns\": [\"order_id\", \"line_no\", \"logical_date\", \"product_id\", \"quantity\", \"price\", \"_batch_id\", \"_loaded_at\"]"
+                },
+                {
+                  "tool_call_id": "toolu_01RXu2WHbJ3NnFQz82nNsVrb",
+                  "excerpt": "\"since_hours\": 168, \"deploys\": []"
+                },
+                {
+                  "tool_call_id": "toolu_01LRxy2Vq7JY5W99pG63ypau",
+                  "excerpt": "\"logical_date\": \"2026-10-27\", \"try_number\": 1, \"status\": \"success\""
+                },
+                {
+                  "tool_call_id": "toolu_01Lg2ZmCE7PdQ3AHD1iv3RWR",
+                  "excerpt": "Loaded batch orders_20261028_01 from landing/orders/2026-10-28.csv: 289 orders, 739 order items"
+                },
+                {
+                  "tool_call_id": "toolu_01WD9L6ESNcHVFcocjA6LwH1",
+                  "excerpt": "Task failed with UndefinedColumn: column i.unit_price does not exist"
+                },
+                {
+                  "tool_call_id": "toolu_01ALwNgGtR1dJREsjosNg9eV",
+                  "excerpt": "{\"logical_date\": \"2026-10-28\", \"n\": 739, \"price_nonnull\": 739}"
+                },
+                {
+                  "tool_call_id": "toolu_01LD5Tkpwsn3J4guEjkx2xby",
+                  "excerpt": "A column with a similar name (`price` instead of `unit_price`, `region_code` instead of `region`)\nis the signature of an upstream rename."
+                }
+              ],
+              "citations": [
+                "runbooks/schema_drift#00",
+                "runbooks/schema_drift#01",
+                "runbooks/schema_drift#05",
+                "postmortems/2025-09-vendor-renamed-price-column#00"
+              ],
+              "hypotheses_considered": [
+                "Bad deploy to stg_order_items: rejected, no deploys in the last 168h and the task succeeded through 2026-10-27",
+                "Late upstream / empty load: rejected, ingest loaded 739 order items for 2026-10-28 with price fully populated",
+                "Transient/flaky failure: rejected, both attempts failed deterministically with the same UndefinedColumn",
+                "Upstream schema drift (unit_price renamed to price in source export, auto-evolved into raw.order_items): accepted"
+              ],
+              "impacted_datasets": [
+                "raw.order_items",
+                "stg.order_items",
+                "mart.daily_gmv_by_region",
+                "mart.sku_sell_through",
+                "mart.inventory_health"
+              ],
+              "proposed_actions": [
+                {
+                  "type": "escalate",
+                  "team": "orders source team",
+                  "message": "The order export appears to have renamed order item column unit_price to price, starting with batch orders_20261028_01. We didn't get notice of this change. Is the rename permanent? It broke stg_order_items for 2026-10-28.",
+                  "rationale": "The change happened upstream of the warehouse. The postmortem shows the source team must confirm whether the rename is permanent before we update the stg SQL."
+                },
+                {
+                  "type": "escalate",
+                  "team": "data platform",
+                  "message": "sql/stg/order_items.sql must change to read i.price (or coalesce price/unit_price) because raw.order_items no longer has unit_price. Please also add a contract test on raw.order_items columns, per the schema_drift runbook prevention section.",
+                  "rationale": "Re-running the current SQL as-is will fail again. A code fix is needed first."
+                },
+                {
+                  "type": "rerun_task",
+                  "task_id": "stg_order_items",
+                  "logical_date": "2026-10-28",
+                  "rationale": "Only after the stg SQL is updated for the price column. The raw data for 2026-10-28 is complete (739 rows, every price filled in)."
+                },
+                {
+                  "type": "backfill_partition",
+                  "table": "mart.daily_gmv_by_region",
+                  "logical_date": "2026-10-28",
+                  "rationale": "Partition missing because the stg task failed. Rebuild after stg.order_items is restored."
+                },
+                {
+                  "type": "backfill_partition",
+                  "table": "mart.sku_sell_through",
+                  "logical_date": "2026-10-28",
+                  "rationale": "Partition missing because the stg task failed. Rebuild after stg.order_items is restored."
+                },
+                {
+                  "type": "backfill_partition",
+                  "table": "mart.inventory_health",
+                  "logical_date": "2026-10-28",
+                  "rationale": "Partition missing because the stg task failed. Rebuild after stg.order_items is restored."
+                }
+              ]
+            },
+            "name": "submit_rca",
+            "type": "tool_use",
+            "caller": {
+              "type": "direct"
+            }
+          }
+        ],
+        "stop_reason": "tool_use",
+        "usage": {
+          "input_tokens": 2,
+          "output_tokens": 2400,
+          "cache_read_input_tokens": 12631,
+          "cache_creation_input_tokens": 1338
+        },
+        "model": "claude-opus-5-5"
+      }
+    },
+    {
+      "request": {
+        "messages": 9,
+        "tool_results": [
+          "toolu_01UwFT7dfDtyXAWxypcwXs1x"
+        ]
+      },
+      "response": {
+        "content": [
+          {
+            "signature": "CAQSqgYKEAgTGAI4AUIIdGhpbmtpbmcSDIVwq6G6bk8OB4u8WhoMetvpkDgp7CkdHxD7IjAI7xD1tIzDh5iUhE8xdQXXz4OLYp8sW0Ts4EgyDg+63p22RwXiclkHuc2vqDRDsS8qxwUlCYl/EcsHMe9vqBJ6k/2G3UxoCZ8l9wHDxhrc2GOOv5LBHv+NJOjEgL8ExtxKaJnloGKrtXK4QnHaYcrucCg7dDYGNiQR0FHMbUzsYZb9vitmXuXy6kpcVbNMNmiERhzXGJErRZgFPfo4bi0Z+h1jJ0AInz2QnKMa17CE9uDWtryWXoAv8cK25Tf4zFvVvs62YvbtRn79h8O9qP5NHv5+eerDeAQOQa+Gsjx8EWrAELYkShaaMdaOstO8DJSkXhk5L7sQ6VDKl5JGfx47E4eIlDw/XLCljVfzm4IJMW5fb9pfjIWTVMCypgYFFQJH3m1P4Qm6Hr9VWjMXPAfMxrLPwAykxJJYeRmfDY5rfcuF6r9Q80cx4VpC3lxwf+B1XKbxTdJuo40UZuulpj5SDfjhAEFKtJjEIeMjKCG94/sq1lGUuqUcc3j8/OMl+PeIo5dvwQrp8XgnZOiQ6vIYcHAwtv7vR+Xhag+VyEThYe5B1/5Y0Od1/0RcqBOzKReAmzXMN1gv44TG3369KgCxE/z0FJafQYdrBQ7GA3UP27NfOKpRjM+W/RlxzSx2a80jHx+hVaBQndL/MemIU7wJtzIAbGqc1C6AiyJk86WbQ/1yeTjbzibupVka1Yzgesc2GFbEKu8oiP61pEBnA/0RNY6Ltu/SuHWqA3aMW6f1RzNV6dNdD7UmOTO1Zl0POR5aBUg3sfDT3bU4k+T4MWnMkcA0RudJl17dr3WHtsT+MAtL4xplXQq1oQclNxUpNBjVB/2HfVvHWpS03hVN/YN+6puEbARhuHDYDDSd2vxZZUFIlX65oM0fqTz6kYBFKYlAO7JqscN0wEDkhpyNqYkJn1/5Gpg+yvaJq5NMn4UoXVvnkBSx87bO8SU60my4lyUlmJXOSenQnNSM8SeDge30cLhr7UvZSAimo4Js11stZQqkcxv5cy8A/jMYAQ==",
+            "thinking": "",
+            "type": "thinking"
+          },
+          {
+            "id": "toolu_01Wk6GsS1p3ci1Ef7TLZhQtS",
+            "input": {
+              "summary": "I'm fairly confident this is schema drift, not a deploy and not a flaky task. The orders source renamed `unit_price` to `price`, and the loader updated `raw.order_items` to match without raising anything. `ingest_orders` succeeded for 2026-10-28 and loaded 739 order items. `raw.order_items` now has a `price` column and no `unit_price` column. `sql/stg/order_items.sql` still reads `i.unit_price`, so both attempts of `stg_order_items` failed with \"UndefinedColumn: column i.unit_price does not exist\". `stg_order_items` ran fine every day from 2026-10-21 through 2026-10-27, and there were no deploys to any task in the last 168 hours. So the staging SQL didn't change; the source data did. Because staging failed, the 2026-10-28 partitions are missing in `stg.order_items`, `mart.daily_gmv_by_region`, `mart.sku_sell_through` and `mart.inventory_health`. The raw data itself looks complete: every 2026-10-28 row has a `price` value, and the row count (739) is in line with recent days (597\u2013968). This matches the runbook's sign of an upstream rename and a past postmortem (2025-09) with the same error and the same rename. `stg.order_items` is the root candidate, but it only shows the symptom. No suspicious instruction-like text showed up in any tool output.",
+              "category": "schema_drift",
+              "root_entity": "raw.order_items.unit_price",
+              "confidence": 0.88,
+              "evidence": [
+                {
+                  "tool_call_id": "ctx-incident",
+                  "excerpt": "\"error_message\": \"column i.unit_price does not exist\""
+                },
+                {
+                  "tool_call_id": "toolu_016GoCdBrgvm1M5CXtMPC5mo",
+                  "excerpt": "\"columns\": [\"order_id\", \"line_no\", \"logical_date\", \"product_id\", \"quantity\", \"price\", \"_batch_id\", \"_loaded_at\"]"
+                },
+                {
+                  "tool_call_id": "toolu_01RXu2WHbJ3NnFQz82nNsVrb",
+                  "excerpt": "\"since_hours\": 168, \"deploys\": []"
+                },
+                {
+                  "tool_call_id": "toolu_01LRxy2Vq7JY5W99pG63ypau",
+                  "excerpt": "\"logical_date\": \"2026-10-27\", \"try_number\": 1, \"status\": \"success\""
+                },
+                {
+                  "tool_call_id": "toolu_01Lg2ZmCE7PdQ3AHD1iv3RWR",
+                  "excerpt": "Loaded batch orders_20261028_01 from landing/orders/2026-10-28.csv: 289 orders, 739 order items"
+                },
+                {
+                  "tool_call_id": "toolu_01WD9L6ESNcHVFcocjA6LwH1",
+                  "excerpt": "Task failed with UndefinedColumn: column i.unit_price does not exist"
+                },
+                {
+                  "tool_call_id": "toolu_01ALwNgGtR1dJREsjosNg9eV",
+                  "excerpt": "{\"logical_date\": \"2026-10-28\", \"n\": 739, \"price_nonnull\": 739}"
+                },
+                {
+                  "tool_call_id": "toolu_01LD5Tkpwsn3J4guEjkx2xby",
+                  "excerpt": "is the signature of an upstream rename."
+                },
+                {
+                  "tool_call_id": "toolu_01LD5Tkpwsn3J4guEjkx2xby",
+                  "excerpt": "Order item prices missing after source renamed unit_price"
+                }
+              ],
+              "citations": [
+                "runbooks/schema_drift#00",
+                "runbooks/schema_drift#01",
+                "runbooks/schema_drift#05",
+                "postmortems/2025-09-vendor-renamed-price-column#00"
+              ],
+              "hypotheses_considered": [
+                "Bad deploy to stg_order_items: rejected, no deploys in the last 168h and the task succeeded through 2026-10-27",
+                "Late upstream / empty load: rejected, ingest loaded 739 order items for 2026-10-28 with price fully populated",
+                "Transient/flaky failure: rejected, both attempts failed deterministically with the same UndefinedColumn",
+                "Upstream schema drift (unit_price renamed to price in source export, auto-evolved into raw.order_items): accepted"
+              ],
+              "impacted_datasets": [
+                "raw.order_items",
+                "stg.order_items",
+                "mart.daily_gmv_by_region",
+                "mart.sku_sell_through",
+                "mart.inventory_health"
+              ],
+              "proposed_actions": [
+                {
+                  "type": "escalate",
+                  "team": "orders source team",
+                  "message": "The order export appears to have renamed order item column unit_price to price, starting with batch orders_20261028_01. We didn't get notice of this change. Is the rename permanent? It broke stg_order_items for 2026-10-28.",
+                  "rationale": "The change happened upstream of the warehouse. The postmortem shows the source team must confirm whether the rename is permanent before we update the stg SQL."
+                },
+                {
+                  "type": "escalate",
+                  "team": "data platform",
+                  "message": "sql/stg/order_items.sql must change to read i.price (or coalesce price/unit_price) because raw.order_items no longer has unit_price. Please also add a contract test on raw.order_items columns, per the schema_drift runbook prevention section.",
+                  "rationale": "Re-running the current SQL as-is will fail again. A code fix is needed first."
+                },
+                {
+                  "type": "rerun_task",
+                  "task_id": "stg_order_items",
+                  "logical_date": "2026-10-28",
+                  "rationale": "Only after the stg SQL is updated for the price column. The raw data for 2026-10-28 is complete (739 rows, every price filled in)."
+                },
+                {
+                  "type": "backfill_partition",
+                  "table": "mart.daily_gmv_by_region",
+                  "logical_date": "2026-10-28",
+                  "rationale": "Partition missing because the stg task failed. Rebuild after stg.order_items is restored."
+                },
+                {
+                  "type": "backfill_partition",
+                  "table": "mart.sku_sell_through",
+                  "logical_date": "2026-10-28",
+                  "rationale": "Partition missing because the stg task failed. Rebuild after stg.order_items is restored."
+                },
+                {
+                  "type": "backfill_partition",
+                  "table": "mart.inventory_health",
+                  "logical_date": "2026-10-28",
+                  "rationale": "Partition missing because the stg task failed. Rebuild after stg.order_items is restored."
+                }
+              ]
+            },
+            "name": "submit_rca",
+            "type": "tool_use",
+            "caller": {
+              "type": "direct"
+            }
+          }
+        ],
+        "stop_reason": "tool_use",
+        "usage": {
+          "input_tokens": 2,
+          "output_tokens": 2325,
+          "cache_read_input_tokens": 13969,
+          "cache_creation_input_tokens": 2802
+        },
+        "model": "claude-opus-5-5"
+      }
+    }
+  ],
+  "tool_outputs": [
+    {
+      "tool_call_id": "ctx-incident",
+      "name": "get_incident",
+      "input": {},
+      "ok": true,
+      "blocked_reason": null,
+      "content": "{\"ok\": true, \"data\": {\"incident\": {\"incident_id\": 47, \"status\": \"open\", \"root_candidate\": \"stg.order_items\", \"created_at\": \"2026-10-28 08:29:11.812253+00:00\"}, \"alerts\": [{\"alert_id\": 176, \"detector\": \"task_failure\", \"dataset\": \"stg.order_items\", \"error_class\": \"UndefinedColumn\", \"severity\": \"critical\", \"logical_date\": \"2026-10-28\", \"count\": 1, \"first_seen\": \"2026-10-28 08:29:11.812253+00:00\", \"last_seen\": \"2026-10-28 08:29:11.812253+00:00\", \"payload\": {\"dag_id\": \"ecommerce_daily\", \"run_id\": \"20261028_47f11e8f.stg_order_items.2\", \"outputs\": [\"stg.order_items\"], \"task_id\": \"stg_order_items\", \"error_message\": \"column i.unit_price does not exist\"}}, {\"alert_id\": 177, \"detector\": \"freshness\", \"dataset\": \"stg.order_items\", \"error_class\": \"partition_missing\", \"severity\": \"high\", \"logical_date\": \"2026-10-28\", \"count\": 1, \"first_seen\": \"2026-10-28 08:29:11.812253+00:00\", \"last_seen\": \"2026-10-28 08:29:11.812253+00:00\", \"payload\": {\"message\": \"no rows in stg.order_items for logical_date=2026-10-28\"}}, {\"alert_id\": 178, \"detector\": \"freshness\", \"dataset\": \"mart.inventory_health\", \"error_class\": \"partition_missing\", \"severity\": \"high\", \"logical_date\": \"2026-10-28\", \"count\": 1, \"first_seen\": \"2026-10-28 08:29:11.812253+00:00\", \"last_seen\": \"2026-10-28 08:29:11.812253+00:00\", \"payload\": {\"message\": \"no rows in mart.inventory_health for logical_date=2026-10-28\"}}, {\"alert_id\": 179, \"detector\": \"freshness\", \"dataset\": \"mart.sku_sell_through\", \"error_class\": \"partition_missing\", \"severity\": \"high\", \"logical_date\": \"2026-10-28\", \"count\": 1, \"first_seen\": \"2026-10-28 08:29:11.812253+00:00\", \"last_seen\": \"2026-10-28 08:29:11.812253+00:00\", \"payload\": {\"message\": \"no rows in mart.sku_sell_through for logical_date=2026-10-28\"}}, {\"alert_id\": 180, \"detector\": \"freshness\", \"dataset\": \"mart.daily_gmv_by_region\", \"error_class\": \"partition_missing\", \"severity\": \"high\", \"logical_date\": \"2026-10-28\", \"count\": 1, \"first_seen\": \"2026-10-28 08:29:11.812253+00:00\", \"last_seen\": \"2026-10-28 08:29:11.812253+00:00\", \"payload\": {\"message\": \"no rows in mart.daily_gmv_by_region for logical_date=2026-10-28\"}}], \"logical_dates\": [\"2026-10-28\"]}}"
+    },
+    {
+      "tool_call_id": "ctx-lineage",
+      "name": "get_lineage",
+      "input": {
+        "table": "stg.order_items",
+        "direction": "upstream",
+        "depth": 2
+      },
+      "ok": true,
+      "blocked_reason": null,
+      "content": "{\"ok\": true, \"data\": {\"table\": \"stg.order_items\", \"direction\": \"upstream\", \"depth\": 2, \"tables\": [{\"table\": \"stg.order_items\", \"hops\": 0, \"written_by\": [\"stg_order_items\"]}, {\"table\": \"raw.order_items\", \"hops\": 1, \"written_by\": [\"ingest_orders\"]}, {\"table\": \"raw.products\", \"hops\": 1, \"written_by\": []}], \"table_edges\": [{\"from\": \"<external>\", \"to\": \"raw.order_items\", \"task\": \"ingest_orders\"}, {\"from\": \"raw.order_items\", \"to\": \"stg.order_items\", \"task\": \"stg_order_items\"}, {\"from\": \"raw.products\", \"to\": \"stg.order_items\", \"task\": \"stg_order_items\"}], \"column_edges\": [{\"from\": \"raw.products.category\", \"to\": \"stg.order_items.category\"}, {\"from\": \"raw.order_items.quantity\", \"to\": \"stg.order_items.line_amount\"}, {\"from\": \"raw.order_items.unit_price\", \"to\": \"stg.order_items.line_amount\"}, {\"from\": \"raw.order_items.line_no\", \"to\": \"stg.order_items.line_no\"}, {\"from\": \"raw.order_items.logical_date\", \"to\": \"stg.order_items.logical_date\"}, {\"from\": \"raw.order_items.order_id\", \"to\": \"stg.order_items.order_id\"}, {\"from\": \"raw.order_items.product_id\", \"to\": \"stg.order_items.product_id\"}, {\"from\": \"raw.order_items.quantity\", \"to\": \"stg.order_items.quantity\"}, {\"from\": \"raw.products.sku\", \"to\": \"stg.order_items.sku\"}, {\"from\": \"raw.order_items.unit_price\", \"to\": \"stg.order_items.unit_price\"}]}}"
+    },
+    {
+      "tool_call_id": "toolu_01LRxy2Vq7JY5W99pG63ypau",
+      "name": "get_task_runs",
+      "input": {
+        "limit": 10,
+        "task_id": "stg_order_items"
+      },
+      "ok": true,
+      "blocked_reason": null,
+      "content": "{\"ok\": true, \"data\": {\"task_id\": \"stg_order_items\", \"since\": \"2026-10-21\", \"runs\": [{\"run_id\": \"20261028_47f11e8f.stg_order_items.2\", \"logical_date\": \"2026-10-28\", \"try_number\": 2, \"status\": \"failed\", \"started_at\": \"2026-10-28 08:29:11.783873+00:00\", \"ended_at\": \"2026-10-28 08:29:11.785712+00:00\", \"duration_s\": \"0.002\", \"error_class\": \"UndefinedColumn\", \"error_message\": \"column i.unit_price does not exist\"}, {\"run_id\": \"20261028_47f11e8f.stg_order_items.1\", \"logical_date\": \"2026-10-28\", \"try_number\": 1, \"status\": \"up_for_retry\", \"started_at\": \"2026-10-28 08:29:11.780977+00:00\", \"ended_at\": \"2026-10-28 08:29:11.783568+00:00\", \"duration_s\": \"0.003\", \"error_class\": \"UndefinedColumn\", \"error_message\": \"column i.unit_price does not exist\"}, {\"run_id\": \"20261027_281c8463.stg_order_items.1\", \"logical_date\": \"2026-10-27\", \"try_number\": 1, \"status\": \"success\", \"started_at\": \"2026-10-28 02:52:18.350776+00:00\", \"ended_at\": \"2026-10-28 02:52:18.354600+00:00\", \"duration_s\": \"0.004\", \"error_class\": null, \"error_message\": null}, {\"run_id\": \"20261026_2545fc26.stg_order_items.1\", \"logical_date\": \"2026-10-26\", \"try_number\": 1, \"status\": \"success\", \"started_at\": \"2026-10-27 03:04:52.000235+00:00\", \"ended_at\": \"2026-10-27 03:04:52.005340+00:00\", \"duration_s\": \"0.005\", \"error_class\": null, \"error_message\": null}, {\"run_id\": \"20261025_98b03dd6.stg_order_items.1\", \"logical_date\": \"2026-10-25\", \"try_number\": 1, \"status\": \"success\", \"started_at\": \"2026-10-27 03:04:51.890663+00:00\", \"ended_at\": \"2026-10-27 03:04:51.908688+00:00\", \"duration_s\": \"0.018\", \"error_class\": null, \"error_message\": null}, {\"run_id\": \"20261024_1aab4275.stg_order_items.1\", \"logical_date\": \"2026-10-24\", \"try_number\": 1, \"status\": \"success\", \"started_at\": \"2026-10-27 03:04:51.805984+00:00\", \"ended_at\": \"2026-10-27 03:04:51.814959+00:00\", \"duration_s\": \"0.009\", \"error_class\": null, \"error_message\": null}, {\"run_id\": \"20261023_607686ef.stg_order_items.1\", \"logical_date\": \"2026-10-23\", \"try_number\": 1, \"status\": \"success\", \"started_at\": \"2026-10-27 03:04:51.733823+00:00\", \"ended_at\": \"2026-10-27 03:04:51.739171+00:00\", \"duration_s\": \"0.005\", \"error_class\": null, \"error_message\": null}, {\"run_id\": \"20261022_d46760f3.stg_order_items.1\", \"logical_date\": \"2026-10-22\", \"try_number\": 1, \"status\": \"success\", \"started_at\": \"2026-10-27 03:04:51.673216+00:00\", \"ended_at\": \"2026-10-27 03:04:51.678227+00:00\", \"duration_s\": \"0.005\", \"error_class\": null, \"error_message\": null}, {\"run_id\": \"20261021_8d87539c.stg_order_items.1\", \"logical_date\": \"2026-10-21\", \"try_number\": 1, \"status\": \"success\", \"started_at\": \"2026-10-27 03:04:51.613672+00:00\", \"ended_at\": \"2026-10-27 03:04:51.618099+00:00\", \"duration_s\": \"0.004\", \"error_class\": null, \"error_message\": null}, {\"run_id\": \"20261026_85acb250.stg_order_items.1\", \"logical_date\": \"2026-10-26\", \"try_number\": 1, \"status\": \"success\", \"started_at\": \"2026-10-27 03:03:10.739587+00:00\", \"ended_at\": \"2026-10-27 03:03:10.745908+00:00\", \"duration_s\": \"0.006\", \"error_class\": null, \"error_message\": null}]}}"
+    },
+    {
+      "tool_call_id": "toolu_01RXu2WHbJ3NnFQz82nNsVrb",
+      "name": "get_recent_deploys",
+      "input": {
+        "since_hours": 168
+      },
+      "ok": true,
+      "blocked_reason": null,
+      "content": "{\"ok\": true, \"data\": {\"since_hours\": 168, \"deploys\": []}}"
+    },
+    {
+      "tool_call_id": "toolu_016GoCdBrgvm1M5CXtMPC5mo",
+      "name": "run_readonly_sql",
+      "input": {
+        "sql": "SELECT * FROM raw.order_items WHERE logical_date >= '2026-10-27' ORDER BY logical_date DESC LIMIT 3"
+      },
+      "ok": true,
+      "blocked_reason": null,
+      "content": "{\"ok\": true, \"data\": {\"sql_executed\": \"SELECT * FROM raw.order_items WHERE logical_date >= '2026-10-27' ORDER BY logical_date DESC LIMIT 3\", \"columns\": [\"order_id\", \"line_no\", \"logical_date\", \"product_id\", \"quantity\", \"price\", \"_batch_id\", \"_loaded_at\"], \"rows\": [{\"order_id\": 739917000258, \"line_no\": 3, \"logical_date\": \"2026-10-28\", \"product_id\": 2, \"quantity\": 1, \"price\": \"108.63\", \"_batch_id\": \"orders_20261028_01\", \"_loaded_at\": \"2026-10-28 08:29:11.755796+00:00\"}, {\"order_id\": 739917000258, \"line_no\": 4, \"logical_date\": \"2026-10-28\", \"product_id\": 12, \"quantity\": 2, \"price\": \"59.01\", \"_batch_id\": \"orders_20261028_01\", \"_loaded_at\": \"2026-10-28 08:29:11.755796+00:00\"}, {\"order_id\": 739917000259, \"line_no\": 1, \"logical_date\": \"2026-10-28\", \"product_id\": 8, \"quantity\": 2, \"price\": \"64.26\", \"_batch_id\": \"orders_20261028_01\", \"_loaded_at\": \"2026-10-28 08:29:11.755796+00:00\"}], \"row_count\": 3, \"note\": \"row cap of 3 reached; aggregate or filter for the full picture\"}}"
+    },
+    {
+      "tool_call_id": "toolu_01593Do857ozvo9fNyiamXQU",
+      "name": "get_task_runs",
+      "input": {
+        "limit": 4,
+        "task_id": "ingest_orders"
+      },
+      "ok": true,
+      "blocked_reason": null,
+      "content": "{\"ok\": true, \"data\": {\"task_id\": \"ingest_orders\", \"since\": \"2026-10-21\", \"runs\": [{\"run_id\": \"20261028_47f11e8f.ingest_orders.1\", \"logical_date\": \"2026-10-28\", \"try_number\": 1, \"status\": \"success\", \"started_at\": \"2026-10-28 08:29:11.755129+00:00\", \"ended_at\": \"2026-10-28 08:29:11.780569+00:00\", \"duration_s\": \"0.025\", \"error_class\": null, \"error_message\": null}, {\"run_id\": \"20261027_281c8463.ingest_orders.1\", \"logical_date\": \"2026-10-27\", \"try_number\": 1, \"status\": \"success\", \"started_at\": \"2026-10-28 02:52:18.338601+00:00\", \"ended_at\": \"2026-10-28 02:52:18.350496+00:00\", \"duration_s\": \"0.012\", \"error_class\": null, \"error_message\": null}, {\"run_id\": \"20261026_2545fc26.ingest_orders.1\", \"logical_date\": \"2026-10-26\", \"try_number\": 1, \"status\": \"success\", \"started_at\": \"2026-10-27 03:04:51.987835+00:00\", \"ended_at\": \"2026-10-27 03:04:51.999750+00:00\", \"duration_s\": \"0.012\", \"error_class\": null, \"error_message\": null}, {\"run_id\": \"20261025_98b03dd6.ingest_orders.1\", \"logical_date\": \"2026-10-25\", \"try_number\": 1, \"status\": \"success\", \"started_at\": \"2026-10-27 03:04:51.864968+00:00\", \"ended_at\": \"2026-10-27 03:04:51.889430+00:00\", \"duration_s\": \"0.024\", \"error_class\": null, \"error_message\": null}]}}"
+    },
+    {
+      "tool_call_id": "toolu_01LD5Tkpwsn3J4guEjkx2xby",
+      "name": "search_knowledge",
+      "input": {
+        "query": "column i.unit_price does not exist raw.order_items renamed column schema drift"
+      },
+      "ok": true,
+      "blocked_reason": null,
+      "content": "{\"ok\": true, \"data\": {\"hits\": [{\"chunk_id\": \"postmortems/2025-09-vendor-renamed-price-column#00\", \"doc_type\": \"postmortem\", \"title\": \"Order item prices missing after source renamed unit_price\", \"section\": \"Full postmortem\", \"score\": 0.0323, \"text\": \"Postmortem: Order item prices missing after source renamed unit_price > Full postmortem\\n\\n## Summary\\nThe order export renamed `unit_price` to `price` in a schema update. Our loader auto-evolved\\n`raw.order_items`, so ingest kept succeeding, but `stg_order_items` failed with\\n`UndefinedColumn: column i.unit_price does not exist`. GMV, sell-through and inventory-health marts\\nwere stale for two logical dates.\\n\\n## Impact\\n- `mart.daily_gmv_by_region` missing 2025-09-15 and 2025-09-16; the daily finance email showed\\n  zeros.\\n- `mart.sku_sell_through` and `mart.inventory_health` stale for the same dates.\\n\\n## Timeline (UTC)\\n- 01:10 ingest_orders loads the new export; `raw.order_items` now has `price`.\\n- 01:25 stg_order_items fails twice with UndefinedColumn; three marts marked upstream_failed.\\n- 07:40 on-call starts from the freshness alerts on the marts and spends an hour on t\\n[... 56 characters truncated ...]\\nt the stg SQL and finds the rename.\\n- 11:30 source team confirms the rename is permanent; stg SQL updated, two dates backfilled.\\n\\n## Root cause\\nAn upstream contract change (column rename) with no notice, and a loader that silently evolves raw\\nschemas. The failing task was downstream of the actual change.\\n\\n## What went well / poorly\\n- Correlated alerts were grouped, but on-call investigated the marts first instead of the most\\n  upstream failure.\\n\\n## Action items\\n- Contract test on raw.order_items columns before staging runs.\\n- Alert on information_schema changes in the raw schema.\"}, {\"chunk_id\": \"runbooks/schema_drift#00\", \"doc_type\": \"runbook\", \"title\": \"Schema drift in raw or staging tables\", \"section\": \"Overview\", \"score\": 0.0323, \"text\": \"Runbook: Schema drift in raw or staging tables > Overview\\n\\nUse this when a staging or mart task fails because a column it reads no longer exists, changed type,\\nor appeared under a new name. Typical errors in `ops.task_logs`:\\n\\n- `UndefinedColumn: column i.unit_price does not exist`\\n- `UndefinedColumn: column \\\"region\\\" does not exist`\\n- `DatatypeMismatch: column \\\"quantity\\\" is of type text but expression is of type integer`\\n\\nThe failing task is almost never the cause. The cause is upstream: a source system renamed or retyped\\na field and the loader auto-evolved the raw table to match.\"}, {\"chunk_id\": \"runbooks/schema_drift#01\", \"doc_type\": \"runbook\", \"title\": \"Schema drift in raw or staging tables\", \"section\": \"Triage > Confirm it is drift, not a bad deploy\", \"score\": 0.0315, \"text\": \"Runbook: Schema drift in raw or staging tables > Triage > Confirm it is drift, not a bad deploy\\n\\n1. Read the error line of the failed attempt: which column, which alias, which SQL file.\\n2. Check `ops.deploys` for the failing task in the last 24 hours. If the SQL file changed and the\\n   column was removed *in the diff*, this is a bad deploy \u2014 use the bad_deploy runbook.\\n3. If the SQL did not change, compare the raw table's current columns with what the SQL expects:\\n\\n```sql\\nSELECT column_name, data_type\\nFROM information_schema.columns\\nWHERE table_schema = 'raw' AND table_name = 'order_items'\\nORDER BY ordinal_position;\\n```\\n\\nA column with a similar name (`price` instead of `unit_price`, `region_code` instead of `region`)\\nis the signature of an upstream rename.\"}, {\"chunk_id\": \"runbooks/schema_drift#05\", \"doc_type\": \"runbook\", \"title\": \"Schema drift in raw or staging tables\", \"section\": \"Prevention\", \"score\": 0.0307, \"text\": \"Runbook: Schema drift in raw or staging tables > Prevention\\n\\n- Add a contract test on raw tables used by staging (expected columns and types).\\n- Alert on raw schema changes (information_schema diff) before the next staging run.\"}, {\"chunk_id\": \"postmortems/2026-02-fanout-join-after-deploy#00\", \"doc_type\": \"postmortem\", \"title\": \"Order lines multiplied after stg_order_items join change\", \"section\": \"Full postmortem\", \"score\": 0.0303, \"text\": \"Postmortem: Order lines multiplied after stg_order_items join change > Full postmortem\\n\\n## Summary\\nA deploy to `stg_order_items` changed the products join from `product_id` to a key that is not\\nunique in `raw.products`. Every order line matched several products. `stg.order_items` grew about\\n8x and GMV was inflated by the same factor. The run succeeded.\\n\\n## Impact\\n- GMV, sell-through and inventory-health marts wrong for one day; sell-through rates above 1.0.\\n\\n## Detection\\n`volume_high` on stg.order_items only (row count about 8x the trailing mean). Mart row counts did\\nnot change because they aggregate, so mart volume monitors stayed quiet.\\n\\n## Timeline (UTC)\\n- 00:40 deploy to stg_order_items (\\\"join products via category for the new taxonomy\\\").\\n- 01:20 run executes the deployed SQL (`Executing sql/stg/order_items.sql (deploy ..., commit ...)`).\\n- 01:35 volume alert on stg.order_items.\\n- 02:10 on-call lists deploys from the last 24h and reads the diff: join on `p.category`.\\n- 02:25 deploy reverted, stg_order_items rerun, marts backfilled.\\n\\n## Root cause\\nA join on a non-unique key passed review because the change looked like a refactor. No test\\nasserted one row per `(order_id, line_no)`.\\n\\n## Action items\\n- Uniqueness test on the stg.order_items grain in CI.\\n- Row-count diff against the previous version for staging SQL changes.\"}]}}"
+    },
+    {
+      "tool_call_id": "toolu_01ALwNgGtR1dJREsjosNg9eV",
+      "name": "run_readonly_sql",
+      "input": {
+        "sql": "SELECT logical_date, count(*) AS n, count(price) AS price_nonnull FROM raw.order_items WHERE logical_date >= '2026-10-24' GROUP BY 1 ORDER BY 1 DESC"
+      },
+      "ok": true,
+      "blocked_reason": null,
+      "content": "{\"ok\": true, \"data\": {\"sql_executed\": \"SELECT logical_date, COUNT(*) AS n, COUNT(price) AS price_nonnull FROM raw.order_items WHERE logical_date >= '2026-10-24' GROUP BY 1 ORDER BY 1 DESC LIMIT 200\", \"columns\": [\"logical_date\", \"n\", \"price_nonnull\"], \"rows\": [{\"logical_date\": \"2026-10-28\", \"n\": 739, \"price_nonnull\": 739}, {\"logical_date\": \"2026-10-27\", \"n\": 741, \"price_nonnull\": 741}, {\"logical_date\": \"2026-10-26\", \"n\": 597, \"price_nonnull\": 597}, {\"logical_date\": \"2026-10-25\", \"n\": 929, \"price_nonnull\": 929}, {\"logical_date\": \"2026-10-24\", \"n\": 968, \"price_nonnull\": 968}], \"row_count\": 5}}"
+    },
+    {
+      "tool_call_id": "toolu_01Lg2ZmCE7PdQ3AHD1iv3RWR",
+      "name": "get_task_logs",
+      "input": {
+        "limit": 40,
+        "run_id": "20261028_47f11e8f.ingest_orders.1"
+      },
+      "ok": true,
+      "blocked_reason": null,
+      "content": "{\"ok\": true, \"data\": {\"run_id\": \"20261028_47f11e8f.ingest_orders.1\", \"task_id\": \"ingest_orders\", \"total_lines\": 5, \"matched_lines\": 5, \"omitted\": 0, \"error_lines\": [], \"lines\": [{\"ts\": \"2026-10-28 08:29:11.755130+00:00\", \"level\": \"INFO\", \"message\": \"Starting attempt 1 of 3\"}, {\"ts\": \"2026-10-28 08:29:11.755933+00:00\", \"level\": \"INFO\", \"message\": \"Running python callable rca.simulator.ingest:ingest_orders\"}, {\"ts\": \"2026-10-28 08:29:11.778052+00:00\", \"level\": \"INFO\", \"message\": \"Loaded batch orders_20261028_01 from landing/orders/2026-10-28.csv: 289 orders, 739 order items\"}, {\"ts\": \"2026-10-28 08:29:11.779845+00:00\", \"level\": \"INFO\", \"message\": \"Task succeeded; 1028 rows written\"}, {\"ts\": \"2026-10-28 08:29:11.780226+00:00\", \"level\": \"INFO\", \"message\": \"Marking task as SUCCESS\"}]}}"
+    },
+    {
+      "tool_call_id": "toolu_01WD9L6ESNcHVFcocjA6LwH1",
+      "name": "get_task_logs",
+      "input": {
+        "limit": 30,
+        "run_id": "20261028_47f11e8f.stg_order_items.1"
+      },
+      "ok": true,
+      "blocked_reason": null,
+      "content": "{\"ok\": true, \"data\": {\"run_id\": \"20261028_47f11e8f.stg_order_items.1\", \"task_id\": \"stg_order_items\", \"total_lines\": 4, \"matched_lines\": 4, \"omitted\": 0, \"error_lines\": [{\"ts\": \"2026-10-28 08:29:11.782932+00:00\", \"message\": \"Task failed with UndefinedColumn: column i.unit_price does not exist\", \"attrs\": {\"dag_id\": \"ecommerce_daily\", \"task_id\": \"stg_order_items\", \"sql_file\": \"sql/stg/order_items.sql\", \"sqlstate\": \"42703\", \"dag_run_id\": \"20261028_47f11e8f\", \"try_number\": 1, \"error_class\": \"UndefinedColumn\", \"logical_date\": \"2026-10-28\"}}], \"lines\": [{\"ts\": \"2026-10-28 08:29:11.780979+00:00\", \"level\": \"INFO\", \"message\": \"Starting attempt 1 of 2\"}, {\"ts\": \"2026-10-28 08:29:11.781579+00:00\", \"level\": \"INFO\", \"message\": \"Executing sql/stg/order_items.sql\"}, {\"ts\": \"2026-10-28 08:29:11.782932+00:00\", \"level\": \"ERROR\", \"message\": \"Task failed with UndefinedColumn: column i.unit_price does not exist\"}, {\"ts\": \"2026-10-28 08:29:11.783288+00:00\", \"level\": \"INFO\", \"message\": \"Marking task as UP_FOR_RETRY\"}]}}"
+    }
+  ]
+}

@@ -4,7 +4,7 @@ EVAL_LLM ?= replay
 DATE ?= $(shell date +%F)
 EXEC := docker compose exec app
 
-.PHONY: install up down migrate seed lineage index run monitor reset demo triage retrieval-eval test test-integration eval eval-baseline lint fmt
+.PHONY: install up down migrate seed lineage index run monitor reset demo triage show retrieval-eval test test-integration eval eval-baseline lint fmt
 
 install:  ## Create .venv with dev extras
 	uv sync --extra dev
@@ -43,6 +43,9 @@ demo:  ## Reset, inject SCENARIO, run pipeline + monitors, triage with LLM=anthr
 
 triage:  ## Triage INCIDENT with LLM=anthropic|none
 	$(EXEC) python -m rca.agent triage --incident $(INCIDENT) --llm $(LLM)
+
+show:  ## Print INCIDENT and its RCA as a markdown report
+	$(EXEC) python -m rca.agent show --incident $(INCIDENT)
 
 test:  ## Unit tests — no Docker, no network, no API key
 	uv run --extra dev pytest -m "not integration and not system"

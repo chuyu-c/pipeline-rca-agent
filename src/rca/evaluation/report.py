@@ -63,6 +63,9 @@ def render_markdown(
         f"median triage latency {s['median_latency_s']:.1f}s · "
         f"est. cost {_cost(s['total_cost_usd'])}"
         + (f" · skipped: {s['skipped']}" if s["skipped"] else ""),
+        "",
+        "Root entity scoring: exact match, or a column of the expected table (more specific is "
+        "accepted, coarser is not); same rule for agent and baseline.",
     ]
 
     scored = {r.scenario: r for r in results if not r.skipped}

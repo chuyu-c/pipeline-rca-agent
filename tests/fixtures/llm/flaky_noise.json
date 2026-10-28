@@ -1,0 +1,242 @@
+{
+  "label": "flaky_noise",
+  "model": "claude-opus-5-5",
+  "recorded_at": "2026-10-28T08:25:47+00:00",
+  "turns": [
+    {
+      "request": {
+        "messages": 1,
+        "tool_results": []
+      },
+      "response": {
+        "content": [
+          {
+            "signature": "CAQSwAUKEAgTGAI4AUIIdGhpbmtpbmcSDCZyM9XLLgkOSQpWERoMe+/uSf0clzMPu8AFIjAQLvGoNJl/Zv8jwEIKtDapDGy1qGeS2o22yaBJwdIh92aRNAhPPozSUpVJeHJXTh0q3QTDzVYPbH4qkHcRDpnlyNAcw69+ZhxXnVttySbaTGB6ciEQcGkb7ijtPXsl3QUC599JOGzDB9r8lI+8z8MwdfDX08zLZ8vENU3vt8UQNm17anHJfdKAzgWIM4LDYtkHocQcasnKEQvzJEIcMXAjcjhk+Trmn7IwgI+TLz4hs98RQ7R4A8KsJQya57AXbnoGenpzJlWwwgHvqWndzfESmjcXELPz1tAU6GvbuHfS+VTBLoXJHoygkValT5Y5YJZtcl7sZT+o2C+UoWiIsa2dZ95egLIy4s94xvZjJXJ2UPKlrHBq1Pgb/fiRd54oGX9c8qUXEvgKVURlhQt1vk8fwLiQN9fmVQQ+8umEES5yMIqtYE44xhdOHyoLTTbkeKwFPWlK7cmuEFUg61xYgmVLakHL+PYTNvy3Yra6Gpmj8Tx+ldFnoLWXkZxzgGLFK1Zn1Uzs6WNIeHzNYtAlpUxREqbGXRURs0DWuAJO1NWYJCC0nlLGGn4mea5p5AMi2IzyoSjYQLlsbzT8VsP2dRP6aUHkQWbblyzWGZ0UwMwc916TDGx3aiRQ+GHJxDA24MEz5pJMvi13NocZKTKsF+WbrqqBtOhr1GaiNjqgIztiisbyy2B7qVFwlnSebbFxVOn2bQ8bCHSYfqoaG32Wa6eNUGlpuaTO9FUrwAdTTIHriky1r5iXry5RonE1yVCMjl0SF8WgIAMYxjVnUdMHB096afKHmtWuh1+OYGhNnL6fGdp7LVU0A2WK7bbuWVtBDdMqP3ZfHedKh1d8i8D0cOysTAXny7AoLtErDEayyQ2VFRgB",
+            "thinking": "",
+            "type": "thinking"
+          },
+          {
+            "id": "toolu_01A427L56TwsT5uZ8cTpsrFS",
+            "input": {
+              "task_id": "ingest_orders",
+              "limit": 20
+            },
+            "name": "get_task_runs",
+            "type": "tool_use",
+            "caller": {
+              "type": "direct"
+            }
+          },
+          {
+            "id": "toolu_013fdVwJ6EA3e1CrXMXnzYez",
+            "input": {
+              "sql": "SELECT 'orders' t, logical_date, count(*) FROM raw.orders WHERE logical_date >= '2026-10-21' GROUP BY 1,2 UNION ALL SELECT 'order_items', logical_date, count(*) FROM raw.order_items WHERE logical_date >= '2026-10-21' GROUP BY 1,2 ORDER BY 1,2"
+            },
+            "name": "run_readonly_sql",
+            "type": "tool_use",
+            "caller": {
+              "type": "direct"
+            }
+          }
+        ],
+        "stop_reason": "tool_use",
+        "usage": {
+          "input_tokens": 4,
+          "output_tokens": 292,
+          "cache_read_input_tokens": 0,
+          "cache_creation_input_tokens": 5277
+        },
+        "model": "claude-opus-5-5"
+      }
+    },
+    {
+      "request": {
+        "messages": 3,
+        "tool_results": [
+          "toolu_01A427L56TwsT5uZ8cTpsrFS",
+          "toolu_013fdVwJ6EA3e1CrXMXnzYez"
+        ]
+      },
+      "response": {
+        "content": [
+          {
+            "signature": "CAQS1AYKEAgTGAI4AUIIdGhpbmtpbmcSDOpbirlh+JAYCLgzkBoMo2VvWZ0DvoI5ayAZIjASft1Fjm4bL0WnlTehxAlKo2ttBmvi/VMGk/HZyBBWf97CuPqho4KrvXN1E197HAAq8QX14fcpHBYX/juIvVCjsuF4M+akLi5dY7p0xqZDkLeclXWgqtpH1aaDcVevbol4nhcPIVjdVFryYuw3rwWJltFsA39K3xxzmeEPdu5G/Rz43xuDHAt9t63CQVK9aZe3QONmP1LHS2LeDgalSDIkm+qgZsTrFxs7TlmHlXBEEyiOqoNrPWV38eu6txgftL8ApKciAqPS2WWQVq639PIEwJYOHd+S8bIEPCgVUboz1JHg6f+clkEB3VUPfczTz5QKmpApMbM2cbq1NB0sbEhCIXFk9xDa/51X3eaZy9S1J8T/xu0mRprltKOFrorR4jFyWFhUriOcHGycubl0GmuHwSsohFHjN80miXChe3xmypeGk1ur2FIXvm5yKtYQweEwE1Ws6dbFvbvYM5rhABWNisYy9iTGPPQu3cPAgAy6Jg61hGTv1QyTgtN41Qe0kEqLWksTO4JsCeb27bL3Gau1kbr6zT8C04XvzS60ItO0c/lElYCeFZS+GaLL9vz2caJ00dvw4VX+0BIrxNUCtJxXJ02Ngze4Ro0QppOz6/Z/Con/HWqQM+xW/iFm+SMh6kfBNN0neqXexw6xozXRfRSEzgn4YwQy2VsmVZDO1m9hAQkg91VMyJoeDAJIPnu8kSQXwskZ7H4j6o+sfVRfWnIk+55CkBuDMwpKarFHg9uXAAdDtAba9Y0JJb9IVm0MQDFYi5EC1n4ITc0rxkUVIdkXXmP1NhglRQGWjoZBBixIHHuGyO9trELd5cIzNQ9db5aGrOD6vBqFFPtJYTXxanI7z9W4IcXLmF/nr2Pm/uvF1Thts8Pl2lGTXDryXE6GoxCA+2iOpUeZoyuARkeob/qCjT7SqtX5X9qPIRoZNPa8CvCJnkp6ENDLCKhITBJcV5cjh9dYuazCepUy5e36uD7CzKDRvPnksF5FdeRMdBILS8jLmdJzYS2ek0DjUKv+H+T1Si5C+dM3juGPKM9f3Q1oHdds28cH7+EjIHdgQLZyj12L96kYAQ==",
+            "thinking": "",
+            "type": "thinking"
+          },
+          {
+            "id": "toolu_013puY86jA1QkwDq9nU38yZG",
+            "input": {
+              "sql": "SELECT count(*) AS n, count(DISTINCT order_id) AS distinct_ids FROM raw.orders WHERE logical_date = '2026-10-28'"
+            },
+            "name": "run_readonly_sql",
+            "type": "tool_use",
+            "caller": {
+              "type": "direct"
+            }
+          },
+          {
+            "id": "toolu_01XzeT939j3X1UdV8kDcp3em",
+            "input": {
+              "query": "TimeoutError timed out reading landing file succeeded on retry",
+              "k": 4
+            },
+            "name": "search_knowledge",
+            "type": "tool_use",
+            "caller": {
+              "type": "direct"
+            }
+          }
+        ],
+        "stop_reason": "tool_use",
+        "usage": {
+          "input_tokens": 2,
+          "output_tokens": 258,
+          "cache_read_input_tokens": 5277,
+          "cache_creation_input_tokens": 3369
+        },
+        "model": "claude-opus-5-5"
+      }
+    },
+    {
+      "request": {
+        "messages": 5,
+        "tool_results": [
+          "toolu_013puY86jA1QkwDq9nU38yZG",
+          "toolu_01XzeT939j3X1UdV8kDcp3em"
+        ]
+      },
+      "response": {
+        "content": [
+          {
+            "id": "toolu_01CdwVx9pamRfXdrYi4DNysN",
+            "input": {
+              "summary": "This looks like a one-off transient failure, and no action is needed. The ingest_orders task for 2026-10-28 timed out on its first attempt (\"timed out reading landing/orders/2026-10-28.csv after 30s\") and succeeded when it was retried automatically. The retry loaded a normal amount of data: 289 rows into raw.orders (the previous 7 days ranged from 253 to 375) and 739 rows into raw.order_items (597 to 968). The 289 rows for 2026-10-28 have 289 distinct order_ids, so the retry did not load anything twice. In the 7-day run history, this is the only attempt that didn't succeed first time, so there is no recurring pattern. The general on-call runbook says to treat this as noise and close it, and to open a ticket only if the task retries on 3 or more days in a week. I'm not proposing any action and have low confidence in any specific root cause; the most likely explanation is a brief network or storage blip while reading the landing file. I saw no instruction-like text in the tool outputs.",
+              "category": "unknown",
+              "root_entity": "ingest_orders",
+              "confidence": 0.2,
+              "evidence": [
+                {
+                  "tool_call_id": "toolu_01A427L56TwsT5uZ8cTpsrFS",
+                  "excerpt": "\"try_number\": 1, \"status\": \"up_for_retry\", \"started_at\": \"2026-10-28 08:25:27.647142+00:00\", \"ended_at\": \"2026-10-28 08:25:27.650469+00:00\", \"duration_s\": \"0.003\", \"error_class\": \"TimeoutError\""
+                },
+                {
+                  "tool_call_id": "toolu_01A427L56TwsT5uZ8cTpsrFS",
+                  "excerpt": "\"run_id\": \"20261028_ba0ce6b6.ingest_orders.2\", \"logical_date\": \"2026-10-28\", \"try_number\": 2, \"status\": \"success\""
+                },
+                {
+                  "tool_call_id": "toolu_013fdVwJ6EA3e1CrXMXnzYez",
+                  "excerpt": "{\"t\": \"orders\", \"logical_date\": \"2026-10-28\", \"count\": 289}"
+                },
+                {
+                  "tool_call_id": "toolu_013fdVwJ6EA3e1CrXMXnzYez",
+                  "excerpt": "{\"t\": \"order_items\", \"logical_date\": \"2026-10-28\", \"count\": 739}"
+                },
+                {
+                  "tool_call_id": "toolu_013puY86jA1QkwDq9nU38yZG",
+                  "excerpt": "{\"n\": 289, \"distinct_ids\": 289}"
+                },
+                {
+                  "tool_call_id": "ctx-incident",
+                  "excerpt": "\"error_message\": \"timed out reading landing/orders/2026-10-28.csv after 30s\""
+                },
+                {
+                  "tool_call_id": "toolu_01XzeT939j3X1UdV8kDcp3em",
+                  "excerpt": "If it did, close as resolved; no remediation is needed. Report low confidence in any root cause."
+                }
+              ],
+              "citations": [
+                "runbooks/oncall_general#02"
+              ],
+              "hypotheses_considered": [
+                "Transient network/storage timeout reading the landing file (healed on retry) - most likely",
+                "Late upstream file causing a partial load - rejected: 2026-10-28 row counts are within the normal range",
+                "Duplicate load from the retry - rejected: 289 rows and 289 distinct order_ids",
+                "Recurring or worsening source problem - rejected: only one retry in the 7-day history"
+              ],
+              "impacted_datasets": [],
+              "proposed_actions": []
+            },
+            "name": "submit_rca",
+            "type": "tool_use",
+            "caller": {
+              "type": "direct"
+            }
+          }
+        ],
+        "stop_reason": "tool_use",
+        "usage": {
+          "input_tokens": 2,
+          "output_tokens": 1382,
+          "cache_read_input_tokens": 8646,
+          "cache_creation_input_tokens": 1535
+        },
+        "model": "claude-opus-5-5"
+      }
+    }
+  ],
+  "tool_outputs": [
+    {
+      "tool_call_id": "ctx-incident",
+      "name": "get_incident",
+      "input": {},
+      "ok": true,
+      "blocked_reason": null,
+      "content": "{\"ok\": true, \"data\": {\"incident\": {\"incident_id\": 41, \"status\": \"open\", \"root_candidate\": \"raw.order_items\", \"created_at\": \"2026-10-28 08:25:27.722788+00:00\"}, \"alerts\": [{\"alert_id\": 152, \"detector\": \"task_retry\", \"dataset\": \"raw.order_items\", \"error_class\": \"TimeoutError\", \"severity\": \"low\", \"logical_date\": \"2026-10-28\", \"count\": 1, \"first_seen\": \"2026-10-28 08:25:27.722788+00:00\", \"last_seen\": \"2026-10-28 08:25:27.722788+00:00\", \"payload\": {\"dag_id\": \"ecommerce_daily\", \"run_id\": \"20261028_ba0ce6b6.ingest_orders.2\", \"outputs\": [\"raw.order_items\", \"raw.orders\"], \"task_id\": \"ingest_orders\", \"attempts\": 2, \"error_message\": \"timed out reading landing/orders/2026-10-28.csv after 30s\"}}], \"logical_dates\": [\"2026-10-28\"]}}"
+    },
+    {
+      "tool_call_id": "ctx-lineage",
+      "name": "get_lineage",
+      "input": {
+        "table": "raw.order_items",
+        "direction": "upstream",
+        "depth": 2
+      },
+      "ok": true,
+      "blocked_reason": null,
+      "content": "{\"ok\": true, \"data\": {\"table\": \"raw.order_items\", \"direction\": \"upstream\", \"depth\": 2, \"tables\": [{\"table\": \"raw.order_items\", \"hops\": 0, \"written_by\": [\"ingest_orders\"]}], \"table_edges\": [{\"from\": \"<external>\", \"to\": \"raw.order_items\", \"task\": \"ingest_orders\"}], \"column_edges\": []}}"
+    },
+    {
+      "tool_call_id": "toolu_01A427L56TwsT5uZ8cTpsrFS",
+      "name": "get_task_runs",
+      "input": {
+        "limit": 20,
+        "task_id": "ingest_orders"
+      },
+      "ok": true,
+      "blocked_reason": null,
+      "content": "{\"ok\": true, \"data\": {\"task_id\": \"ingest_orders\", \"since\": \"2026-10-21\", \"runs\": [{\"run_id\": \"20261028_ba0ce6b6.ingest_orders.2\", \"logical_date\": \"2026-10-28\", \"try_number\": 2, \"status\": \"success\", \"started_at\": \"2026-10-28 08:25:27.650931+00:00\", \"ended_at\": \"2026-10-28 08:25:27.664985+00:00\", \"duration_s\": \"0.014\", \"error_class\": null, \"error_message\": null}, {\"run_id\": \"20261028_ba0ce6b6.ingest_orders.1\", \"logical_date\": \"2026-10-28\", \"try_number\": 1, \"status\": \"up_for_retry\", \"started_at\": \"2026-10-28 08:25:27.647142+00:00\", \"ended_at\": \"2026-10-28 08:25:27.650469+00:00\", \"duration_s\": \"0.003\", \"error_class\": \"TimeoutError\", \"error_message\": \"timed out reading landing/orders/2026-10-28.csv after 30s\"}, {\"run_id\": \"20261027_281c8463.ingest_orders.1\", \"logical_date\": \"2026-10-27\", \"try_number\": 1, \"status\": \"success\", \"started_at\": \"2026-10-28 02:52:18.338601+00:00\", \"ended_at\": \"2026-10-28 02:52:18.350496+00:00\", \"duration_s\": \"0.012\", \"error_class\": null, \"error_message\": null}, {\"run_id\": \"20261026_2545fc26.ingest_orders.1\", \"logical_date\": \"2026-10-26\", \"try_number\": 1, \"status\": \"success\", \"started_at\": \"2026-10-27 03:04:51.987835+00:00\", \"ended_at\": \"2026-10-27 03:04:51.999750+00:00\", \"duration_s\": \"0.012\", \"error_class\": null, \"error_message\": null}, {\"run_id\": \"20261025_98b03dd6.ingest_orders.1\", \"logical_date\": \"2026-10-25\", \"try_number\": 1, \"status\": \"success\", \"started_at\": \"2026-10-27 03:04:51.864968+00:00\", \"ended_at\": \"2026-10-27 03:04:51.889430+00:00\", \"duration_s\": \"0.024\", \"error_class\": null, \"error_message\": null}, {\"run_id\": \"20261024_1aab4275.ingest_orders.1\", \"logical_date\": \"2026-10-24\", \"try_number\": 1, \"status\": \"success\", \"started_at\": \"2026-10-27 03:04:51.786066+00:00\", \"ended_at\": \"2026-10-27 03:04:51.805513+00:00\", \"duration_s\": \"0.019\", \"error_class\": null, \"error_message\": null}, {\"run_id\": \"20261023_607686ef.ingest_orders.1\", \"logical_date\": \"2026-10-23\", \"try_number\": 1, \"status\": \"success\", \"started_at\": \"2026-10-27 03:04:51.720043+00:00\", \"ended_at\": \"2026-10-27 03:04:51.733500+00:00\", \"duration_s\": \"0.013\", \"error_class\": null, \"error_message\": null}, {\"run_id\": \"20261022_d46760f3.ingest_orders.1\", \"logical_date\": \"2026-10-22\", \"try_number\": 1, \"status\": \"success\", \"started_at\": \"2026-10-27 03:04:51.659399+00:00\", \"ended_at\": \"2026-10-27 03:04:51.672869+00:00\", \"duration_s\": \"0.013\", \"error_class\": null, \"error_message\": null}, {\"run_id\": \"20261021_8d87539c.ingest_orders.1\", \"logical_date\": \"2026-10-21\", \"try_number\": 1, \"status\": \"success\", \"started_at\": \"2026-10-27 03:04:51.601776+00:00\", \"ended_at\": \"2026-10-27 03:04:51.613325+00:00\", \"duration_s\": \"0.012\", \"error_class\": null, \"error_message\": null}, {\"run_id\": \"20261026_85acb250.ingest_orders.1\", \"logical_date\": \"2026-10-26\", \"try_number\": 1, \"status\": \"success\", \"started_at\": \"2026-10-27 03:03:10.726851+00:00\", \"ended_at\": \"2026-10-27 03:03:10.738920+00:00\", \"duration_s\": \"0.012\", \"error_class\": null, \"error_message\": null}, {\"run_id\": \"20261026_19a22dc7.ingest_orders.1\", \"logical_date\": \"2026-10-26\", \"try_number\": 1, \"status\": \"success\", \"started_at\": \"2026-10-27 03:03:10.163061+00:00\", \"ended_at\": \"2026-10-27 03:03:10.177523+00:00\", \"duration_s\": \"0.014\", \"error_class\": null, \"error_message\": null}, {\"run_id\": \"20261025_6322cdf3.ingest_orders.1\", \"logical_date\": \"2026-10-25\", \"try_number\": 1, \"status\": \"success\", \"started_at\": \"2026-10-27 03:03:10.075700+00:00\", \"ended_at\": \"2026-10-27 03:03:10.089379+00:00\", \"duration_s\": \"0.014\", \"error_class\": null, \"error_message\": null}, {\"run_id\": \"20261024_45f0d2c3.ingest_orders.1\", \"logical_date\": \"2026-10-24\", \"try_number\": 1, \"status\": \"success\", \"started_at\": \"2026-10-27 03:03:09.967521+00:00\", \"ended_at\": \"2026-10-27 03:03:09.986613+00:00\", \"duration_s\": \"0.019\", \"error_class\": null, \"error_message\": null}, {\"run_id\": \"20261023_31f44c30.ingest_orders.1\", \"logical_date\": \"2026-10-23\", \"try_number\": 1, \"status\": \"success\", \"started_at\": \"2026-10-27 03:03:09.869371+00:00\", \"ended_at\": \"2026-10-27 03:03:09.886709+00:00\", \"duration_s\": \"0.017\", \"error_class\": null, \"error_message\": null}, {\"run_id\": \"20261022_16c16ecb.ingest_orders.1\", \"logical_date\": \"2026-10-22\", \"try_number\": 1, \"status\": \"success\", \"started_at\": \"2026-10-27 03:03:09.783253+00:00\", \"ended_at\": \"2026-10-27 03:03:09.797617+00:00\", \"duration_s\": \"0.014\", \"error_class\": null, \"error_message\": null}, {\"run_id\": \"20261021_43133682.ingest_orders.1\", \"logical_date\": \"2026-10-21\", \"try_number\": 1, \"status\": \"success\", \"started_at\": \"2026-10-27 03:03:09.707948+00:00\", \"ended_at\": \"2026-10-27 03:03:09.720733+00:00\", \"duration_s\": \"0.013\", \"error_class\": null, \"error_message\": null}]}}"
+    },
+    {
+      "tool_call_id": "toolu_013fdVwJ6EA3e1CrXMXnzYez",
+      "name": "run_readonly_sql",
+      "input": {
+        "sql": "SELECT 'orders' t, logical_date, count(*) FROM raw.orders WHERE logical_date >= '2026-10-21' GROUP BY 1,2 UNION ALL SELECT 'order_items', logical_date, count(*) FROM raw.order_items WHERE logical_date >= '2026-10-21' GROUP BY 1,2 ORDER BY 1,2"
+      },
+      "ok": true,
+      "blocked_reason": null,
+      "content": "{\"ok\": true, \"data\": {\"sql_executed\": \"SELECT 'orders' AS t, logical_date, COUNT(*) FROM raw.orders WHERE logical_date >= '2026-10-21' GROUP BY 1, 2 UNION ALL SELECT 'order_items', logical_date, COUNT(*) FROM raw.order_items WHERE logical_date >= '2026-10-21' GROUP BY 1, 2 ORDER BY 1, 2 LIMIT 200\", \"columns\": [\"t\", \"logical_date\", \"count\"], \"rows\": [{\"t\": \"order_items\", \"logical_date\": \"2026-10-21\", \"count\": 753}, {\"t\": \"order_items\", \"logical_date\": \"2026-10-22\", \"count\": 832}, {\"t\": \"order_items\", \"logical_date\": \"2026-10-23\", \"count\": 886}, {\"t\": \"order_items\", \"logical_date\": \"2026-10-24\", \"count\": 968}, {\"t\": \"order_items\", \"logical_date\": \"2026-10-25\", \"count\": 929}, {\"t\": \"order_items\", \"logical_date\": \"2026-10-26\", \"count\": 597}, {\"t\": \"order_items\", \"logical_date\": \"2026-10-27\", \"count\": 741}, {\"t\": \"order_items\", \"logical_date\": \"2026-10-28\", \"count\": 739}, {\"t\": \"orders\", \"logical_date\": \"2026-10-21\", \"count\": 299}, {\"t\": \"orders\", \"logical_date\": \"2026-10-22\", \"count\": 329}, {\"t\": \"orders\", \"logical_date\": \"2026-10-23\", \"count\": 351}, {\"t\": \"orders\", \"logical_date\": \"2026-10-24\", \"count\": 375}, {\"t\": \"orders\", \"logical_date\": \"2026-10-25\", \"count\": 367}, {\"t\": \"orders\", \"logical_date\": \"2026-10-26\", \"count\": 253}, {\"t\": \"orders\", \"logical_date\": \"2026-10-27\", \"count\": 287}, {\"t\": \"orders\", \"logical_date\": \"2026-10-28\", \"count\": 289}], \"row_count\": 16}}"
+    },
+    {
+      "tool_call_id": "toolu_013puY86jA1QkwDq9nU38yZG",
+      "name": "run_readonly_sql",
+      "input": {
+        "sql": "SELECT count(*) AS n, count(DISTINCT order_id) AS distinct_ids FROM raw.orders WHERE logical_date = '2026-10-28'"
+      },
+      "ok": true,
+      "blocked_reason": null,
+      "content": "{\"ok\": true, \"data\": {\"sql_executed\": \"SELECT COUNT(*) AS n, COUNT(DISTINCT order_id) AS distinct_ids FROM raw.orders WHERE logical_date = '2026-10-28' LIMIT 200\", \"columns\": [\"n\", \"distinct_ids\"], \"rows\": [{\"n\": 289, \"distinct_ids\": 289}], \"row_count\": 1}}"
+    },
+    {
+      "tool_call_id": "toolu_01XzeT939j3X1UdV8kDcp3em",
+      "name": "search_knowledge",
+      "input": {
+        "k": 4,
+        "query": "TimeoutError timed out reading landing file succeeded on retry"
+      },
+      "ok": true,
+      "blocked_reason": null,
+      "content": "{\"ok\": true, \"data\": {\"hits\": [{\"chunk_id\": \"runbooks/oncall_general#02\", \"doc_type\": \"runbook\", \"title\": \"General data on-call guide\", \"section\": \"Transient failures that heal on retry\", \"score\": 0.0328, \"text\": \"Runbook: General data on-call guide > Transient failures that heal on retry\\n\\nA task that fails once and succeeds on retry (`up_for_retry` then `success`) with a network or\\ntimeout error \u2014 `TimeoutError: timed out reading landing/orders/2026-03-10.csv after 30s`,\\nconnection reset \u2014 is usually noise:\\n- Verify the successful attempt loaded a normal row count.\\n- If it did, close as resolved; no remediation is needed. Report low confidence in any root cause.\\n- Open a ticket only if the same task retries on three or more days in a week; that pattern points\\n  at a degrading source or network path.\"}, {\"chunk_id\": \"runbooks/resource#03\", \"doc_type\": \"runbook\", \"title\": \"Resource exhaustion and statement timeouts\", \"section\": \"Triage > Retry pattern\", \"score\": 0.0323, \"text\": \"Runbook: Resource exhaustion and statement timeouts > Triage > Retry pattern\\n\\n`up_for_retry` then `failed` with the same error and similar duration on each attempt means the\\nfailure is deterministic. Transient infra errors look different (connection resets, varying\\ndurations) \u2014 see the general on-call runbook.\"}, {\"chunk_id\": \"runbooks/resource#00\", \"doc_type\": \"runbook\", \"title\": \"Resource exhaustion and statement timeouts\", \"section\": \"Overview\", \"score\": 0.0304, \"text\": \"Runbook: Resource exhaustion and statement timeouts > Overview\\n\\nUse this when tasks fail with `QueryCanceled: canceling statement due to statement timeout`, run\\nout of memory or disk, or retry repeatedly with the same timeout. Each task runs with its own\\n`statement_timeout`; retries use the same limit, so a deterministic timeout fails every attempt.\"}, {\"chunk_id\": \"runbooks/late_upstream#03\", \"doc_type\": \"runbook\", \"title\": \"Late or missing upstream data\", \"section\": \"Remediation\", \"score\": 0.0301, \"text\": \"Runbook: Late or missing upstream data > Remediation\\n\\n- If the file lands later, `rerun_task` the ingest task for that logical_date; downstream tasks\\n  overwrite their partitions on the next run (`backfill_partition` for each affected mart).\\n- If the delay is beyond the SLA, `escalate` to the source owner with the missing path and date.\\n- Do not quarantine downstream marts for a late feed: empty partitions are already obviously\\n  incomplete. Do annotate dashboards that read `mart.inventory_health`.\"}]}}"
+    }
+  ]
+}

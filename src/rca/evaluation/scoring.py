@@ -28,6 +28,15 @@ def normalize_entity(entity: str) -> str:
     return e.strip()
 
 
+def root_matches(predicted: str, truth: str) -> bool:
+    """Exact match, or more specific within the truth: a column of the truth table counts
+    (`raw.order_items.unit_price` for `raw.order_items`). Coarser answers don't (`raw.orders` for
+    `raw.orders.region`). Applied identically to the agent and the baseline."""
+    p, t = normalize_entity(predicted), normalize_entity(truth)
+    is_table = t.count(".") == 1 and ":" not in t
+    return p == t or (is_table and p.startswith(t + ".") and p.count(".") == 2)
+
+
 def citation_docs(citations: list[str]) -> list[str]:
     """Chunk ids ('runbooks/x#02') to document ids, first-cited first."""
     return dedupe(c.split("#", 1)[0] for c in citations)
@@ -75,7 +84,7 @@ class ScenarioResult:
 
     @property
     def root_ok(self) -> bool:
-        return normalize_entity(self.root_entity) == normalize_entity(self.truth_root)
+        return root_matches(self.root_entity, self.truth_root)
 
     @property
     def citation_recall(self) -> float:

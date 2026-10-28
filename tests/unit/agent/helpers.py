@@ -55,13 +55,15 @@ class FakeFallback:
         )  # fmt: skip
 
 
-def valid_report(evidence_id: str = "toolu_1") -> dict[str, Any]:
+def valid_report(
+    evidence_id: str = "toolu_1", excerpt: str = "unit_price does not exist"
+) -> dict[str, Any]:
     return {
         "summary": "raw.order_items.unit_price was renamed upstream.",
         "category": "schema_drift",
         "root_entity": "raw.order_items",
         "confidence": 0.85,
-        "evidence": [{"tool_call_id": evidence_id, "excerpt": "column i.unit_price missing"}],
+        "evidence": [{"tool_call_id": evidence_id, "excerpt": excerpt}],
         "citations": ["runbooks/schema_drift#01"],
         "impacted_datasets": ["stg.order_items"],
         "proposed_actions": [
