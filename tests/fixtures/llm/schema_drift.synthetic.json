@@ -1,0 +1,179 @@
+{
+  "label": "schema_drift (SYNTHETIC: hand-written in the recording format, not a live model run)",
+  "model": "synthetic",
+  "recorded_at": "2026-10-28T00:00:00+00:00",
+  "turns": [
+    {
+      "request": {
+        "messages": 1,
+        "tool_results": []
+      },
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "stg_order_items failed with UndefinedColumn. Checking whether this is new."
+          },
+          {
+            "type": "tool_use",
+            "id": "toolu_s1",
+            "name": "get_task_runs",
+            "input": {
+              "task_id": "stg_order_items"
+            }
+          }
+        ],
+        "stop_reason": "tool_use",
+        "model": "synthetic",
+        "usage": {
+          "input_tokens": 1800,
+          "output_tokens": 220,
+          "cache_read_input_tokens": 0,
+          "cache_creation_input_tokens": 0
+        }
+      }
+    },
+    {
+      "request": {
+        "messages": 3,
+        "tool_results": [
+          "toolu_s1"
+        ]
+      },
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "First failure today, after a clean history. Checking the source table's columns and lineage."
+          },
+          {
+            "type": "tool_use",
+            "id": "toolu_s2",
+            "name": "get_lineage",
+            "input": {
+              "table": "stg.order_items",
+              "direction": "upstream",
+              "depth": 1
+            }
+          },
+          {
+            "type": "tool_use",
+            "id": "toolu_s3",
+            "name": "run_readonly_sql",
+            "input": {
+              "sql": "SELECT * FROM raw.order_items LIMIT 1"
+            }
+          }
+        ],
+        "stop_reason": "tool_use",
+        "model": "synthetic",
+        "usage": {
+          "input_tokens": 1800,
+          "output_tokens": 220,
+          "cache_read_input_tokens": 0,
+          "cache_creation_input_tokens": 0
+        }
+      }
+    },
+    {
+      "request": {
+        "messages": 5,
+        "tool_results": [
+          "toolu_s2",
+          "toolu_s3"
+        ]
+      },
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "raw.order_items now has `price` instead of `unit_price`. Looking for the runbook."
+          },
+          {
+            "type": "tool_use",
+            "id": "toolu_s4",
+            "name": "search_knowledge",
+            "input": {
+              "query": "UndefinedColumn column does not exist source renamed column",
+              "k": 3
+            }
+          }
+        ],
+        "stop_reason": "tool_use",
+        "model": "synthetic",
+        "usage": {
+          "input_tokens": 1800,
+          "output_tokens": 220,
+          "cache_read_input_tokens": 0,
+          "cache_creation_input_tokens": 0
+        }
+      }
+    },
+    {
+      "request": {
+        "messages": 7,
+        "tool_results": [
+          "toolu_s4"
+        ]
+      },
+      "response": {
+        "content": [
+          {
+            "type": "tool_use",
+            "id": "toolu_s5",
+            "name": "submit_rca",
+            "input": {
+              "summary": "The orders source renamed order_items.unit_price to price and the loader evolved raw.order_items to match. stg_order_items still selects i.unit_price and fails with UndefinedColumn; the three marts built from it were skipped.",
+              "category": "schema_drift",
+              "root_entity": "raw.order_items",
+              "confidence": 0.85,
+              "evidence": [
+                {
+                  "tool_call_id": "toolu_s1",
+                  "excerpt": "column i.unit_price does not exist"
+                },
+                {
+                  "tool_call_id": "toolu_s3",
+                  "excerpt": "\"price\""
+                },
+                {
+                  "tool_call_id": "toolu_s2",
+                  "excerpt": "raw.order_items.unit_price"
+                }
+              ],
+              "citations": [
+                "runbooks/schema_drift#01"
+              ],
+              "impacted_datasets": [
+                "stg.order_items",
+                "mart.daily_gmv_by_region",
+                "mart.sku_sell_through",
+                "mart.inventory_health"
+              ],
+              "proposed_actions": [
+                {
+                  "type": "escalate",
+                  "team": "orders source team",
+                  "message": "order_items.unit_price was renamed to price; confirm whether permanent",
+                  "rationale": "contract change upstream; do not patch staging during the incident"
+                }
+              ],
+              "hypotheses_considered": [
+                "bad deploy to stg_order_items (no recent deploys)",
+                "schema drift in raw.order_items"
+              ]
+            }
+          }
+        ],
+        "stop_reason": "tool_use",
+        "model": "synthetic",
+        "usage": {
+          "input_tokens": 2600,
+          "output_tokens": 480,
+          "cache_read_input_tokens": 1800,
+          "cache_creation_input_tokens": 0
+        }
+      }
+    }
+  ]
+}
