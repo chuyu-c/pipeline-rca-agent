@@ -44,7 +44,10 @@ class Settings(BaseSettings):
     max_tokens: int = Field(default=60_000, gt=0)
 
     # Retrieval (DESIGN §7).
+    oncall_dir: Path = Path("oncall")
+    embedder: Literal["fastembed", "hash"] = "fastembed"
     embedding_model: str = "BAAI/bge-small-en-v1.5"
+    embedding_cache_dir: Path | None = None  # fastembed model cache; default: a temp dir
 
     log_level: Literal["DEBUG", "INFO", "WARNING", "ERROR"] = "INFO"
 
