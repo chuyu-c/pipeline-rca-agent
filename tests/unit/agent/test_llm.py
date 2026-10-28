@@ -122,6 +122,19 @@ def test_server_fallbacks_can_be_disabled() -> None:
     assert fake.messages.kwargs["fallbacks"] is anthropic.omit
 
 
+def test_missing_credentials_become_an_llm_error_so_triage_falls_back() -> None:
+    error = TypeError('"Could not resolve authentication method. Expected one of api_key, ..."')
+    client = AnthropicClient("m", client=FakeAnthropic(error))  # type: ignore[arg-type]
+    with pytest.raises(LLMError, match="no Anthropic credentials"):
+        client.complete(system="s", messages=[], tools=[], max_tokens=1)
+
+
+def test_other_type_errors_are_not_swallowed() -> None:
+    client = AnthropicClient("m", client=FakeAnthropic(TypeError("bad argument")))  # type: ignore[arg-type]
+    with pytest.raises(TypeError, match="bad argument"):
+        client.complete(system="s", messages=[], tools=[], max_tokens=1)
+
+
 def test_api_errors_become_llm_errors() -> None:
     error = anthropic.APIConnectionError(request=httpx2.Request("POST", "https://api.invalid"))
     client = AnthropicClient("m", client=FakeAnthropic(error))  # type: ignore[arg-type]

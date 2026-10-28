@@ -137,6 +137,13 @@ class AnthropicClient:
             )
         except anthropic.APIError as exc:
             raise LLMError(f"{type(exc).__name__}: {exc}") from exc
+        except TypeError as exc:
+            # The SDK raises TypeError (not an APIError) when no credentials resolve at all.
+            if "authentication" not in str(exc).lower():
+                raise
+            raise LLMError(
+                "no Anthropic credentials (set ANTHROPIC_API_KEY in .env, or use LLM=none)"
+            ) from exc
         usage = response.usage
         return LLMResponse(
             content=[
