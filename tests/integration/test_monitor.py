@@ -4,13 +4,11 @@ from pathlib import Path
 import pytest
 
 from rca.db import connect
-from rca.lineage.build import build_all, load_edges, save_edges, warehouse_schema
-from rca.lineage.graph import LineageGraph
 from rca.monitor.config import load_config
-from rca.monitor.detectors import AlertCandidate, run_detectors
+from rca.monitor.detectors import AlertCandidate
 from rca.monitor.ingest import IngestResult
-from rca.monitor.store import ingest_all
-from tests.integration.conftest import DAG_PATH, ScratchDb, run_on, subdag
+from rca.monitor.store import run_monitors
+from tests.integration.conftest import ScratchDb, build_lineage, run_on, subdag
 
 pytestmark = pytest.mark.integration
 
@@ -24,17 +22,13 @@ def monitor(
     db: ScratchDb, logical_date: date, now: datetime
 ) -> list[tuple[AlertCandidate, IngestResult]]:
     with connect(db.app_url, autocommit=True) as conn:
-        graph = LineageGraph(load_edges(conn))
-        candidates = run_detectors(conn, load_config(CONFIG), graph, logical_date)
-        return ingest_all(conn, candidates, graph, now)
+        return run_monitors(conn, load_config(CONFIG), logical_date, now)
 
 
 @pytest.fixture
 def warehouse(test_db: ScratchDb) -> ScratchDb:
     """Scratch DB with lineage and HEALTHY_DAYS of clean partitions."""
-    with connect(test_db.app_url, autocommit=True) as conn:
-        results = build_all(DAG_PATH.parent, warehouse_schema(conn))
-        save_edges(conn, [e for r in results for e in r.edges])
+    build_lineage(test_db)
     for offset in range(HEALTHY_DAYS):
         assert run_on(test_db, START + timedelta(days=offset)).ok
     return test_db

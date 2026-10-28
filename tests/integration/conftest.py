@@ -5,6 +5,7 @@ Needs `make up` (Postgres reachable at RCA_ADMIN_DATABASE_URL).
 
 import uuid
 from collections.abc import Callable, Iterator
+from contextlib import contextmanager
 from dataclasses import dataclass
 from datetime import date
 from pathlib import Path
@@ -16,6 +17,7 @@ from psycopg.conninfo import make_conninfo
 from rca.config import get_settings
 from rca.db import connect
 from rca.db.migrate import apply_migrations
+from rca.lineage.build import build_all, save_edges, warehouse_schema
 from rca.simulator.dag import Dag, Task, load_dag
 from rca.simulator.ingest import load_products
 from rca.simulator.runner import DagRunResult, PgExecutor, PgRunStore, run_dag
@@ -60,8 +62,9 @@ class ScratchDb:
     readonly_url: str
 
 
-@pytest.fixture
-def test_db() -> Iterator[ScratchDb]:
+@contextmanager
+def scratch_database() -> Iterator[ScratchDb]:
+    """A fresh migrated database with products loaded; dropped on exit."""
     settings = get_settings()
     name = f"rca_test_{uuid.uuid4().hex[:8]}"
     with connect(settings.admin_database_url, autocommit=True) as admin:
@@ -82,3 +85,15 @@ def test_db() -> Iterator[ScratchDb]:
             admin.execute(
                 sql.SQL("DROP DATABASE IF EXISTS {} WITH (FORCE)").format(sql.Identifier(name))
             )
+
+
+@pytest.fixture
+def test_db() -> Iterator[ScratchDb]:
+    with scratch_database() as db:
+        yield db
+
+
+def build_lineage(db: ScratchDb) -> None:
+    with connect(db.app_url, autocommit=True) as conn:
+        results = build_all(DAG_PATH.parent, warehouse_schema(conn))
+        save_edges(conn, [e for r in results for e in r.edges])
