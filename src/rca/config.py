@@ -32,6 +32,9 @@ class Settings(BaseSettings):
     # Monitors (DESIGN §5.1).
     monitors_config: Path = Path("monitors/datasets.yaml")
 
+    # Fault scenarios with ground truth (DESIGN §10).
+    scenarios_dir: Path = Path("eval/scenarios")
+
     # LLM. The key uses the Anthropic SDK's conventional, unprefixed env var.
     anthropic_api_key: SecretStr | None = Field(default=None, validation_alias="ANTHROPIC_API_KEY")
     model: str = "claude-sonnet-5-5"

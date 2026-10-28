@@ -2,7 +2,7 @@ SCENARIO ?= schema_drift
 DATE ?= $(shell date +%F)
 EXEC := docker compose exec app
 
-.PHONY: install up down migrate seed lineage run monitor demo test test-integration eval lint fmt
+.PHONY: install up down migrate seed lineage run monitor reset demo test test-integration eval lint fmt
 
 install:  ## Create .venv with dev extras
 	uv sync --extra dev
@@ -29,8 +29,11 @@ run:  ## Run the daily DAG for DATE (default: today)
 monitor:  ## Run detectors for DATE and ingest alerts into incidents
 	$(EXEC) python -m rca.monitor run --date $(DATE)
 
-demo:  ## Inject SCENARIO, run pipelines, triage, print RCA
-	@echo "make demo SCENARIO=$(SCENARIO): not implemented yet (Phase 4/7)" && exit 1
+reset:  ## Undo all fault scenarios and resolve open incidents
+	$(EXEC) python -m rca.faults reset --date $(DATE)
+
+demo:  ## Reset, inject SCENARIO, run the pipeline and monitors, print the incident (triage: Phase 7)
+	$(EXEC) python -m rca.faults demo $(SCENARIO) --date $(DATE)
 
 test:  ## Unit tests — no Docker, no network, no API key
 	uv run --extra dev pytest -m "not integration and not system"
