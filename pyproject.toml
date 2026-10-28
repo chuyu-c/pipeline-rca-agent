@@ -46,7 +46,8 @@ select = ["E", "F", "W", "I", "B", "UP", "SIM", "RUF", "T20"]
 # CLIs may print; everything else uses structured logging.
 "**/__main__.py" = ["T20"]
 "**/cli.py" = ["T20"]
-"src/rca/faults/demo.py" = ["T20"]  # backs `make demo`; its output is the product
+"src/rca/faults/demo.py" = ["T20"]
+"eval/*.py" = ["T20"]  # eval scripts are CLIs  # backs `make demo`; its output is the product
 
 [tool.ruff.lint.isort]
 known-first-party = ["rca"]

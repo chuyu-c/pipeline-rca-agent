@@ -22,9 +22,14 @@ services:
       RCA_DATABASE_URL: postgresql://rca_app:rca_app@db:5432/${POSTGRES_DB}
       RCA_READONLY_DATABASE_URL: postgresql://rca_readonly:rca_readonly@db:5432/${POSTGRES_DB}
       RCA_ADMIN_DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+      RCA_EMBEDDING_CACHE_DIR: /models
+    volumes:
+      - models:/models                       # fastembed model, downloaded once
+      - ./eval/reports:/app/eval/reports     # eval reports land on the host
     depends_on:
       db:
         condition: service_healthy
 
 volumes:
   pgdata:
+  models:

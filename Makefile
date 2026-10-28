@@ -2,7 +2,7 @@ SCENARIO ?= schema_drift
 DATE ?= $(shell date +%F)
 EXEC := docker compose exec app
 
-.PHONY: install up down migrate seed lineage run monitor reset demo test test-integration eval lint fmt
+.PHONY: install up down migrate seed lineage index run monitor reset demo retrieval-eval test test-integration eval lint fmt
 
 install:  ## Create .venv with dev extras
 	uv sync --extra dev
@@ -16,9 +16,13 @@ down:  ## Stop the stack
 migrate:  ## Apply pending SQL migrations (schemas, roles, tables)
 	$(EXEC) python -m rca.db migrate
 
-seed: migrate  ## Create schemas/roles, load synthetic data, build lineage (knowledge: Phase 5)
+seed: migrate  ## Create schemas/roles, load synthetic data, build lineage, index knowledge
 	$(EXEC) python -m rca.simulator seed --days 14 --end-date $(DATE)
 	$(EXEC) python -m rca.lineage build
+	$(EXEC) python -m rca.knowledge index
+
+index:  ## Rebuild the knowledge base (kb.chunks) from oncall/
+	$(EXEC) python -m rca.knowledge index
 
 lineage:  ## Rebuild lineage.edges from DAG SQL
 	$(EXEC) python -m rca.lineage build
@@ -41,14 +45,17 @@ test:  ## Unit tests — no Docker, no network, no API key
 test-integration:  ## Needs `make up`
 	uv run --extra dev pytest -m integration
 
+retrieval-eval:  ## recall@k / MRR per scenario for vector, keyword, hybrid -> eval/reports/retrieval.md
+	$(EXEC) python eval/retrieval_eval.py
+
 eval:  ## Run all scenarios, write eval/reports/latest.md
 	@echo "make eval: not implemented yet (Phase 9)" && exit 1
 
 lint:  ## ruff + mypy
-	uv run --extra dev ruff check src tests
-	uv run --extra dev ruff format --check src tests
+	uv run --extra dev ruff check src tests eval
+	uv run --extra dev ruff format --check src tests eval
 	uv run --extra dev mypy
 
 fmt:  ## Auto-format and fix lint
-	uv run --extra dev ruff format src tests
-	uv run --extra dev ruff check --fix src tests
+	uv run --extra dev ruff format src tests eval
+	uv run --extra dev ruff check --fix src tests eval
