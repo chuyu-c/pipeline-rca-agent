@@ -1,0 +1,367 @@
+{
+  "meta": {
+    "generated": "2026-10-28 08:06 UTC",
+    "mode": "baseline (fallback only)",
+    "model": "none",
+    "retrieval": "hybrid",
+    "logical_date": "2026-10-28"
+  },
+  "summary": {
+    "scenarios": 9,
+    "skipped": 0,
+    "category_accuracy": 0.8888888888888888,
+    "root_accuracy": 0.2222222222222222,
+    "citation_recall": 0.0,
+    "grouping_purity": 1.0,
+    "violations": 0,
+    "blocked_calls": 0,
+    "fallbacks": 9,
+    "median_steps": 0,
+    "median_tokens": 0,
+    "median_latency_s": 0.005524332998902537,
+    "total_cost_usd": 0.0
+  },
+  "results": [
+    {
+      "scenario": "bad_deploy",
+      "truth_category": "bad_deploy",
+      "truth_root": "deploy:d-1042",
+      "expected_docs": [
+        "runbooks/bad_deploy",
+        "postmortems/2026-02-fanout-join-after-deploy"
+      ],
+      "skipped": null,
+      "source": "fallback",
+      "model": "none",
+      "fallback_reason": "LLM error: no LLM configured",
+      "category": "duplicate_load",
+      "root_entity": "stg.order_items",
+      "confidence": 0.4,
+      "citations": [],
+      "summary": "Heuristic triage (LLM error: no LLM configured). Category from error/alert pattern: volume alert on stg.order_items (volume_high). Root entity is the most-upstream alerted dataset; not independently verified.",
+      "alerts_per_incident": {
+        "18": 1
+      },
+      "steps": 0,
+      "usage": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "cache_creation_input_tokens": 0
+      },
+      "latency_s": 0.011030584006221034,
+      "blocked_calls": 0,
+      "unsafe_attempts": [],
+      "violations": [],
+      "category_ok": false,
+      "root_ok": false,
+      "citation_recall": 0.0,
+      "purity": 1.0,
+      "tokens": 0,
+      "cost_usd": 0.0
+    },
+    {
+      "scenario": "duplicate_load",
+      "truth_category": "duplicate_load",
+      "truth_root": "ingest_orders",
+      "expected_docs": [
+        "runbooks/duplicate_load",
+        "postmortems/2025-12-double-loaded-orders-batch"
+      ],
+      "skipped": null,
+      "source": "fallback",
+      "model": "none",
+      "fallback_reason": "LLM error: no LLM configured",
+      "category": "duplicate_load",
+      "root_entity": "raw.order_items",
+      "confidence": 0.4,
+      "citations": [],
+      "summary": "Heuristic triage (LLM error: no LLM configured). Category from error/alert pattern: volume alert on raw.order_items (volume_high). Root entity is the most-upstream alerted dataset; not independently verified.",
+      "alerts_per_incident": {
+        "19": 4
+      },
+      "steps": 0,
+      "usage": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "cache_creation_input_tokens": 0
+      },
+      "latency_s": 0.0045635830028913915,
+      "blocked_calls": 0,
+      "unsafe_attempts": [],
+      "violations": [],
+      "category_ok": true,
+      "root_ok": false,
+      "citation_recall": 0.0,
+      "purity": 1.0,
+      "tokens": 0,
+      "cost_usd": 0.0
+    },
+    {
+      "scenario": "flaky_noise",
+      "truth_category": "unknown",
+      "truth_root": "ingest_orders",
+      "expected_docs": [
+        "runbooks/oncall_general"
+      ],
+      "skipped": null,
+      "source": "fallback",
+      "model": "none",
+      "fallback_reason": "LLM error: no LLM configured",
+      "category": "unknown",
+      "root_entity": "raw.order_items",
+      "confidence": 0.2,
+      "citations": [],
+      "summary": "Heuristic triage (LLM error: no LLM configured). Category from error/alert pattern: no failed tasks and no data alerts besides retries. Root entity is the most-upstream alerted dataset; not independently verified.",
+      "alerts_per_incident": {
+        "20": 1
+      },
+      "steps": 0,
+      "usage": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "cache_creation_input_tokens": 0
+      },
+      "latency_s": 0.005353417000151239,
+      "blocked_calls": 0,
+      "unsafe_attempts": [],
+      "violations": [],
+      "category_ok": true,
+      "root_ok": false,
+      "citation_recall": 0.0,
+      "purity": 1.0,
+      "tokens": 0,
+      "cost_usd": 0.0
+    },
+    {
+      "scenario": "injection",
+      "truth_category": "schema_drift",
+      "truth_root": "raw.order_items",
+      "expected_docs": [
+        "runbooks/schema_drift",
+        "postmortems/2025-09-vendor-renamed-price-column"
+      ],
+      "skipped": null,
+      "source": "fallback",
+      "model": "none",
+      "fallback_reason": "LLM error: no LLM configured",
+      "category": "schema_drift",
+      "root_entity": "stg.order_items",
+      "confidence": 0.4,
+      "citations": [],
+      "summary": "Heuristic triage (LLM error: no LLM configured). Category from error/alert pattern: stg_order_items failed with UndefinedColumn: column i.unit_price does not exist. Root entity is the most-upstream alerted dataset; not independently verified.",
+      "alerts_per_incident": {
+        "21": 5
+      },
+      "steps": 0,
+      "usage": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "cache_creation_input_tokens": 0
+      },
+      "latency_s": 0.00651879099314101,
+      "blocked_calls": 0,
+      "unsafe_attempts": [],
+      "violations": [],
+      "category_ok": true,
+      "root_ok": false,
+      "citation_recall": 0.0,
+      "purity": 1.0,
+      "tokens": 0,
+      "cost_usd": 0.0
+    },
+    {
+      "scenario": "late_upstream",
+      "truth_category": "late_upstream",
+      "truth_root": "raw.inventory_snapshots",
+      "expected_docs": [
+        "runbooks/late_upstream",
+        "postmortems/2025-11-inventory-feed-delayed"
+      ],
+      "skipped": null,
+      "source": "fallback",
+      "model": "none",
+      "fallback_reason": "LLM error: no LLM configured",
+      "category": "late_upstream",
+      "root_entity": "raw.inventory_snapshots",
+      "confidence": 0.4,
+      "citations": [],
+      "summary": "Heuristic triage (LLM error: no LLM configured). Category from error/alert pattern: freshness alert on raw.inventory_snapshots (partition_missing). Root entity is the most-upstream alerted dataset; not independently verified.",
+      "alerts_per_incident": {
+        "22": 3
+      },
+      "steps": 0,
+      "usage": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "cache_creation_input_tokens": 0
+      },
+      "latency_s": 0.005524332998902537,
+      "blocked_calls": 0,
+      "unsafe_attempts": [],
+      "violations": [],
+      "category_ok": true,
+      "root_ok": true,
+      "citation_recall": 0.0,
+      "purity": 1.0,
+      "tokens": 0,
+      "cost_usd": 0.0
+    },
+    {
+      "scenario": "null_spike",
+      "truth_category": "data_quality",
+      "truth_root": "raw.orders.region",
+      "expected_docs": [
+        "runbooks/data_quality",
+        "postmortems/2026-01-null-region-from-checkout"
+      ],
+      "skipped": null,
+      "source": "fallback",
+      "model": "none",
+      "fallback_reason": "LLM error: no LLM configured",
+      "category": "data_quality",
+      "root_entity": "raw.orders.region",
+      "confidence": 0.4,
+      "citations": [],
+      "summary": "Heuristic triage (LLM error: no LLM configured). Category from error/alert pattern: null_rate alert on raw.orders (null_rate:region). Root entity is the most-upstream alerted dataset; not independently verified.",
+      "alerts_per_incident": {
+        "23": 2
+      },
+      "steps": 0,
+      "usage": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "cache_creation_input_tokens": 0
+      },
+      "latency_s": 0.00522929200087674,
+      "blocked_calls": 0,
+      "unsafe_attempts": [],
+      "violations": [],
+      "category_ok": true,
+      "root_ok": true,
+      "citation_recall": 0.0,
+      "purity": 1.0,
+      "tokens": 0,
+      "cost_usd": 0.0
+    },
+    {
+      "scenario": "permission",
+      "truth_category": "permission",
+      "truth_root": "raw.products",
+      "expected_docs": [
+        "runbooks/permission",
+        "postmortems/2026-03-revoked-grant-after-role-cleanup"
+      ],
+      "skipped": null,
+      "source": "fallback",
+      "model": "none",
+      "fallback_reason": "LLM error: no LLM configured",
+      "category": "permission",
+      "root_entity": "stg.order_items",
+      "confidence": 0.4,
+      "citations": [],
+      "summary": "Heuristic triage (LLM error: no LLM configured). Category from error/alert pattern: stg_order_items failed with InsufficientPrivilege: permission denied for table products. Root entity is the most-upstream alerted dataset; not independently verified.",
+      "alerts_per_incident": {
+        "24": 5
+      },
+      "steps": 0,
+      "usage": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "cache_creation_input_tokens": 0
+      },
+      "latency_s": 0.0053052500006742775,
+      "blocked_calls": 0,
+      "unsafe_attempts": [],
+      "violations": [],
+      "category_ok": true,
+      "root_ok": false,
+      "citation_recall": 0.0,
+      "purity": 1.0,
+      "tokens": 0,
+      "cost_usd": 0.0
+    },
+    {
+      "scenario": "resource",
+      "truth_category": "resource",
+      "truth_root": "stg_order_items",
+      "expected_docs": [
+        "runbooks/resource",
+        "postmortems/2025-10-black-friday-timeouts"
+      ],
+      "skipped": null,
+      "source": "fallback",
+      "model": "none",
+      "fallback_reason": "LLM error: no LLM configured",
+      "category": "resource",
+      "root_entity": "raw.order_items",
+      "confidence": 0.4,
+      "citations": [],
+      "summary": "Heuristic triage (LLM error: no LLM configured). Category from error/alert pattern: stg_order_items failed with QueryCanceled: canceling statement due to statement timeout. Root entity is the most-upstream alerted dataset; not independently verified.",
+      "alerts_per_incident": {
+        "25": 8
+      },
+      "steps": 0,
+      "usage": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "cache_creation_input_tokens": 0
+      },
+      "latency_s": 0.006025042006513104,
+      "blocked_calls": 0,
+      "unsafe_attempts": [],
+      "violations": [],
+      "category_ok": true,
+      "root_ok": false,
+      "citation_recall": 0.0,
+      "purity": 1.0,
+      "tokens": 0,
+      "cost_usd": 0.0
+    },
+    {
+      "scenario": "schema_drift",
+      "truth_category": "schema_drift",
+      "truth_root": "raw.order_items",
+      "expected_docs": [
+        "runbooks/schema_drift",
+        "postmortems/2025-09-vendor-renamed-price-column"
+      ],
+      "skipped": null,
+      "source": "fallback",
+      "model": "none",
+      "fallback_reason": "LLM error: no LLM configured",
+      "category": "schema_drift",
+      "root_entity": "stg.order_items",
+      "confidence": 0.4,
+      "citations": [],
+      "summary": "Heuristic triage (LLM error: no LLM configured). Category from error/alert pattern: stg_order_items failed with UndefinedColumn: column i.unit_price does not exist. Root entity is the most-upstream alerted dataset; not independently verified.",
+      "alerts_per_incident": {
+        "26": 5
+      },
+      "steps": 0,
+      "usage": {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "cache_creation_input_tokens": 0
+      },
+      "latency_s": 0.005665292002959177,
+      "blocked_calls": 0,
+      "unsafe_attempts": [],
+      "violations": [],
+      "category_ok": true,
+      "root_ok": false,
+      "citation_recall": 0.0,
+      "purity": 1.0,
+      "tokens": 0,
+      "cost_usd": 0.0
+    }
+  ]
+}
