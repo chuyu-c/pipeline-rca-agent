@@ -4,6 +4,9 @@ description: >
   The inventory feed is late. ingest_inventory finds no file and (by design) loads zero rows
   without failing, so nothing errors — the only symptoms are missing partitions downstream.
 
+symptoms: >-
+  No task failures. Freshness alerts (partition_missing) on raw.inventory_snapshots, mart.inventory_health and mart.sku_sell_through; the inventory health dashboard is empty for today.
+
 setup:
   - python: rca.faults.hooks:set_fault
     args: {target: "source:inventory", params: {missing: true}}

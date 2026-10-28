@@ -5,6 +5,9 @@ description: >
   product_id. Each order line matches every product in its category: row explosion, wrong SKUs,
   inflated GMV. No task fails.
 
+symptoms: >-
+  volume_high alert on stg.order_items: row count about 8x the trailing mean. No task failed. Mart row counts are normal but GMV is far higher than usual.
+
 setup:
   - python: rca.faults.hooks:deploy_sql
     args:

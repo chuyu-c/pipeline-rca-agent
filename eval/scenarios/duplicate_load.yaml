@@ -4,6 +4,9 @@ description: >
   ingest_orders re-sends a batch after an acknowledgement timeout, appending it a second time.
   No task fails; row counts and GMV roughly double.
 
+symptoms: >-
+  volume_high alerts on raw.orders, raw.order_items, stg.orders and stg.order_items: row counts about 2x the trailing mean (z-score above 8). No task failed; GMV looks like a record day.
+
 setup:
   - python: rca.faults.hooks:set_fault
     args: {target: "source:orders", params: {replay_batch: true}}

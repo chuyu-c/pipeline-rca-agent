@@ -4,6 +4,9 @@ description: >
   A checkout change stops sending region for many orders. Every task succeeds; GMV by region gains
   a NULL region bucket.
 
+symptoms: >-
+  null_rate:region alert on raw.orders (null rate 0.40, threshold 0.05) and on mart.daily_gmv_by_region; GMV by region shows a NULL region bucket. All tasks succeeded.
+
 setup:
   - python: rca.faults.hooks:set_fault
     args: {target: "source:orders", params: {null_region_rate: 0.4}}

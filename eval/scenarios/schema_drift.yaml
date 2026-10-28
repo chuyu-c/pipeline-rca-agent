@@ -5,6 +5,9 @@ description: >
   succeeds, but stg_order_items still selects unit_price and fails; the three marts built from it
   are skipped and go stale.
 
+symptoms: >-
+  stg_order_items failed: UndefinedColumn: column i.unit_price does not exist. Freshness alerts (partition_missing) on stg.order_items, mart.daily_gmv_by_region, mart.sku_sell_through and mart.inventory_health.
+
 setup:
   - sql: ALTER TABLE raw.order_items RENAME COLUMN unit_price TO price
   - python: rca.faults.hooks:set_fault

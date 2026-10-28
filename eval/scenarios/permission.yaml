@@ -4,6 +4,9 @@ description: >
   A role cleanup revokes rca_app's SELECT on raw.products. stg_order_items fails with
   `permission denied for table products`; its marts are skipped.
 
+symptoms: >-
+  stg_order_items failed: InsufficientPrivilege: permission denied for table products. mart.daily_gmv_by_region, mart.sku_sell_through and mart.inventory_health were skipped (upstream_failed).
+
 setup:
   - sql: REVOKE SELECT ON raw.products FROM rca_app
 

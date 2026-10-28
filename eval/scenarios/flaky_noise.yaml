@@ -4,6 +4,9 @@ description: >
   ingest_orders times out once reading the export, then succeeds on retry. Data is complete and
   correct. Tests calibration: the right answer is low-confidence / no action needed.
 
+symptoms: >-
+  task_retry alert on ingest_orders: attempt 1 failed with TimeoutError: timed out reading landing/orders/2026-03-10.csv after 30s; attempt 2 succeeded.
+
 setup:
   - python: rca.faults.hooks:set_fault
     args:

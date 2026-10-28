@@ -4,6 +4,9 @@ description: >
   A 100x orders day (bulk backfill landing in one partition) meets a tight statement timeout on
   stg_order_items. Both attempts hit `canceling statement due to statement timeout`.
 
+symptoms: >-
+  stg_order_items failed on both attempts: QueryCanceled: canceling statement due to statement timeout. volume_high on raw.orders and raw.order_items. Downstream marts have no partition for today.
+
 setup:
   - python: rca.faults.hooks:set_fault
     args: {target: "source:orders", params: {volume_multiplier: 100}}

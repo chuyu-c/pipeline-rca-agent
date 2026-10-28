@@ -50,6 +50,9 @@ class Scenario(BaseModel):
     description: str = ""
     setup: list[Step] = Field(min_length=1)
     teardown: list[Step] = []
+    # What on-call would type into knowledge search: the observable symptoms (errors, alerting
+    # tables), never the answer. Used as the query by eval/retrieval_eval.py.
+    symptoms: str = Field(min_length=20)
     # Alerts the monitors must raise (a subset; others may also fire).
     expected_alerts: list[ExpectedAlert] = Field(min_length=1)
     ground_truth: GroundTruth
