@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-10-28 08:06 UTC",
+    "generated": "2026-10-28 08:24 UTC",
     "mode": "baseline (fallback only)",
     "model": "none",
     "retrieval": "hybrid",
@@ -18,7 +18,7 @@
     "fallbacks": 9,
     "median_steps": 0,
     "median_tokens": 0,
-    "median_latency_s": 0.005524332998902537,
+    "median_latency_s": 0.004782999996677972,
     "total_cost_usd": 0.0
   },
   "results": [
@@ -40,7 +40,7 @@
       "citations": [],
       "summary": "Heuristic triage (LLM error: no LLM configured). Category from error/alert pattern: volume alert on stg.order_items (volume_high). Root entity is the most-upstream alerted dataset; not independently verified.",
       "alerts_per_incident": {
-        "18": 1
+        "30": 1
       },
       "steps": 0,
       "usage": {
@@ -49,7 +49,7 @@
         "cache_read_input_tokens": 0,
         "cache_creation_input_tokens": 0
       },
-      "latency_s": 0.011030584006221034,
+      "latency_s": 0.006534917003591545,
       "blocked_calls": 0,
       "unsafe_attempts": [],
       "violations": [],
@@ -78,7 +78,7 @@
       "citations": [],
       "summary": "Heuristic triage (LLM error: no LLM configured). Category from error/alert pattern: volume alert on raw.order_items (volume_high). Root entity is the most-upstream alerted dataset; not independently verified.",
       "alerts_per_incident": {
-        "19": 4
+        "31": 4
       },
       "steps": 0,
       "usage": {
@@ -87,7 +87,7 @@
         "cache_read_input_tokens": 0,
         "cache_creation_input_tokens": 0
       },
-      "latency_s": 0.0045635830028913915,
+      "latency_s": 0.004782999996677972,
       "blocked_calls": 0,
       "unsafe_attempts": [],
       "violations": [],
@@ -115,7 +115,7 @@
       "citations": [],
       "summary": "Heuristic triage (LLM error: no LLM configured). Category from error/alert pattern: no failed tasks and no data alerts besides retries. Root entity is the most-upstream alerted dataset; not independently verified.",
       "alerts_per_incident": {
-        "20": 1
+        "32": 1
       },
       "steps": 0,
       "usage": {
@@ -124,7 +124,7 @@
         "cache_read_input_tokens": 0,
         "cache_creation_input_tokens": 0
       },
-      "latency_s": 0.005353417000151239,
+      "latency_s": 0.004769167004269548,
       "blocked_calls": 0,
       "unsafe_attempts": [],
       "violations": [],
@@ -153,7 +153,7 @@
       "citations": [],
       "summary": "Heuristic triage (LLM error: no LLM configured). Category from error/alert pattern: stg_order_items failed with UndefinedColumn: column i.unit_price does not exist. Root entity is the most-upstream alerted dataset; not independently verified.",
       "alerts_per_incident": {
-        "21": 5
+        "33": 5
       },
       "steps": 0,
       "usage": {
@@ -162,7 +162,7 @@
         "cache_read_input_tokens": 0,
         "cache_creation_input_tokens": 0
       },
-      "latency_s": 0.00651879099314101,
+      "latency_s": 0.0047733340034028515,
       "blocked_calls": 0,
       "unsafe_attempts": [],
       "violations": [],
@@ -191,7 +191,7 @@
       "citations": [],
       "summary": "Heuristic triage (LLM error: no LLM configured). Category from error/alert pattern: freshness alert on raw.inventory_snapshots (partition_missing). Root entity is the most-upstream alerted dataset; not independently verified.",
       "alerts_per_incident": {
-        "22": 3
+        "34": 3
       },
       "steps": 0,
       "usage": {
@@ -200,7 +200,7 @@
         "cache_read_input_tokens": 0,
         "cache_creation_input_tokens": 0
       },
-      "latency_s": 0.005524332998902537,
+      "latency_s": 0.00494141700619366,
       "blocked_calls": 0,
       "unsafe_attempts": [],
       "violations": [],
@@ -229,7 +229,7 @@
       "citations": [],
       "summary": "Heuristic triage (LLM error: no LLM configured). Category from error/alert pattern: null_rate alert on raw.orders (null_rate:region). Root entity is the most-upstream alerted dataset; not independently verified.",
       "alerts_per_incident": {
-        "23": 2
+        "35": 2
       },
       "steps": 0,
       "usage": {
@@ -238,7 +238,7 @@
         "cache_read_input_tokens": 0,
         "cache_creation_input_tokens": 0
       },
-      "latency_s": 0.00522929200087674,
+      "latency_s": 0.004565249997540377,
       "blocked_calls": 0,
       "unsafe_attempts": [],
       "violations": [],
@@ -267,7 +267,7 @@
       "citations": [],
       "summary": "Heuristic triage (LLM error: no LLM configured). Category from error/alert pattern: stg_order_items failed with InsufficientPrivilege: permission denied for table products. Root entity is the most-upstream alerted dataset; not independently verified.",
       "alerts_per_incident": {
-        "24": 5
+        "36": 5
       },
       "steps": 0,
       "usage": {
@@ -276,7 +276,7 @@
         "cache_read_input_tokens": 0,
         "cache_creation_input_tokens": 0
       },
-      "latency_s": 0.0053052500006742775,
+      "latency_s": 0.004756875001476146,
       "blocked_calls": 0,
       "unsafe_attempts": [],
       "violations": [],
@@ -305,7 +305,7 @@
       "citations": [],
       "summary": "Heuristic triage (LLM error: no LLM configured). Category from error/alert pattern: stg_order_items failed with QueryCanceled: canceling statement due to statement timeout. Root entity is the most-upstream alerted dataset; not independently verified.",
       "alerts_per_incident": {
-        "25": 8
+        "37": 8
       },
       "steps": 0,
       "usage": {
@@ -314,7 +314,7 @@
         "cache_read_input_tokens": 0,
         "cache_creation_input_tokens": 0
       },
-      "latency_s": 0.006025042006513104,
+      "latency_s": 0.005284124999889173,
       "blocked_calls": 0,
       "unsafe_attempts": [],
       "violations": [],
@@ -343,7 +343,7 @@
       "citations": [],
       "summary": "Heuristic triage (LLM error: no LLM configured). Category from error/alert pattern: stg_order_items failed with UndefinedColumn: column i.unit_price does not exist. Root entity is the most-upstream alerted dataset; not independently verified.",
       "alerts_per_incident": {
-        "26": 5
+        "38": 5
       },
       "steps": 0,
       "usage": {
@@ -352,7 +352,7 @@
         "cache_read_input_tokens": 0,
         "cache_creation_input_tokens": 0
       },
-      "latency_s": 0.005665292002959177,
+      "latency_s": 0.004965790998539887,
       "blocked_calls": 0,
       "unsafe_attempts": [],
       "violations": [],
