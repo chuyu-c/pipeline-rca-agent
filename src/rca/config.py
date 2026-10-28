@@ -37,11 +37,16 @@ class Settings(BaseSettings):
 
     # LLM. The key uses the Anthropic SDK's conventional, unprefixed env var.
     anthropic_api_key: SecretStr | None = Field(default=None, validation_alias="ANTHROPIC_API_KEY")
-    model: str = "claude-sonnet-5-5"
+    model: str = "claude-opus-5-5"
+    effort: Literal["low", "medium", "high", "xhigh", "max"] = "high"
+    llm_timeout_s: float = Field(default=120.0, gt=0)
+    # Server-side refusal fallback (`fallbacks: "default"`); disable for platforms without it.
+    llm_fallbacks: bool = True
 
-    # Agent budgets (DESIGN §5.2).
+    # Agent budgets (DESIGN §5.2). Tokens are summed over every LLM call of one triage
+    # (input incl. cached + output), since the full history is resent each step.
     max_steps: int = Field(default=12, gt=0)
-    max_tokens: int = Field(default=60_000, gt=0)
+    token_budget: int = Field(default=400_000, gt=0)
 
     # Retrieval (DESIGN §7).
     oncall_dir: Path = Path("oncall")
