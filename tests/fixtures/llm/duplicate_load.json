@@ -1,0 +1,463 @@
+{
+  "label": "duplicate_load",
+  "model": "claude-opus-5-5",
+  "recorded_at": "2026-10-28T08:25:27+00:00",
+  "turns": [
+    {
+      "request": {
+        "messages": 1,
+        "tool_results": []
+      },
+      "response": {
+        "content": [
+          {
+            "signature": "CAQS9AUKEAgTGAI4AUIIdGhpbmtpbmcSDKrpYqOEqsMPkGSB5xoMcHQpzUKflk3HFlNoIjAdMQLc+GmOv+ov9YoqP88DJujKiRJP0CSwe8Q+WQTK3HPnzk40GaHgkLxFl9BI/sYqkQXBmnBnSEQme8iPM2/mWo1Cf9ye5H5xVYXcIVOL58qwKzaQDmp3IRev0f24PPLNpBgioMxYBVB0xku7rLhD0qGzpMYvgQxy5+Ojq72eppR+ltos9gzaQBjYSoXWjekTvw2Vlxtn7OJuMHaO9mruW5DlOvSuSpmhsfzouyeLDXPpy1XMMSGb9L2bybVBKaecvpEtCEn6R+J4AmayHVGMG1/f2JqHpJ2OZa8wfdKTIOyefsGf07S7An7a8u4ehtLZNke6ZEiiG0X78mwfiZhAN80QieEpmMN07ebWlVIYizRRsXs0b0JEiiM0Is5AH75atWNdvKl8FdstUz+rKbLt4WSdnusIE9zKU9CUJpxisj2/IX4SPcF8qdo1/xZPnbI2/Co7v/vwDdOY4jp3+4jZ4n3bJTEF9r7uI22bxNiMNR6vd625jHIprHvI0novQ/SBuNV/PZG1ztp/r4f2Uvm33rlixQuWlnEiwngag7rm1/MuXfL+BGyTq3dEkLsV4LE4jl8PsTaOMfsC7y7EipZJaQCs9PZCzAMaz5/GKPLkIlF8vh+jhfLtEOeVx/dGqqiaB7b9m9wsDn7REBMhh3fTMiiApfbAW6NzE1Pszg4+0KuV1SOyhGBtQWhqm5Ut24b3EjZLJJBzOITakl3DvQ36jFGXqsH8hKIAW8Qc36kl7gAhyph9HN9lrksPX5mYt0WsKf8H4xe/OvFR4HpSQh0/O8B8AxCukrf/KAEb70islHbi+WHA00f/OpcZv37SxeC84BnWrLFZi87ERrk33G5U1p38duMdK/b0YeKx5rnoBQAj7PsoHTR91FqgzWfg7gt1pzC8LTlG7bRi55+ksnJOwvxF7MSRTSC+TY2BfmfrFCZdTTgYAQ==",
+            "thinking": "",
+            "type": "thinking"
+          },
+          {
+            "id": "toolu_01RJEBVvzJr2we6Jq6pCUeNe",
+            "input": {
+              "sql": "SELECT logical_date, count(*) AS n, count(DISTINCT order_id) AS d FROM raw.orders WHERE logical_date >= '2026-10-18' GROUP BY 1 ORDER BY 1 DESC"
+            },
+            "name": "run_readonly_sql",
+            "type": "tool_use",
+            "caller": {
+              "type": "direct"
+            }
+          },
+          {
+            "id": "toolu_01TnJAfViZ34smThdMEWayxw",
+            "input": {
+              "task_id": "ingest_orders",
+              "limit": 15
+            },
+            "name": "get_task_runs",
+            "type": "tool_use",
+            "caller": {
+              "type": "direct"
+            }
+          },
+          {
+            "id": "toolu_01UqAjWhHeYq76gxXTz3ULwC",
+            "input": {},
+            "name": "get_recent_deploys",
+            "type": "tool_use",
+            "caller": {
+              "type": "direct"
+            }
+          }
+        ],
+        "stop_reason": "tool_use",
+        "usage": {
+          "input_tokens": 4,
+          "output_tokens": 289,
+          "cache_read_input_tokens": 0,
+          "cache_creation_input_tokens": 5752
+        },
+        "model": "claude-opus-5-5"
+      }
+    },
+    {
+      "request": {
+        "messages": 3,
+        "tool_results": [
+          "toolu_01RJEBVvzJr2we6Jq6pCUeNe",
+          "toolu_01TnJAfViZ34smThdMEWayxw",
+          "toolu_01UqAjWhHeYq76gxXTz3ULwC"
+        ]
+      },
+      "response": {
+        "content": [
+          {
+            "signature": "CAQSnQYKEAgTGAI4AUIIdGhpbmtpbmcSDCaXUeIdGLaPkbrO9RoMWmitxGkuuwdUOnQAIjCgxvC9J0JdB5hVwGUhiyyuYgxPm/4JJWuDljMG0K2HwWiPboXoxZiQLa8fj6zcelsqugVJ0/TGlwZECMQvPkr/EelQ80tL/6cPEvy6uVXSTdVc04Ce6Ys/kLt9S2F5ep+NmbWN4vbcGSVZ5DAeilsLWWBO/pLvuDLHbIkz86tdK4cdi9QWiWROWJ36MiE5CMZN3IIFk9fMpmp9v0Uy6nngDBm4GZfwMD44JmdiiA59/i3iFAe6TsFpCbOthQqI8IdiKVFlGKDBfU7kLSsbqml65oOYR/qUOr3hljrUdvka7A6PM4DzQ9YRNH1PmAsAuO/rJMFbM1oLPTgNfFTuYLX00RuOsjMf5PBkpF1H016wqAG/6JJ2XJeUYOeB5CIja7HPzCv9IW7nOc9UvVtsaqNuUsR33BnWR1V94Yut1lgsRHB0NeU2joSSsjYQ/q44TW8En5g/LIo7JFvN5zh5X9nU8XbP8pedppQqn72EClgFJXeh/1T2GAnxORa21d2v6zwadxxg9GGjFHHewgUTAG9MN3vi4yGKrv0kytCW8kdoWNrnhEZ3GBoiV08iWc8dEXlpbcaCpgK8HRwNQwCw4ayp/MBHxk3oAfS3ZDxSdEDAlKDX7XHSzUDAXEYX1oU79MTnE73eY2SqyzZywACQy8JzZs4m2sPl3/r95sW5wBoQAWBI9XBaCJo0oWCAxREXfZnzYccP+Pc05kqLVbGCYB/cKfaGTHIGAtpeQQeakzUgYYgkS8mJGlqUDyQCwuR0oC/yyKs9hZlQFr/cn0lq/Y/2uitJYC6P/Ln6Yke3za8/1QAX3odVH/tRSyTt++Cim3hLfEzlNCL0hOfsi1uRvfLBNvAwNRdUiROmrcpzCD5SF3gmGryQugwQEXXbznJWk4MAR5vDoC0yl909/6mxzCBZ4BJOw9mw5eWDBpRKylCdrkdRM942e2HOlOzraVXms86U8ssQALjWccUbyTXtsNt2rjTWA8rN5k55ZysVyBgB",
+            "thinking": "",
+            "type": "thinking"
+          },
+          {
+            "id": "toolu_01JWgFhUcti9FQp6svt7V5r6",
+            "input": {
+              "sql": "SELECT logical_date, count(*) AS n, count(DISTINCT (order_id, line_id)) AS d FROM raw.order_items WHERE logical_date >= '2026-10-25' GROUP BY 1 ORDER BY 1 DESC"
+            },
+            "name": "run_readonly_sql",
+            "type": "tool_use",
+            "caller": {
+              "type": "direct"
+            }
+          },
+          {
+            "id": "toolu_015UAfMf8zDDNCPWeDCA4GPs",
+            "input": {
+              "run_id": "20261028_2198a9e1.ingest_orders.1"
+            },
+            "name": "get_task_logs",
+            "type": "tool_use",
+            "caller": {
+              "type": "direct"
+            }
+          },
+          {
+            "id": "toolu_01Wk7g8i7WrLtsD4jLsP1bWE",
+            "input": {
+              "query": "duplicate load raw.orders volume_high row count doubled"
+            },
+            "name": "search_knowledge",
+            "type": "tool_use",
+            "caller": {
+              "type": "direct"
+            }
+          },
+          {
+            "id": "toolu_01ASEeZznBvXunpgAmru5DH7",
+            "input": {
+              "table": "raw.orders",
+              "direction": "downstream",
+              "include_columns": false
+            },
+            "name": "get_lineage",
+            "type": "tool_use",
+            "caller": {
+              "type": "direct"
+            }
+          }
+        ],
+        "stop_reason": "tool_use",
+        "usage": {
+          "input_tokens": 2,
+          "output_tokens": 412,
+          "cache_read_input_tokens": 5752,
+          "cache_creation_input_tokens": 3092
+        },
+        "model": "claude-opus-5-5"
+      }
+    },
+    {
+      "request": {
+        "messages": 5,
+        "tool_results": [
+          "toolu_01JWgFhUcti9FQp6svt7V5r6",
+          "toolu_015UAfMf8zDDNCPWeDCA4GPs",
+          "toolu_01Wk7g8i7WrLtsD4jLsP1bWE",
+          "toolu_01ASEeZznBvXunpgAmru5DH7"
+        ]
+      },
+      "response": {
+        "content": [
+          {
+            "signature": "CAQS0wYKEAgTGAI4AUIIdGhpbmtpbmcSDGaYJr5nUTgJEfuYkxoM4/Fz6U/OuUY6OfT+IjAdrbVrR1Zh2uZjN56dngDJI3pksItWxX8SezQFERhC6h1VpjSYnKLkRwUCv4H48Mgq8AVwulQH7HnCo+rg7MVoesGr5GuPCYjPst7z3jh/3s7vZLzQ/CWyMjAATbe1zS3S5CLIArgyonxdvkJVS4pcTcrGoDzTxOplTZUu5uGH4n6fgjwg1UQfant8sUY5KmuzL1nJb0IQg/pAntqEBTTuYppAxsxtX7gI7ABHIZOkmfGm1rHRZYGCaXhxCN0F3GhQP4gz8Jv+GuE90XCWlsrablc8u2abVxT4W6ETg8DwmuuHY26dlVz/CAdptMgTZarC97fPlUJ0bPFTikXy3XEkjxPHYlorTRGNojzFNN3tYXxMcF6TJrqhVYDA3tb2UnHtxPahFCd0It99lh8e0wXajOlu9q1tlxxi03xCLCeumRFkSuVazT+u2xQU7BsJEhOUElUXMmlKgADZnstJuCZgu9+lK0GAh7/1QSsoTjlMOX/W/PEzIQw41I3k8s1AV6D55dmEgAlx32NrAez/S3wsJMAGdyqbA1/Y/UfdF50epfleP/+nqksqAVnFYcv35vp5Nk2HLc87UOGFgapnBS065jgmFvd6beV5DCPM9iYwreS8EL6JzUU0A4ym82SppfE++0rjMWOB+1TplMPrN1J9Et3JfROhM8CO1ejQyaETaekC1pBCjUEm6aHbbo/Vd/ITh4+1C2KK5T58eECbwXXUqTWKeW9kStHz29m6H/dyqqOBUPvhOLEwLA5xt9fzK4/cTFqxSwEvE4H/LeahQoAw3pr3aeB76NM+ZPp+DaU2h5IghTy3sefFDh0qfEdsuVD5Ja3V06Le1YLq+jyGHGGqX26fJDncLCwk7rDqhWxbugWCov90RlROID9BvPzZknWDP5ZFKQBKV/7Fz5TEbpf7R5GBxt43TAQCBhfsFsddk2qvNgdz2FGilTiEjC/mWRnawIxiGaGfuESWvGzWlt5kwaQCW7xLSIXqFzIdl4q12/L/gC3StjGBh+vqVB5r8Lc3kO4jGwBzxrHUz3k3f8RP16lNQhHMt1nDP0qq3c0aKND1yxgB",
+            "thinking": "",
+            "type": "thinking"
+          },
+          {
+            "id": "toolu_019SEJQfzfbMyKxHQm5pdu9W",
+            "input": {
+              "sql": "SELECT _batch_id, count(*) AS n, count(DISTINCT order_id) AS d, min(_loaded_at) AS mn, max(_loaded_at) AS mx FROM raw.orders WHERE logical_date = DATE '2026-10-28' GROUP BY 1"
+            },
+            "name": "run_readonly_sql",
+            "type": "tool_use",
+            "caller": {
+              "type": "direct"
+            }
+          },
+          {
+            "id": "toolu_019UgANyKWduyKfarSnwz55g",
+            "input": {
+              "table": "raw.order_items",
+              "direction": "downstream",
+              "include_columns": false
+            },
+            "name": "get_lineage",
+            "type": "tool_use",
+            "caller": {
+              "type": "direct"
+            }
+          },
+          {
+            "id": "toolu_01UBQyfPTu82t4EgBwVtV2kB",
+            "input": {
+              "sql": "SELECT logical_date, count(*) AS n FROM mart.daily_gmv_by_region WHERE logical_date >= '2026-10-26' GROUP BY 1 ORDER BY 1 DESC"
+            },
+            "name": "run_readonly_sql",
+            "type": "tool_use",
+            "caller": {
+              "type": "direct"
+            }
+          }
+        ],
+        "stop_reason": "tool_use",
+        "usage": {
+          "input_tokens": 2,
+          "output_tokens": 410,
+          "cache_read_input_tokens": 8844,
+          "cache_creation_input_tokens": 3206
+        },
+        "model": "claude-opus-5-5"
+      }
+    },
+    {
+      "request": {
+        "messages": 7,
+        "tool_results": [
+          "toolu_019SEJQfzfbMyKxHQm5pdu9W",
+          "toolu_019UgANyKWduyKfarSnwz55g",
+          "toolu_01UBQyfPTu82t4EgBwVtV2kB"
+        ]
+      },
+      "response": {
+        "content": [
+          {
+            "signature": "CAQSgAcKEAgTGAI4AUIIdGhpbmtpbmcSDIvv5VlfMyPOA6locBoMW26uOKekuRXKCrczIjDInCh18rf3Y4RqyAanO2Xn88gdc2EUwbRAtMEr2AMwuC9y3KTgj6SOdYt+6AqtQ1EqnQbZdUyqNqJnAJXMyiew9CFAXRwRU3HWt8sOlkP89nroqGCNsD6e9jizAmTIUvGzLCV7avtiqecaGz+sg4jYdTtVTlwWtB/jgW5ux6CI1lvBVri4W5cUZ2GxdGhtsU6KJkCCnFo5X89PLXbocpv1o7M2fyMm6B9Pa6mPIil2pdDNydkS6pVXUfzahArk+Bsi7GRCWGAXPNNW5cbFAGVOdrCM83eHbUzLi3UzVp6jgxPXkOYtW4EurgqeJOzLUJwlzaJNivOsVCaNHfx6l1cq+annPRb2zfhvrvAhTROalO1s0uYTl68vbhX1KBczw4ge371tOKPGwRvYODSlcClramdZt/+zlhepcXUt6koppuHitTR3XHeLbKebjdLy9czT+DON6PTpn9ElqbWUdM1x1YW9NqCxVEuUeKVVWwsXFirCm/hpYzVMdqMj5r3FZ6LKDryxd2HuR1Rye23/rpFKftCzAJMEv95TnUw+reOkhrDMbKoXHoeTPI0+1uNi3bVz4JdMIFIgoGmTx/Ry7rZWdtiJ4Sj0+Q83LBE36yG2VKh38la59Iy3TYvKKtUvfoqvuftnR6fv7vceWH0KsrwZcnUz0Y4GbkYNJ+S1V2X34i5JTjrkKChV2N1MqFRcmxvEW0pOlpWKKEzncUkJ8utXo7IGeDFp2/49+Ridc4bKcDrxYrkgqTZNgEQg6s9aEpAS4JYp6hb4pyay6yBUIb6kFoaEuSWF6pF3YkQTcD00nQ8TlQK1R13d19PQIZ8aKWMOd04MIKa34H9FStPZi66dRn3CQtrxHD7sI+DpBf6XZJcQgR3ReMahHlJRJhqFsQM5zqZCaKZI/Xcas7PepwEtcUib/yEVyBdyTgE90nPXF8cruZPQfi3NF4joZ9yO4Rq1HrTpcnQ6IalBZ+3kMjxgxKLMjKRFVJwJ6jxh9dizWDRbCJEHMlSSdte96MY8b3+R+9ZCTL6Q16K9YNPvmJz5A5m/1lKFyBUqkmhGlBwLUbc2Cn6Yb5CbadYtzzIJeXVN12aY7HTriiUmuZARiq3+SnX8XMjxJ5gUUuJ2pu1rwxgB",
+            "thinking": "",
+            "type": "thinking"
+          },
+          {
+            "id": "toolu_01Wa1NVE2NvWVkcxCDjNNhb1",
+            "input": {
+              "summary": "The 2026-10-28 volume spike comes from a duplicate load, not from real growth. In the single successful attempt of ingest_orders, the upload acknowledgement for batch orders_20261028_01 timed out and the loader sent the whole batch again. Both copies were committed. The ingest log shows the same batch loaded twice (289 orders, 739 order items each time) and 2056 rows written. That is 578 orders + 1478 items, exactly twice the source file.\n\nraw.orders for 2026-10-28 has 578 rows but only 289 distinct order_ids, all in one _batch_id. Every earlier day has row count equal to distinct order_ids. raw.order_items has 1478 rows, which is 2 x 739. Those rows went through unchanged into stg.orders and stg.order_items (same counts in the alerts). From there they feed mart.daily_gmv_by_region, mart.inventory_health and mart.sku_sell_through. daily_gmv_by_region already has a 2026-10-28 partition, so GMV and item metrics for that date are probably doubled. I did not check the mart values.\n\nThere were no deploys in the last 72h. This matches the 2025-12 postmortem, where the loader's retry path appended instead of replacing. The root entity is the ingest_orders task and its non-idempotent upload retry. I saw no prompt-injection content in the tool outputs.",
+              "category": "duplicate_load",
+              "root_entity": "ingest_orders",
+              "confidence": 0.93,
+              "evidence": [
+                {
+                  "tool_call_id": "toolu_015UAfMf8zDDNCPWeDCA4GPs",
+                  "excerpt": "Upload acknowledgement for batch orders_20261028_01 timed out after 30s; re-sending batch"
+                },
+                {
+                  "tool_call_id": "toolu_015UAfMf8zDDNCPWeDCA4GPs",
+                  "excerpt": "Task succeeded; 2056 rows written"
+                },
+                {
+                  "tool_call_id": "toolu_01RJEBVvzJr2we6Jq6pCUeNe",
+                  "excerpt": "{\"logical_date\": \"2026-10-28\", \"n\": 578, \"d\": 289}, {\"logical_date\": \"2026-10-27\", \"n\": 287, \"d\": 287}"
+                },
+                {
+                  "tool_call_id": "toolu_019SEJQfzfbMyKxHQm5pdu9W",
+                  "excerpt": "{\"_batch_id\": \"orders_20261028_01\", \"n\": 578, \"d\": 289"
+                },
+                {
+                  "tool_call_id": "ctx-incident",
+                  "excerpt": "\"dataset\": \"stg.order_items\", \"error_class\": \"volume_high\", \"severity\": \"medium\", \"logical_date\": \"2026-10-28\", \"count\": 1, \"first_seen\": \"2026-10-28 08:24:54.385002+00:00\", \"last_seen\": \"2026-10-28 08:24:54.385002+00:00\", \"payload\": {\"z_score\": 5.59, \"row_count\": 1478"
+                },
+                {
+                  "tool_call_id": "toolu_01UqAjWhHeYq76gxXTz3ULwC",
+                  "excerpt": "\"deploys\": []"
+                },
+                {
+                  "tool_call_id": "toolu_019UgANyKWduyKfarSnwz55g",
+                  "excerpt": "{\"from\": \"stg.order_items\", \"to\": \"mart.inventory_health\", \"task\": \"mart_inventory_health\"}, {\"from\": \"stg.order_items\", \"to\": \"mart.sku_sell_through\", \"task\": \"mart_sku_sell_through\"}"
+                },
+                {
+                  "tool_call_id": "toolu_01UBQyfPTu82t4EgBwVtV2kB",
+                  "excerpt": "{\"logical_date\": \"2026-10-28\", \"n\": 5}"
+                }
+              ],
+              "citations": [
+                "runbooks/duplicate_load#00",
+                "runbooks/duplicate_load#01",
+                "runbooks/duplicate_load#03",
+                "runbooks/duplicate_load#04",
+                "postmortems/2025-12-double-loaded-orders-batch#00"
+              ],
+              "hypotheses_considered": [
+                "Real business growth/sales spike: rejected, distinct order_ids (289) are in line with trend; rows are exact duplicates",
+                "Bad deploy: rejected, no deploys in last 72h",
+                "Duplicate load from ingest upload retry re-sending batch: confirmed by log warning and 2x row/distinct ratio"
+              ],
+              "impacted_datasets": [
+                "raw.orders",
+                "raw.order_items",
+                "stg.orders",
+                "stg.order_items",
+                "mart.daily_gmv_by_region",
+                "mart.inventory_health",
+                "mart.sku_sell_through"
+              ],
+              "proposed_actions": [
+                {
+                  "type": "rerun_task",
+                  "task_id": "ingest_orders",
+                  "logical_date": "2026-10-28",
+                  "rationale": "Ingest deletes the partition before loading, so a clean rerun replaces the doubled raw.orders/raw.order_items rows for batch orders_20261028_01."
+                },
+                {
+                  "type": "backfill_partition",
+                  "table": "stg.orders",
+                  "logical_date": "2026-10-28",
+                  "rationale": "Built from doubled raw.orders (578 rows vs 289 distinct)."
+                },
+                {
+                  "type": "backfill_partition",
+                  "table": "stg.order_items",
+                  "logical_date": "2026-10-28",
+                  "rationale": "Built from doubled raw.order_items (1478 = 2x739)."
+                },
+                {
+                  "type": "backfill_partition",
+                  "table": "mart.daily_gmv_by_region",
+                  "logical_date": "2026-10-28",
+                  "rationale": "Reads stg.orders and stg.order_items; GMV likely doubled."
+                },
+                {
+                  "type": "backfill_partition",
+                  "table": "mart.inventory_health",
+                  "logical_date": "2026-10-28",
+                  "rationale": "Reads doubled stg.order_items."
+                },
+                {
+                  "type": "backfill_partition",
+                  "table": "mart.sku_sell_through",
+                  "logical_date": "2026-10-28",
+                  "rationale": "Reads doubled stg.order_items."
+                },
+                {
+                  "type": "escalate",
+                  "team": "data platform",
+                  "message": "ingest_orders upload retry re-sent batch orders_20261028_01 after a 30s ack timeout and both copies were committed (second occurrence after 2025-12-01). Please make the retry idempotent per _batch_id (delete-then-insert or upsert) and add a count(*) != count(DISTINCT order_id) check on raw.orders. Also check whether any finance GMV extract for 2026-10-28 went out and needs reissuing.",
+                  "rationale": "Recurring loader defect; postmortem action item evidently not yet fixed, and downstream finance reports may be affected."
+                }
+              ]
+            },
+            "name": "submit_rca",
+            "type": "tool_use",
+            "caller": {
+              "type": "direct"
+            }
+          }
+        ],
+        "stop_reason": "tool_use",
+        "usage": {
+          "input_tokens": 2,
+          "output_tokens": 2492,
+          "cache_read_input_tokens": 12050,
+          "cache_creation_input_tokens": 1576
+        },
+        "model": "claude-opus-5-5"
+      }
+    }
+  ],
+  "tool_outputs": [
+    {
+      "tool_call_id": "ctx-incident",
+      "name": "get_incident",
+      "input": {},
+      "ok": true,
+      "blocked_reason": null,
+      "content": "{\"ok\": true, \"data\": {\"incident\": {\"incident_id\": 40, \"status\": \"open\", \"root_candidate\": \"raw.order_items\", \"created_at\": \"2026-10-28 08:24:54.385002+00:00\"}, \"alerts\": [{\"alert_id\": 148, \"detector\": \"volume\", \"dataset\": \"raw.order_items\", \"error_class\": \"volume_high\", \"severity\": \"medium\", \"logical_date\": \"2026-10-28\", \"count\": 1, \"first_seen\": \"2026-10-28 08:24:54.385002+00:00\", \"last_seen\": \"2026-10-28 08:24:54.385002+00:00\", \"payload\": {\"z_score\": 5.59, \"row_count\": 1478, \"history_days\": 7, \"trailing_std\": 118.7, \"trailing_mean\": 815.1}}, {\"alert_id\": 149, \"detector\": \"volume\", \"dataset\": \"raw.orders\", \"error_class\": \"volume_high\", \"severity\": \"medium\", \"logical_date\": \"2026-10-28\", \"count\": 1, \"first_seen\": \"2026-10-28 08:24:54.385002+00:00\", \"last_seen\": \"2026-10-28 08:24:54.385002+00:00\", \"payload\": {\"z_score\": 6.1, \"row_count\": 578, \"history_days\": 7, \"trailing_std\": 41.8, \"trailing_mean\": 323.0}}, {\"alert_id\": 150, \"detector\": \"volume\", \"dataset\": \"stg.order_items\", \"error_class\": \"volume_high\", \"severity\": \"medium\", \"logical_date\": \"2026-10-28\", \"count\": 1, \"first_seen\": \"2026-10-28 08:24:54.385002+00:00\", \"last_seen\": \"2026-10-28 08:24:54.385002+00:00\", \"payload\": {\"z_score\": 5.59, \"row_count\": 1478, \"history_days\": 7, \"trailing_std\": 118.7, \"trailing_mean\": 815.1}}, {\"alert_id\": 151, \"detector\": \"volume\", \"dataset\": \"stg.orders\", \"error_class\": \"volume_high\", \"severity\": \"medium\", \"logical_date\": \"2026-10-28\", \"count\": 1, \"first_seen\": \"2026-10-28 08:24:54.385002+00:00\", \"last_seen\": \"2026-10-28 08:24:54.385002+00:00\", \"payload\": {\"z_score\": 6.1, \"row_count\": 578, \"history_days\": 7, \"trailing_std\": 41.8, \"trailing_mean\": 323.0}}], \"logical_dates\": [\"2026-10-28\"]}}"
+    },
+    {
+      "tool_call_id": "ctx-lineage",
+      "name": "get_lineage",
+      "input": {
+        "table": "raw.order_items",
+        "direction": "upstream",
+        "depth": 2
+      },
+      "ok": true,
+      "blocked_reason": null,
+      "content": "{\"ok\": true, \"data\": {\"table\": \"raw.order_items\", \"direction\": \"upstream\", \"depth\": 2, \"tables\": [{\"table\": \"raw.order_items\", \"hops\": 0, \"written_by\": [\"ingest_orders\"]}], \"table_edges\": [{\"from\": \"<external>\", \"to\": \"raw.order_items\", \"task\": \"ingest_orders\"}], \"column_edges\": []}}"
+    },
+    {
+      "tool_call_id": "toolu_01RJEBVvzJr2we6Jq6pCUeNe",
+      "name": "run_readonly_sql",
+      "input": {
+        "sql": "SELECT logical_date, count(*) AS n, count(DISTINCT order_id) AS d FROM raw.orders WHERE logical_date >= '2026-10-18' GROUP BY 1 ORDER BY 1 DESC"
+      },
+      "ok": true,
+      "blocked_reason": null,
+      "content": "{\"ok\": true, \"data\": {\"sql_executed\": \"SELECT logical_date, COUNT(*) AS n, COUNT(DISTINCT order_id) AS d FROM raw.orders WHERE logical_date >= '2026-10-18' GROUP BY 1 ORDER BY 1 DESC LIMIT 200\", \"columns\": [\"logical_date\", \"n\", \"d\"], \"rows\": [{\"logical_date\": \"2026-10-28\", \"n\": 578, \"d\": 289}, {\"logical_date\": \"2026-10-27\", \"n\": 287, \"d\": 287}, {\"logical_date\": \"2026-10-26\", \"n\": 253, \"d\": 253}, {\"logical_date\": \"2026-10-25\", \"n\": 367, \"d\": 367}, {\"logical_date\": \"2026-10-24\", \"n\": 375, \"d\": 375}, {\"logical_date\": \"2026-10-23\", \"n\": 351, \"d\": 351}, {\"logical_date\": \"2026-10-22\", \"n\": 329, \"d\": 329}, {\"logical_date\": \"2026-10-21\", \"n\": 299, \"d\": 299}, {\"logical_date\": \"2026-10-20\", \"n\": 307, \"d\": 307}, {\"logical_date\": \"2026-10-19\", \"n\": 254, \"d\": 254}, {\"logical_date\": \"2026-10-18\", \"n\": 329, \"d\": 329}], \"row_count\": 11}}"
+    },
+    {
+      "tool_call_id": "toolu_01TnJAfViZ34smThdMEWayxw",
+      "name": "get_task_runs",
+      "input": {
+        "limit": 15,
+        "task_id": "ingest_orders"
+      },
+      "ok": true,
+      "blocked_reason": null,
+      "content": "{\"ok\": true, \"data\": {\"task_id\": \"ingest_orders\", \"since\": \"2026-10-21\", \"runs\": [{\"run_id\": \"20261028_2198a9e1.ingest_orders.1\", \"logical_date\": \"2026-10-28\", \"try_number\": 1, \"status\": \"success\", \"started_at\": \"2026-10-28 08:24:54.317502+00:00\", \"ended_at\": \"2026-10-28 08:24:54.335061+00:00\", \"duration_s\": \"0.018\", \"error_class\": null, \"error_message\": null}, {\"run_id\": \"20261027_281c8463.ingest_orders.1\", \"logical_date\": \"2026-10-27\", \"try_number\": 1, \"status\": \"success\", \"started_at\": \"2026-10-28 02:52:18.338601+00:00\", \"ended_at\": \"2026-10-28 02:52:18.350496+00:00\", \"duration_s\": \"0.012\", \"error_class\": null, \"error_message\": null}, {\"run_id\": \"20261026_2545fc26.ingest_orders.1\", \"logical_date\": \"2026-10-26\", \"try_number\": 1, \"status\": \"success\", \"started_at\": \"2026-10-27 03:04:51.987835+00:00\", \"ended_at\": \"2026-10-27 03:04:51.999750+00:00\", \"duration_s\": \"0.012\", \"error_class\": null, \"error_message\": null}, {\"run_id\": \"20261025_98b03dd6.ingest_orders.1\", \"logical_date\": \"2026-10-25\", \"try_number\": 1, \"status\": \"success\", \"started_at\": \"2026-10-27 03:04:51.864968+00:00\", \"ended_at\": \"2026-10-27 03:04:51.889430+00:00\", \"duration_s\": \"0.024\", \"error_class\": null, \"error_message\": null}, {\"run_id\": \"20261024_1aab4275.ingest_orders.1\", \"logical_date\": \"2026-10-24\", \"try_number\": 1, \"status\": \"success\", \"started_at\": \"2026-10-27 03:04:51.786066+00:00\", \"ended_at\": \"2026-10-27 03:04:51.805513+00:00\", \"duration_s\": \"0.019\", \"error_class\": null, \"error_message\": null}, {\"run_id\": \"20261023_607686ef.ingest_orders.1\", \"logical_date\": \"2026-10-23\", \"try_number\": 1, \"status\": \"success\", \"started_at\": \"2026-10-27 03:04:51.720043+00:00\", \"ended_at\": \"2026-10-27 03:04:51.733500+00:00\", \"duration_s\": \"0.013\", \"error_class\": null, \"error_message\": null}, {\"run_id\": \"20261022_d46760f3.ingest_orders.1\", \"logical_date\": \"2026-10-22\", \"try_number\": 1, \"status\": \"success\", \"started_at\": \"2026-10-27 03:04:51.659399+00:00\", \"ended_at\": \"2026-10-27 03:04:51.672869+00:00\", \"duration_s\": \"0.013\", \"error_class\": null, \"error_message\": null}, {\"run_id\": \"20261021_8d87539c.ingest_orders.1\", \"logical_date\": \"2026-10-21\", \"try_number\": 1, \"status\": \"success\", \"started_at\": \"2026-10-27 03:04:51.601776+00:00\", \"ended_at\": \"2026-10-27 03:04:51.613325+00:00\", \"duration_s\": \"0.012\", \"error_class\": null, \"error_message\": null}, {\"run_id\": \"20261026_85acb250.ingest_orders.1\", \"logical_date\": \"2026-10-26\", \"try_number\": 1, \"status\": \"success\", \"started_at\": \"2026-10-27 03:03:10.726851+00:00\", \"ended_at\": \"2026-10-27 03:03:10.738920+00:00\", \"duration_s\": \"0.012\", \"error_class\": null, \"error_message\": null}, {\"run_id\": \"20261026_19a22dc7.ingest_orders.1\", \"logical_date\": \"2026-10-26\", \"try_number\": 1, \"status\": \"success\", \"started_at\": \"2026-10-27 03:03:10.163061+00:00\", \"ended_at\": \"2026-10-27 03:03:10.177523+00:00\", \"duration_s\": \"0.014\", \"error_class\": null, \"error_message\": null}, {\"run_id\": \"20261025_6322cdf3.ingest_orders.1\", \"logical_date\": \"2026-10-25\", \"try_number\": 1, \"status\": \"success\", \"started_at\": \"2026-10-27 03:03:10.075700+00:00\", \"ended_at\": \"2026-10-27 03:03:10.089379+00:00\", \"duration_s\": \"0.014\", \"error_class\": null, \"error_message\": null}, {\"run_id\": \"20261024_45f0d2c3.ingest_orders.1\", \"logical_date\": \"2026-10-24\", \"try_number\": 1, \"status\": \"success\", \"started_at\": \"2026-10-27 03:03:09.967521+00:00\", \"ended_at\": \"2026-10-27 03:03:09.986613+00:00\", \"duration_s\": \"0.019\", \"error_class\": null, \"error_message\": null}, {\"run_id\": \"20261023_31f44c30.ingest_orders.1\", \"logical_date\": \"2026-10-23\", \"try_number\": 1, \"status\": \"success\", \"started_at\": \"2026-10-27 03:03:09.869371+00:00\", \"ended_at\": \"2026-10-27 03:03:09.886709+00:00\", \"duration_s\": \"0.017\", \"error_class\": null, \"error_message\": null}, {\"run_id\": \"20261022_16c16ecb.ingest_orders.1\", \"logical_date\": \"2026-10-22\", \"try_number\": 1, \"status\": \"success\", \"started_at\": \"2026-10-27 03:03:09.783253+00:00\", \"ended_at\": \"2026-10-27 03:03:09.797617+00:00\", \"duration_s\": \"0.014\", \"error_class\": null, \"error_message\": null}, {\"run_id\": \"20261021_43133682.ingest_orders.1\", \"logical_date\": \"2026-10-21\", \"try_number\": 1, \"status\": \"success\", \"started_at\": \"2026-10-27 03:03:09.707948+00:00\", \"ended_at\": \"2026-10-27 03:03:09.720733+00:00\", \"duration_s\": \"0.013\", \"error_class\": null, \"error_message\": null}]}}"
+    },
+    {
+      "tool_call_id": "toolu_01UqAjWhHeYq76gxXTz3ULwC",
+      "name": "get_recent_deploys",
+      "input": {},
+      "ok": true,
+      "blocked_reason": null,
+      "content": "{\"ok\": true, \"data\": {\"since_hours\": 72, \"deploys\": []}}"
+    },
+    {
+      "tool_call_id": "toolu_01JWgFhUcti9FQp6svt7V5r6",
+      "name": "run_readonly_sql",
+      "input": {
+        "sql": "SELECT logical_date, count(*) AS n, count(DISTINCT (order_id, line_id)) AS d FROM raw.order_items WHERE logical_date >= '2026-10-25' GROUP BY 1 ORDER BY 1 DESC"
+      },
+      "ok": false,
+      "blocked_reason": null,
+      "content": "{\"ok\": false, \"error\": \"UndefinedColumn: column \\\"line_id\\\" does not exist\"}"
+    },
+    {
+      "tool_call_id": "toolu_015UAfMf8zDDNCPWeDCA4GPs",
+      "name": "get_task_logs",
+      "input": {
+        "run_id": "20261028_2198a9e1.ingest_orders.1"
+      },
+      "ok": true,
+      "blocked_reason": null,
+      "content": "{\"ok\": true, \"data\": {\"run_id\": \"20261028_2198a9e1.ingest_orders.1\", \"task_id\": \"ingest_orders\", \"total_lines\": 7, \"matched_lines\": 7, \"omitted\": 0, \"error_lines\": [], \"lines\": [{\"ts\": \"2026-10-28 08:24:54.317504+00:00\", \"level\": \"INFO\", \"message\": \"Starting attempt 1 of 3\"}, {\"ts\": \"2026-10-28 08:24:54.318252+00:00\", \"level\": \"INFO\", \"message\": \"Running python callable rca.simulator.ingest:ingest_orders\"}, {\"ts\": \"2026-10-28 08:24:54.328877+00:00\", \"level\": \"INFO\", \"message\": \"Loaded batch orders_20261028_01 from landing/orders/2026-10-28.csv: 289 orders, 739 order items\"}, {\"ts\": \"2026-10-28 08:24:54.329671+00:00\", \"level\": \"WARNING\", \"message\": \"Upload acknowledgement for batch orders_20261028_01 timed out after 30s; re-sending batch\"}, {\"ts\": \"2026-10-28 08:24:54.333452+00:00\", \"level\": \"INFO\", \"message\": \"Loaded batch orders_20261028_01 from landing/orders/2026-10-28.csv: 289 orders, 739 order items\"}, {\"ts\": \"2026-10-28 08:24:54.334485+00:00\", \"level\": \"INFO\", \"message\": \"Task succeeded; 2056 rows written\"}, {\"ts\": \"2026-10-28 08:24:54.334778+00:00\", \"level\": \"INFO\", \"message\": \"Marking task as SUCCESS\"}]}}"
+    },
+    {
+      "tool_call_id": "toolu_01Wk7g8i7WrLtsD4jLsP1bWE",
+      "name": "search_knowledge",
+      "input": {
+        "query": "duplicate load raw.orders volume_high row count doubled"
+      },
+      "ok": true,
+      "blocked_reason": null,
+      "content": "{\"ok\": true, \"data\": {\"hits\": [{\"chunk_id\": \"runbooks/duplicate_load#01\", \"doc_type\": \"runbook\", \"title\": \"Duplicate loads and double counting\", \"section\": \"Triage > Confirm duplication rather than real growth\", \"score\": 0.0325, \"text\": \"Runbook: Duplicate loads and double counting > Triage > Confirm duplication rather than real growth\\n\\n```sql\\nSELECT _batch_id, count(*) AS rows, count(DISTINCT order_id) AS distinct_orders,\\n       min(_loaded_at), max(_loaded_at)\\nFROM raw.orders\\nWHERE logical_date = DATE '2026-03-10'\\nGROUP BY 1;\\n```\\n\\n`rows = 2 x distinct_orders` for one `_batch_id`, with two clusters of `_loaded_at`, is a replayed\\nbatch. Real growth shows more distinct order_ids, not repeated ones.\"}, {\"chunk_id\": \"runbooks/duplicate_load#04\", \"doc_type\": \"runbook\", \"title\": \"Duplicate loads and double counting\", \"section\": \"Prevention\", \"score\": 0.0323, \"text\": \"Runbook: Duplicate loads and double counting > Prevention\\n\\n- Make batch loads idempotent: delete-then-insert per `_batch_id` inside one transaction, or upsert\\n  on a natural key.\\n- Alert on `count(*) != count(DISTINCT order_id)` in raw.orders.\"}, {\"chunk_id\": \"runbooks/duplicate_load#00\", \"doc_type\": \"runbook\", \"title\": \"Duplicate loads and double counting\", \"section\": \"Overview\", \"score\": 0.032, \"text\": \"Runbook: Duplicate loads and double counting > Overview\\n\\nUse this when volumes jump to roughly 2x with no task failure: `volume_high` alerts on raw and stg\\ntables, GMV doubling in `mart.daily_gmv_by_region`, finance asking why yesterday looks like a record\\nday.\\n\\nRaw and staging tables have no primary keys on purpose (they accept whatever ingest writes), so a\\nbatch that is written twice is stored twice.\"}, {\"chunk_id\": \"postmortems/2025-12-double-loaded-orders-batch#00\", \"doc_type\": \"postmortem\", \"title\": \"GMV doubled after orders batch was re-sent\", \"section\": \"Full postmortem\", \"score\": 0.0308, \"text\": \"Postmortem: GMV doubled after orders batch was re-sent > Full postmortem\\n\\n## Summary\\nDuring `ingest_orders` an upload acknowledgement timed out and the loader re-sent the whole batch\\n(`Upload acknowledgement for batch orders_20251201_01 timed out after 30s; re-sending batch`). Both\\ncopies were committed. Row counts and GMV for 2025-12-01 doubled. No task failed.\\n\\n## Impact\\n- Finance's daily GMV report showed a record day (+98%) and was forwarded to leadership before the\\n  correction.\\n\\n## Detection\\n`volume_high` alerts on raw.orders, raw.order_items, stg.orders and stg.order_items (z-scores\\nabove 8).\\n\\n## Investigation\\n- `count(*)` was exactly twice `count(DISTINCT order_id)` for batch `orders_20251201_01`, with two\\n  `_loaded_at` clusters 31 seconds apart.\\n- The ingest log showed the re-send warning inside a single successful attempt.\\n\\n## Root cause\\nThe loader's retry path appended instead of replacing; raw tables have no primary key, so nothing\\nrejected the duplicates. The producing task, `ingest_orders`, was the root entity.\\n\\n## Resolution\\nReran `ingest_orders` for 2025-12-01 (it deletes the partition first), then backfilled stg and marts.\\n\\n## Action items\\n- Make the upload retry idempotent per `_batch_id`.\\n- Monitor duplicate order_ids in raw.orders.\"}, {\"chunk_id\": \"runbooks/duplicate_load#03\", \"doc_type\": \"runbook\", \"title\": \"Duplicate loads and double counting\", \"section\": \"Remediation\", \"score\": 0.0303, \"text\": \"Runbook: Duplicate loads and double counting > Remediation\\n\\n- `rerun_task` the ingest task for the date: our ingest deletes the partition before loading, so a\\n  clean rerun replaces the doubled rows.\\n- Then `backfill_partition` for every downstream table of that date (stg and all marts).\\n- If a finance extract already went out, `escalate` so the report can be reissued.\"}]}}"
+    },
+    {
+      "tool_call_id": "toolu_01ASEeZznBvXunpgAmru5DH7",
+      "name": "get_lineage",
+      "input": {
+        "table": "raw.orders",
+        "direction": "downstream",
+        "include_columns": false
+      },
+      "ok": true,
+      "blocked_reason": null,
+      "content": "{\"ok\": true, \"data\": {\"table\": \"raw.orders\", \"direction\": \"downstream\", \"depth\": 2, \"tables\": [{\"table\": \"raw.orders\", \"hops\": 0, \"written_by\": [\"ingest_orders\"]}, {\"table\": \"stg.orders\", \"hops\": 1, \"written_by\": [\"stg_orders\"]}, {\"table\": \"mart.daily_gmv_by_region\", \"hops\": 2, \"written_by\": [\"mart_daily_gmv_by_region\"]}], \"table_edges\": [{\"from\": \"stg.orders\", \"to\": \"mart.daily_gmv_by_region\", \"task\": \"mart_daily_gmv_by_region\"}, {\"from\": \"raw.orders\", \"to\": \"stg.orders\", \"task\": \"stg_orders\"}]}}"
+    },
+    {
+      "tool_call_id": "toolu_019SEJQfzfbMyKxHQm5pdu9W",
+      "name": "run_readonly_sql",
+      "input": {
+        "sql": "SELECT _batch_id, count(*) AS n, count(DISTINCT order_id) AS d, min(_loaded_at) AS mn, max(_loaded_at) AS mx FROM raw.orders WHERE logical_date = DATE '2026-10-28' GROUP BY 1"
+      },
+      "ok": true,
+      "blocked_reason": null,
+      "content": "{\"ok\": true, \"data\": {\"sql_executed\": \"SELECT _batch_id, COUNT(*) AS n, COUNT(DISTINCT order_id) AS d, MIN(_loaded_at) AS mn, MAX(_loaded_at) AS mx FROM raw.orders WHERE logical_date = CAST('2026-10-28' AS DATE) GROUP BY 1 LIMIT 200\", \"columns\": [\"_batch_id\", \"n\", \"d\", \"mn\", \"mx\"], \"rows\": [{\"_batch_id\": \"orders_20261028_01\", \"n\": 578, \"d\": 289, \"mn\": \"2026-10-28 08:24:54.318122+00:00\", \"mx\": \"2026-10-28 08:24:54.318122+00:00\"}], \"row_count\": 1}}"
+    },
+    {
+      "tool_call_id": "toolu_019UgANyKWduyKfarSnwz55g",
+      "name": "get_lineage",
+      "input": {
+        "table": "raw.order_items",
+        "direction": "downstream",
+        "include_columns": false
+      },
+      "ok": true,
+      "blocked_reason": null,
+      "content": "{\"ok\": true, \"data\": {\"table\": \"raw.order_items\", \"direction\": \"downstream\", \"depth\": 2, \"tables\": [{\"table\": \"raw.order_items\", \"hops\": 0, \"written_by\": [\"ingest_orders\"]}, {\"table\": \"stg.order_items\", \"hops\": 1, \"written_by\": [\"stg_order_items\"]}, {\"table\": \"mart.daily_gmv_by_region\", \"hops\": 2, \"written_by\": [\"mart_daily_gmv_by_region\"]}, {\"table\": \"mart.inventory_health\", \"hops\": 2, \"written_by\": [\"mart_inventory_health\"]}, {\"table\": \"mart.sku_sell_through\", \"hops\": 2, \"written_by\": [\"mart_sku_sell_through\"]}], \"table_edges\": [{\"from\": \"stg.order_items\", \"to\": \"mart.daily_gmv_by_region\", \"task\": \"mart_daily_gmv_by_region\"}, {\"from\": \"stg.order_items\", \"to\": \"mart.inventory_health\", \"task\": \"mart_inventory_health\"}, {\"from\": \"stg.order_items\", \"to\": \"mart.sku_sell_through\", \"task\": \"mart_sku_sell_through\"}, {\"from\": \"raw.order_items\", \"to\": \"stg.order_items\", \"task\": \"stg_order_items\"}]}}"
+    },
+    {
+      "tool_call_id": "toolu_01UBQyfPTu82t4EgBwVtV2kB",
+      "name": "run_readonly_sql",
+      "input": {
+        "sql": "SELECT logical_date, count(*) AS n FROM mart.daily_gmv_by_region WHERE logical_date >= '2026-10-26' GROUP BY 1 ORDER BY 1 DESC"
+      },
+      "ok": true,
+      "blocked_reason": null,
+      "content": "{\"ok\": true, \"data\": {\"sql_executed\": \"SELECT logical_date, COUNT(*) AS n FROM mart.daily_gmv_by_region WHERE logical_date >= '2026-10-26' GROUP BY 1 ORDER BY 1 DESC LIMIT 200\", \"columns\": [\"logical_date\", \"n\"], \"rows\": [{\"logical_date\": \"2026-10-28\", \"n\": 5}, {\"logical_date\": \"2026-10-27\", \"n\": 6}, {\"logical_date\": \"2026-10-26\", \"n\": 5}], \"row_count\": 3}}"
+    }
+  ]
+}

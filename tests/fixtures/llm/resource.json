@@ -1,0 +1,659 @@
+{
+  "label": "resource",
+  "model": "claude-opus-5-5",
+  "recorded_at": "2026-10-28T08:29:11+00:00",
+  "turns": [
+    {
+      "request": {
+        "messages": 1,
+        "tool_results": []
+      },
+      "response": {
+        "content": [
+          {
+            "signature": "CAQS5wUKEAgTGAI4AUIIdGhpbmtpbmcSDKTqb0kIwYWq1fS8bhoMg+hGGKTju3JWKFkCIjDpiWXP/n0ksMmruj7WGX6iinBKcFRqFw7Nvba1k2klIYVQ1R38pWRPVirCUIBS9IoqhAUpWU1jLW1F58A2/oyuW5udFFZdUOWWr5Rz2knB8+lxZtVoBEKjWFAV7RoimxxdpTlQnEH4Em75JOhWFGCv1qSW2pYV1rjDq2V40QaaO/GXcN1E4uNs58YIfwNPK3vEZWAkREMPf0+ryl7IZ2lPbfFeRXP3fa0lP49MNMSOqUwK5NbdzWhdKfwXx3XhEVBYQ27X8yFF+yMwIGzqWx4EhYWAF2/Q6jmyCTsZKl2mp6IZ0VtFFLa+aEDUmzl0gzjBzJ6rN+fghChqsG2vIBAhzIvWQJGULI1JGk/JdWgegucf1G1wbWKz1ThAxfLdA828x/NczMtx/XPFhOmNjsQEtR9wKZYB4x5D3OABVdIr+yuzkK/lsuWgygXi3V6KuvHKsDt7zkWeb0WVyDqbZCU5yPNX4u1Q7MZYWX3dVwSxFX6qTunh9OgEoJe1KKXdGuWpTs8m94bfQDX2wrNjIjFCS28heufjdf05OtvHWsldO3RCLwjzyNLIM0t0g6oWSRJRQY423xxcWZAuf5MKsgjhdvJpyh8nzgLexz2aYT5lV+7KjMy3RO/PoDvV9wYzBuEeGhqJEja0lzdxXRCyPyZLsFPjoRtchqLpNfTTjRNL6mzaYCsjOMSY+uYwK84c0yVv1DPjbPe8uublISB0NBsiuUFRIcTkIcldAUETeqm+2kFJmsYu/LBil1SSzoUXADN5VCso638w4bPRBfrb91du5Jac6UypsukmKrF0npRWO1o1t2Oj+M3fWEtzFDEMkdSHaeOJ/zChLvEXUeJtTxZqhUydSt2Wynqeu3X1GVLSZHAC5jXQ3jdnD9YcxyhXWcuzS1b6Ufmv8pAMWcBD3+DG+1w80+25wBgB",
+            "thinking": "",
+            "type": "thinking"
+          },
+          {
+            "id": "toolu_011W6VwrKiChvZRyNyNtVgVt",
+            "input": {
+              "sql": "SELECT logical_date, count(*) AS n, count(DISTINCT order_id) AS d FROM raw.orders WHERE logical_date >= '2026-10-20' GROUP BY 1 ORDER BY 1"
+            },
+            "name": "run_readonly_sql",
+            "type": "tool_use",
+            "caller": {
+              "type": "direct"
+            }
+          },
+          {
+            "id": "toolu_013kg54t6n3v2qciDCofh7EJ",
+            "input": {
+              "task_id": "stg_order_items",
+              "limit": 15
+            },
+            "name": "get_task_runs",
+            "type": "tool_use",
+            "caller": {
+              "type": "direct"
+            }
+          },
+          {
+            "id": "toolu_014qjSkB8sPQvjWuxZ9UauJF",
+            "input": {
+              "task_id": "ingest_orders",
+              "limit": 10
+            },
+            "name": "get_task_runs",
+            "type": "tool_use",
+            "caller": {
+              "type": "direct"
+            }
+          }
+        ],
+        "stop_reason": "tool_use",
+        "usage": {
+          "input_tokens": 4,
+          "output_tokens": 334,
+          "cache_read_input_tokens": 0,
+          "cache_creation_input_tokens": 6464
+        },
+        "model": "claude-opus-5-5"
+      }
+    },
+    {
+      "request": {
+        "messages": 3,
+        "tool_results": [
+          "toolu_011W6VwrKiChvZRyNyNtVgVt",
+          "toolu_013kg54t6n3v2qciDCofh7EJ",
+          "toolu_014qjSkB8sPQvjWuxZ9UauJF"
+        ]
+      },
+      "response": {
+        "content": [
+          {
+            "signature": "CAQSpAcKEAgTGAI4AUIIdGhpbmtpbmcSDCODbhEJnlQ1bpkYzRoM4MIYc4khHX64BOqOIjBv62PjKDM+duwW88mTNSB20P6emwflgMKSTXIFXmZMDmmAcuj1kT4Fe6RPHQAhjwwqwQbTI0KGC3/OHHOlTF1g9HyEA/eXHZ6Ra7GA/PwxVFuc6qAekgqN0qBUZ6sA5JbdzBrMnEq6drLnMbnVMOf9x5ocKiSb3AcDtP1QFqjABdwgJW303FbpokoeFhvk3R/qg2ngt7NOzyK1zsEGApSZaQV7VUN9D0iBPFHYVeFlwh/3QfEsQiSDEiahNWnVNrljNiI2SKJ+L2IIh1yfrVHai8wMtDuKp7yCkhqCvLNM04N6gkBE7ufqHKrVejT8TsgISQHa611kiNKBLXeqcSjRxgAgZcFPTobR/sC/S6Rj/FCbeXoNINJbxRenwR/R4c2vp1m2FZQRre8+k0MZRKo//HFgnwNzZDNPcyVSVjKLoxEmGRXlkA038cbOU/bI9L6eIieRDJbmec+b7onu67LvgIY3bUxy4r3FfTd1B+IlD8LDpm1U8dY5SY7PstR0s8YHDlK2hf0FrD4DrhTz9RV0AhnfDasKxdnjFtgr3hke3U/mP35VvxlHQb7bQRIry8dy/SUTRaeH1Xeyztp4GReus2xq4dReyplsGTVC1nrmCmV0rPtVd3GgPCkJqz6Otryg8t1azlcVxj2b66NSxOa6PG3XQ/k9BRx30NhhDL3kOopX3MvmtB6kI+GSl1nzSWtMkkQ1gzJ4G8PLENBVPrqLmBfi/bdlHLNUM/VlITdwReukLis+hrD/XWGL7NdPQOTVKOO48bAx3YrE1bmqu2uH/ThdE9rwyee7KS+lMDoESK8SyyDnRggOApMcvNr/7Tv9r51fNGgCkznya1jaC2n+MLRJrFX/6GsGmxDRwiA5tJ4gd5sQrk4GNOsITE3QUdWO7FRRkadlCdXV7yce+U3mvw1czWnUDWI/zL0RhAhfKW2n0zomTXIe4TvRZnNQHnSIU9vGCBSmjPRn2fSv467hIvkSPwcqKbKF7oEQjukckt+eV9PBD48YpaCXKsrHQattnXh4yyTDai5tEmztzxxV5Yrk0ccV2KE5QFPwcwKsYFsqGHhB3d6MVbQQn3KVC0iNZotAVsDHKgrnOd1PJnyBgjxzCgJRGUZ+HnZuj7uyn8KiKf/5G+3LXpR7rmbR0NM2dm5YAvTotzplYnNwoL7ORtGQDBgB",
+            "thinking": "",
+            "type": "thinking"
+          },
+          {
+            "id": "toolu_01YSAy7w55kVR5LCjEqZFQom",
+            "input": {
+              "run_id": "20261028_3cfe61e5.stg_order_items.1"
+            },
+            "name": "get_task_logs",
+            "type": "tool_use",
+            "caller": {
+              "type": "direct"
+            }
+          },
+          {
+            "id": "toolu_01FQ3BN4tq1RbLrjzXDiCXsj",
+            "input": {
+              "run_id": "20261028_3cfe61e5.ingest_orders.1"
+            },
+            "name": "get_task_logs",
+            "type": "tool_use",
+            "caller": {
+              "type": "direct"
+            }
+          },
+          {
+            "id": "toolu_016g2wp1KDB4iKBEYXCXUk5m",
+            "input": {
+              "sql": "SELECT * FROM raw.orders WHERE logical_date = '2026-10-28' LIMIT 5"
+            },
+            "name": "run_readonly_sql",
+            "type": "tool_use",
+            "caller": {
+              "type": "direct"
+            }
+          },
+          {
+            "id": "toolu_01J7kVWGpvHkCet4TdPMBME5",
+            "input": {
+              "since_hours": 96
+            },
+            "name": "get_recent_deploys",
+            "type": "tool_use",
+            "caller": {
+              "type": "direct"
+            }
+          }
+        ],
+        "stop_reason": "tool_use",
+        "usage": {
+          "input_tokens": 2,
+          "output_tokens": 364,
+          "cache_read_input_tokens": 6464,
+          "cache_creation_input_tokens": 4471
+        },
+        "model": "claude-opus-5-5"
+      }
+    },
+    {
+      "request": {
+        "messages": 5,
+        "tool_results": [
+          "toolu_01YSAy7w55kVR5LCjEqZFQom",
+          "toolu_01FQ3BN4tq1RbLrjzXDiCXsj",
+          "toolu_016g2wp1KDB4iKBEYXCXUk5m",
+          "toolu_01J7kVWGpvHkCet4TdPMBME5"
+        ]
+      },
+      "response": {
+        "content": [
+          {
+            "signature": "CAQS7QcKEAgTGAI4AUIIdGhpbmtpbmcSDGsRhnBEIet7AZrx/RoM9RGDHmqukcxEwA1nIjCgfJbO6HUMBkfpTcGoaLauscC+lMVGMfiSeDdlAooaPzDOxkFiPjCH76EZYi5XI1cqigdNusvgOZjhIv5aXGoYiHvDUsxaE7ohftR5yRo3gxDzYg2IDl1Qu7AShAuYAjnNJ36Jpe66YV5mNOeNEWeWIXe249fW1PQVLps2/yUoGwDUhpIaFRjA0BTaWUrLtkAStJlengj1ojkL577oWasYEZxW6IP1pe1CymE1KPOJIEzzByh2N5Yi6E0aawBNWQAsSTrNLReu03o+UnPA10gTGmeJGJcL7cdewbVlHxx3HatGrYa/9qygZlKLq2YIHPlBcsQRKyPriQiuHSahl2vS6osu/igP3MK8J3h0+XBhFBDuCCgKCuMQvpEVzhUMWsvpQlsxbtHMTnn+cJq3s1YbU7mLCWlMUFzmQMs5v44sYYclTDnY9FlBoclbEU1DbgBNLk47IsFBumBFt0fsqOtbzRiHeMxqaF0rKG8RmUw/x5sBBMM5zCip7IJoacIu8CppGUajWXgAw5x/JprEo8hhkSAkD2AdAaD5Elp+2NZ69MdxDHKAD9Z5QIk9A39XEIT6t4suyezjRMhqfwJV0LnMCt0USYq6jZmzLW4yI6+utUXEI7SZIEIx3zb3Lkm348G9h3tyqRX0COrEyexTK0r39V1KVdioMzLWXwu0zKogSjpQ5EVh0/bxVc5iQ5DM1Y/2OimufPOQeyPyZGCWME7YpJlNvaj2c5TjKLXO74UobzO9ax5baW/q14IFMzVgOnZL9rAx1bZh4M17V8X+kQ2UtffVf7Gv9rhcmFE+vATGBYzab8ncQKIuEzxIGKEnVIBe9at7E634dOBxGB9EVqau/iMbJgBEvtsm5jtNTJwxwA6fHI+Ikt4ssz/NuuzxIGNlOL3qA4phqdvOWwrehEAGFbitvNkGQqdnDoUTH+tCJCx4wg61xOK1uTYM9QWU1iGqhpZHbLc4KpOmIRwYKt64KJAGqx5XAMwzfdaXIIkMIQaOO74dGUp/Li5agqn0wQ4e1Rtdn+vHkdAeYyEM4JUDdU8z4FUiXSXfnHrS2uPs9VyaV8hULYwCg3Zp1vFm7TXwiMREzghOjzXR//yoJu7r7Gm67igrSzTF1seocpsaGAebruerS/spEYysjNmcnwr0YFEynUBrDgPXB46rPWWA+4QIGsQQdvfR5vUf1SbEFtAbElCq/WmhCd07bHkVBDhGvewophVy3qcquDkFBHpSdfh8Cyoi16j74lRa1RA3z+4WGcQ+prpS44R876AYAQ==",
+            "thinking": "",
+            "type": "thinking"
+          },
+          {
+            "id": "toolu_016aQY4AiGZJHV3W9rUnkuZq",
+            "input": {
+              "sql": "SELECT logical_date, min(order_ts) AS mn, max(order_ts) AS mx, count(DISTINCT customer_id) AS cust, count(DISTINCT _batch_id) AS batches, count(*) FILTER (WHERE region IS NULL) AS null_region FROM raw.orders WHERE logical_date >= '2026-10-25' GROUP BY 1 ORDER BY 1"
+            },
+            "name": "run_readonly_sql",
+            "type": "tool_use",
+            "caller": {
+              "type": "direct"
+            }
+          },
+          {
+            "id": "toolu_01LcacKoGf8M7EweBwHQV46r",
+            "input": {
+              "sql": "SELECT logical_date, count(*) AS n, count(DISTINCT (order_id, line_id)) AS d FROM raw.order_items WHERE logical_date >= '2026-10-25' GROUP BY 1 ORDER BY 1"
+            },
+            "name": "run_readonly_sql",
+            "type": "tool_use",
+            "caller": {
+              "type": "direct"
+            }
+          },
+          {
+            "id": "toolu_01CZti91431LPS289z3DkHYm",
+            "input": {
+              "query": "canceling statement due to statement timeout stg_order_items volume spike"
+            },
+            "name": "search_knowledge",
+            "type": "tool_use",
+            "caller": {
+              "type": "direct"
+            }
+          }
+        ],
+        "stop_reason": "tool_use",
+        "usage": {
+          "input_tokens": 2,
+          "output_tokens": 497,
+          "cache_read_input_tokens": 10935,
+          "cache_creation_input_tokens": 2429
+        },
+        "model": "claude-opus-5-5"
+      }
+    },
+    {
+      "request": {
+        "messages": 7,
+        "tool_results": [
+          "toolu_016aQY4AiGZJHV3W9rUnkuZq",
+          "toolu_01LcacKoGf8M7EweBwHQV46r",
+          "toolu_01CZti91431LPS289z3DkHYm"
+        ]
+      },
+      "response": {
+        "content": [
+          {
+            "signature": "CAQSgQkKEAgTGAI4AUIIdGhpbmtpbmcSDFSMiKVnSg7099cZthoMUkSx2ozNmVFfXBthIjAEkkUWivif6Lvjf/N6e7hBYmmP5u1wq3KwG5XUGJTPtjV3FRMUxh42SrntL6tpqtMqnghfA9oU6G1hPYsotXdOXUrEh70LrPDCskUIHKOrLCxlMKXCeCzl19QQSGUD2EeMc7O2QC+o7YA25jRG+Jz/9Rei4kDRb4weGKRHHIscDJC/7/cEXAUGz/BZAK+Y9LGTM9I7GS4GIi8ty4Um01Y0+qefV3xgqn4Tffh2jsqP1IToOqXNYd+XO2JtS8RV24dte9zkJ8Bqq1C9+Rf1UFoMCIhJDnUiT6Ze4IrP67uQKucbIgvfrspPG5Mz6xkxEfZBaav/acWPLtoPwFLwEsAg89X4hXVujlZRUo2c/MQAUb3H0/Nn8aijBfC60bc23jyhNkKvaklwsFR3YokGBvNbpUgzqEmtXt6FvNGAHCEfvY8p1hQP5O4tDwfwAMvtcoomEoNKBduNh6tt7RYG2cJjBoyrBiBjiEgPdIdr0Qe/xLUbvvrVkZNKRKkmJEF3O5qnDOqyNI5DG8v/6nMmJ55H0EGAYxVn568p+UJx0nMsZ5KGcMBkLwW6sMUUyNMyRHD+fWZvVj4Ukk95eaom6FOgbSch6JYZT85r2imhcJyALwL76z6uvZeQVpGNi5tgPGtCddisHZmuhxxznLScFxcHktQncaOBz/bhdRtomH5Vrm/2X97VxLTHk1NiaQ1DhS9HzkV/j6h45M1N7voHa/mGKWOHJzkan39+I+VLVDX6IZbeeFugnRCmyQ60lg0EsxNujTY4yRjw61n/pJu4SdSwcyeNBtqYp4rxGTQRCGJum4R2KeeVdQ7BfdNofAjmUQl1tFv1+VglwvOcNg/VadsIf9k1wYnGwvsut6N+ZK5/DE3+qckOLv0eUSVfj0hblNZhQW2/HHC90sblLBBbLC5srYd1qFA01YKvoesvFaVf9YgfUICzPxQ6vfPL1FOvLsZlnioLoTxB4e9ANvQrSXbuVezxt1RDmir8Cq5bSxiNsgtYyL4bvDU21bI0GKvcoBudE3G/bvabJo8Nsut4sNUnAAiV42FWClJr/+M59QaVkMP77PNb4ecX84drmh97GUzMcEAGO82MPNs4ThpSVotxcbzV6Lam629CTt94qJPXQWdwYg+4t1UTo9MUKd0YAPC8Z5Qa6Mrhl+3eRT4XSqcCMqwKc/9TusMa0M5iroVoXtEZnN7jjiU2HRzMYTcpavqcnCQCJgEV1EfVszDIovSEnUyCFMTK8Fp+WNT78ANY+GApO7VPXJWXH7DqmomagCro48FZ3lBkHLH98LNmrz8YBugH84MDl79lp9kn2KfHfwPPJDTIQxnPXcXscRkjpZP6uwTOY8iZcURUQrmeR0KEvkIWSR859YHOM/T11mH2KmXqHqqbVaEFm2gcLfuoykfsVAUyl3gbyQw6abf2HNo0PZ8En5VsC7e2NQMo6EJFjdxi0bonEfW53+6Qt0plWe6nGAE=",
+            "thinking": "",
+            "type": "thinking"
+          },
+          {
+            "id": "toolu_01D14V74LLrocG1iYSWM5mB1",
+            "input": {
+              "sql": "SELECT count(*) AS n, count(DISTINCT (order_id, line_no)) AS d, count(DISTINCT order_id) AS orders, count(*) FILTER (WHERE order_id NOT IN (SELECT order_id FROM raw.orders WHERE logical_date='2026-10-28')) AS orphan FROM raw.order_items WHERE logical_date = '2026-10-28'"
+            },
+            "name": "run_readonly_sql",
+            "type": "tool_use",
+            "caller": {
+              "type": "direct"
+            }
+          },
+          {
+            "id": "toolu_012DJry1o29Jf2jk6PyxzRsf",
+            "input": {
+              "sql": "SELECT count(*) AS overlap_prior FROM raw.orders a JOIN raw.orders b ON a.order_id = b.order_id AND b.logical_date < '2026-10-28' WHERE a.logical_date = '2026-10-28'"
+            },
+            "name": "run_readonly_sql",
+            "type": "tool_use",
+            "caller": {
+              "type": "direct"
+            }
+          }
+        ],
+        "stop_reason": "tool_use",
+        "usage": {
+          "input_tokens": 2,
+          "output_tokens": 450,
+          "cache_read_input_tokens": 13364,
+          "cache_creation_input_tokens": 3394
+        },
+        "model": "claude-opus-5-5"
+      }
+    },
+    {
+      "request": {
+        "messages": 9,
+        "tool_results": [
+          "toolu_01D14V74LLrocG1iYSWM5mB1",
+          "toolu_012DJry1o29Jf2jk6PyxzRsf"
+        ]
+      },
+      "response": {
+        "content": [
+          {
+            "signature": "CAQSvgwKEAgTGAI4AUIIdGhpbmtpbmcSDF5VOWTI/4qWu6BVMhoM0Hql1WieaUlYOXvoIjBg8bUK44FQ2SylH+oAQbEkcwUTtIBGM8Oe4HvwwjCQF/9WEXC3eiBklDnFgqpqnFUq2wumcmRBt31eyLkXDMcUaxlL8vtbuVg6ShoIlt2wPDQ4h7CGxzF3mRham5vyD6mShqH9bX6SZmxIOWPaw97VDdEz0BGoXLOFA4tbxIfEaMdZ7/pr89zNFnpFWx4mJcIMnyuGn7/FglbW8g4o4QQQGw73xsfMt0bk98X0OnZ46ACluwJaxQcdl44cc3gHYm0RpWf+K4LwYtDpr6xwnmkTPFW2lMK95AKW3mm8RW07o/g6f1trtdMnj4+5AEbe1x8Kqe2s+tB9AlX7WhYuNAmHZdBM55uQ1nL+4cZTHcEG4QT5ZWB0L5+eCwQgrWRbPrQScttHli0l++LGSmdtIizXI0zZru14RQulUHYfSWfU99bqVU2qK5rjAsCP8/XnSTXqsMYJdExCG5hji+0ZO/MIXWrf7DOFduTOZ5fvoJhVCCl0Lk1JqLCx8PgL51RoJO7mRw1EVsCJ+NObstcWL6Y0bwQmM9EFyfk6LfjdsX12S7wz1lBzFgVffGdw0VDRvVYn7/2Lj5Ou+pEOTX3Hi6qQ4ToyeJmWK3XFS9u+P3YwiZ1SpfCweK9MEB5RnLpHIyLQUpFJ15pM8VTt6dUCrOrudXy4FTRxkImhWJBR+P9wa6qey+iBnvLUPrDnuGgrc+Q6HWFoqzZeap6SP1cSscob++9qqvqyJDjYJvLMN2g9JOMakbej+Fn0wMz9AVFIIR43UX1Bw67Dr70LIl0JGcoblHizSzcx085VbZWVCn8tjc/iCjkfMf0RNiTlOLlGHHgNdboN1cAXUhsDivB4TowFJh+Jc4HcYYj2drxi3JbvfyJTEuP/qbGc/ghjti7laLoJ5eSoqB8a+d+AZfqX1HTyUhebuEDJ3OPL+PHNGdnhmvROS9Q9OUqMQSCtV4lbAEoQf20QcVwkdERvcMTCiR39plODach6lHQCfRMlF00fDjHepOR7JvPl0AnxmBDOgT1DYoL236oNNFfIrXhmtY2SExNBU+sWGhV1e+OEKdw3c03DeP7ipBvlvrxWVTYKTmPWOYMS5hGu3UNcvfCs09MYrps4+l/T+2EwP7icbrn3ek92VYyJabZZ57RSGMKqndpq+M4VcufrAq50mT5lRI0DMjYOQhPUaRBCNcttCeM8xBC6BlJzivfRIJ4fBUEqfaRAXAyxvvWoJ8s7tJqWn5vmv7VI9I/32BL1p2CWtH5ib/HP4o19ojR6Y4lGl6QX0QhZ9xqYk90fHT+Pa7SWHY/pffc4j94qx/hOLmzPgpO4rfexgFswr7U5WSF3Bm8QhbkdnzXdetbYBkZV45MFdK6iEysmfoakt/kIC2m0dCTJX3ZVSlxoGzHxz8V7ZIxxAtOs6FWl6PYcLupahuZwkNTiLRSF/mKm/oQCm/2zA7vkLGDjIsv88mXANrinvAsMJeVc3GgBR1HRZPA/gE3rZdIAX9grhmjgsSNv7XW5k33sceLWK+XCEq1BopdEEcFNPThzRKMLFyk/CcDzoK/ubQhoEZZ7SxIpNB45GDsg3LlS6qGgdxYi1Qg/DTPcFevz3C6jELRB4jlB049Hyppb88Utw3dhZL0lTqkcM8b6vh0Lq0H8jlLuecWt2H5p23nM1QT73uC2kTSU/GsxKcshYkdV0cK9SI9PfE5TXepdbJnNtpAmbqnAHmHjVSP3V/LiO4z6J9NO2CcUbNhGvf//2F3FzXUZaMs1tuajVTWGNYMiMi/MHrL/2XzlqvEV4BviYJZbqOjsykG5hCRqjMEwB3jGI2quyCeQtSXTLmFsJ10KW1Ns0b6uoKAGIHoyo4Lb44GHFUkQL2gvdn7BFry2VfC6zjc4OH9AmWdw5uHCPClCbj9MfuORc+oxL5SejemWFEg44+1eVaWk12es2R3ZEAHZ/agEIzK4R2DjG0c5keqd/i05aHp+A0LSPWFh7y+bwgjPhjFWJwhsZLTfJoRQ6b0Ko32cgWcN0ua2HkjzDVKX+/bAnRn/+lgsERcc4sOwyixlFQanOyx3RSA1uzd99hgB",
+            "thinking": "",
+            "type": "thinking"
+          },
+          {
+            "id": "toolu_01FgV3uvYjC5NhpKCEmJ7bJW",
+            "input": {
+              "summary": "stg_order_items failed because its statement timeout is too small for an unusually large 2026-10-28 partition. The data itself looks valid. This is a capacity (resource) problem, not a code or data problem.\n\nWhat happened: ingest_orders succeeded and loaded one batch, orders_20261028_01: 28,887 orders and 72,230 order items. A normal day is about 300 orders and 800 items, so this is roughly 90x. stg_order_items then failed with \"QueryCanceled: canceling statement due to statement timeout\" on both attempts. Retries use the same timeout, so every attempt fails the same way. With stg.order_items missing for 2026-10-28, the three downstream marts were skipped and raised freshness alerts: mart.daily_gmv_by_region, mart.sku_sell_through and mart.inventory_health.\n\nWhy the volume looks real rather than a duplicate or bad load:\n- One batch only.\n- Every order_id is distinct, and none appear on any earlier date.\n- Every (order_id, line_no) is distinct, and no order item lacks a parent order.\n- order_ts stays within 2026-10-28.\n- About 4,981 distinct customers, against roughly 250\u2013350 on normal days.\n\nThere were no deploys in the last 96 hours, so a bad deploy is ruled out. This closely matches the 2025-10 Black Friday postmortem (about 100x partition, same timeout, same three marts skipped). The fix per the runbook is capacity, not code.\n\nSide note: raw.orders for 2026-10-27 has 109 rows with a NULL region. That is unrelated to this incident but worth a look. No prompt-injection content was seen in any tool output.",
+              "category": "resource",
+              "root_entity": "raw.order_items",
+              "confidence": 0.8,
+              "evidence": [
+                {
+                  "tool_call_id": "ctx-incident",
+                  "excerpt": "\"z_score\": 601.79, \"row_count\": 72230, \"history_days\": 7, \"trailing_std\": 118.7, \"trailing_mean\": 815.1"
+                },
+                {
+                  "tool_call_id": "toolu_013kg54t6n3v2qciDCofh7EJ",
+                  "excerpt": "\"try_number\": 2, \"status\": \"failed\", \"started_at\": \"2026-10-28 08:28:06.328234+00:00\", \"ended_at\": \"2026-10-28 08:28:06.422640+00:00\", \"duration_s\": \"0.094\", \"error_class\": \"QueryCanceled\", \"error_message\": \"canceling statement due to statement timeout\""
+                },
+                {
+                  "tool_call_id": "toolu_01YSAy7w55kVR5LCjEqZFQom",
+                  "excerpt": "Task failed with QueryCanceled: canceling statement due to statement timeout"
+                },
+                {
+                  "tool_call_id": "toolu_01FQ3BN4tq1RbLrjzXDiCXsj",
+                  "excerpt": "Loaded batch orders_20261028_01 from landing/orders/2026-10-28.csv: 28887 orders, 72230 order items"
+                },
+                {
+                  "tool_call_id": "toolu_011W6VwrKiChvZRyNyNtVgVt",
+                  "excerpt": "{\"logical_date\": \"2026-10-27\", \"n\": 287, \"d\": 287}, {\"logical_date\": \"2026-10-28\", \"n\": 28887, \"d\": 28887}"
+                },
+                {
+                  "tool_call_id": "toolu_016aQY4AiGZJHV3W9rUnkuZq",
+                  "excerpt": "{\"logical_date\": \"2026-10-28\", \"mn\": \"2026-10-28 00:00:00+00:00\", \"mx\": \"2026-10-28 23:59:57+00:00\", \"cust\": 4981, \"batches\": 1, \"null_region\": 0}"
+                },
+                {
+                  "tool_call_id": "toolu_01D14V74LLrocG1iYSWM5mB1",
+                  "excerpt": "{\"n\": 72230, \"d\": 72230, \"orders\": 28887, \"orphan\": 0}"
+                },
+                {
+                  "tool_call_id": "toolu_012DJry1o29Jf2jk6PyxzRsf",
+                  "excerpt": "{\"overlap_prior\": 0}"
+                },
+                {
+                  "tool_call_id": "toolu_01J7kVWGpvHkCet4TdPMBME5",
+                  "excerpt": "{\"since_hours\": 96, \"deploys\": []}"
+                },
+                {
+                  "tool_call_id": "toolu_01CZti91431LPS289z3DkHYm",
+                  "excerpt": "A partition many times larger than normal (sale event, bulk backfill landing in one day) explains\nthe timeout; the fix is capacity, not code."
+                }
+              ],
+              "citations": [
+                "runbooks/resource#00",
+                "runbooks/resource#01",
+                "runbooks/resource#04",
+                "postmortems/2025-10-black-friday-timeouts#00"
+              ],
+              "hypotheses_considered": [
+                "duplicate_load: rejected - order_id and (order_id,line_no) all distinct, single batch, zero overlap with prior dates",
+                "bad_deploy: rejected - no deploys in last 96h",
+                "late_upstream: rejected - partition is oversized, not empty",
+                "data_quality / bogus backfill: unlikely - order_ts all within 2026-10-28, no orphan items; source team should still confirm the volume is genuine",
+                "flaky transient timeout: rejected - both attempts failed identically with the same timeout"
+              ],
+              "impacted_datasets": [
+                "stg.order_items",
+                "mart.daily_gmv_by_region",
+                "mart.sku_sell_through",
+                "mart.inventory_health"
+              ],
+              "proposed_actions": [
+                {
+                  "type": "escalate",
+                  "team": "data platform",
+                  "message": "stg_order_items for 2026-10-28 fails deterministically with statement timeout on a ~90x partition (72,230 order items vs ~815/day). Volume looks legitimate (distinct keys, single batch, in-day timestamps). Please approve a temporary statement_timeout increase for this run. Orders source team: please confirm the 28,887-order day is expected (sale event / backfill).",
+                  "rationale": "Runbook: if the volume is legitimate, raise the task timeout with data platform approval; retries with the same limit will keep failing."
+                },
+                {
+                  "type": "rerun_task",
+                  "task_id": "stg_order_items",
+                  "logical_date": "2026-10-28",
+                  "rationale": "Rerun once the timeout is raised. Input data is valid, so no code change is needed."
+                },
+                {
+                  "type": "backfill_partition",
+                  "table": "mart.daily_gmv_by_region",
+                  "logical_date": "2026-10-28",
+                  "rationale": "Skipped as upstream_failed; rebuild after stg.order_items succeeds."
+                },
+                {
+                  "type": "backfill_partition",
+                  "table": "mart.sku_sell_through",
+                  "logical_date": "2026-10-28",
+                  "rationale": "Skipped as upstream_failed; rebuild after stg.order_items succeeds."
+                },
+                {
+                  "type": "backfill_partition",
+                  "table": "mart.inventory_health",
+                  "logical_date": "2026-10-28",
+                  "rationale": "Skipped as upstream_failed; rebuild after stg.order_items succeeds."
+                }
+              ]
+            },
+            "name": "submit_rca",
+            "type": "tool_use",
+            "caller": {
+              "type": "direct"
+            }
+          }
+        ],
+        "stop_reason": "tool_use",
+        "usage": {
+          "input_tokens": 2,
+          "output_tokens": 2868,
+          "cache_read_input_tokens": 16758,
+          "cache_creation_input_tokens": 1043
+        },
+        "model": "claude-opus-5-5"
+      }
+    },
+    {
+      "request": {
+        "messages": 11,
+        "tool_results": [
+          "toolu_01FgV3uvYjC5NhpKCEmJ7bJW"
+        ]
+      },
+      "response": {
+        "content": [
+          {
+            "signature": "CAQSvQYKEAgTGAI4AUIIdGhpbmtpbmcSDODpvMDQd3UVDj4U1BoMKCsj34DNKD8WkRSkIjDf+rlAv7NwRBi/ksc5YWI5zzDmn+T8FyWpOTr5ThjmqltKw39BQ6gDRP+YkiaZjTkq2gUSm9kNI5LkgCa5ppI0mhghEScuqWs+KMcteolXjAJTBHRVv3/IkLxW7/jwWxA6VospXdmOX2vzOrjqjCmvHoZcUc1fyj3lCq7/6bmgvHZ/72Ivl77SP+LHRHmmEDJ6qZfoH8ZwcS5iBgokMcmIap1ajjBZc/CiCszPqOprNg92f8I7h2kZc46V7ZUYOAq/Yq4CSjQ87a8m0kD5tBUbxQV3HPyzu/yX6Q134vr7pBolDitouaN5DD+A9mSYw4iRJHkeKgXR5L0VFKA2nv+W6sLDeyvv+myVq12ShNrheqSG2dUn3q8K3KZKuEnB62pelD3c5Tu8p7YnP2HRoTtLu0aj3B4vcPIper2EaKfVlX49/SRnDyYqZ8fR5ZaHvKcndIrPnOjNDa9rsLz6kU9CvhBZh0C6wbXi2QWOkXM63hv1bWvs5QgemKlZuxDkK2F0YfLMV48gUY+AGf6513wfw0ZwTZd2R1D+F0bTr1nLSFTATun1YweD+Td9T93P2gK4d8AoQ0HuBDHeYih3Eqo/ZEC9mE3TIikV2d9jRMSRxhmcQcda1gkJkzvfACpSSz1Q+eHh2DsSyBs5BPJ3L8iW4S/xQ1Db3stkdD14xUx1ENsdIQjeJxSYkUTMddRpkSmuImJX/ngAn8tfEJkwiNBUOxg4xiG13g7zN1niSLnr9jBYWDqCO51FR7JCEh6TcHfG5juzqY8geB9mMv5lcFKuQRpHiIvZg+uSv/sLYDL4oO13MUvJ8iOJPn0xRMRRUjiayP6QvWUGraB9F7VLuWs6G5pkzrRxkQ14gSZRkJFzTigJY5967xZh+RuuEhXpWqi9OpNBJRNG/FxaeWc8vFpRgb2leWzgxQe1hyEldZfLh5DmbF1smLkAF6YJgxnKVn1LJwEpJt7OP4KsqumuqlWi+s1Zu2CfZ3mvaMbea3qYmv6P3dfjYDOxX1e6VT+hz2IMxWUkECoafxKB56u4GAE=",
+            "thinking": "",
+            "type": "thinking"
+          },
+          {
+            "id": "toolu_01Dm3qkxqp6QKR6nHwgVu3Ya",
+            "input": {
+              "summary": "stg_order_items failed because its statement timeout is too small for an unusually large 2026-10-28 partition. The data itself looks valid. This is a capacity (resource) problem, not a code or data problem.\n\nWhat happened: ingest_orders succeeded and loaded one batch, orders_20261028_01: 28,887 orders and 72,230 order items. A normal day is about 300 orders and 800 items, so this is roughly 90x. stg_order_items then failed with \"QueryCanceled: canceling statement due to statement timeout\" on both attempts. Retries use the same timeout, so every attempt fails the same way. With stg.order_items missing for 2026-10-28, the three downstream marts were skipped and raised freshness alerts: mart.daily_gmv_by_region, mart.sku_sell_through and mart.inventory_health.\n\nWhy the volume looks real rather than a duplicate or bad load:\n- One batch only.\n- Every order_id is distinct, and none appear on any earlier date.\n- Every (order_id, line_no) is distinct, and no order item lacks a parent order.\n- order_ts stays within 2026-10-28.\n- About 4,981 distinct customers, against roughly 250\u2013350 on normal days.\n\nThere were no deploys in the last 96 hours, so a bad deploy is ruled out. This closely matches the 2025-10 Black Friday postmortem (about 100x partition, same timeout, same three marts skipped). The fix per the runbook is capacity, not code.\n\nSide note: raw.orders for 2026-10-27 has 109 rows with a NULL region. That is unrelated to this incident but worth a look. No prompt-injection content was seen in any tool output.",
+              "category": "resource",
+              "root_entity": "raw.order_items",
+              "confidence": 0.8,
+              "evidence": [
+                {
+                  "tool_call_id": "ctx-incident",
+                  "excerpt": "\"z_score\": 601.79, \"row_count\": 72230, \"history_days\": 7, \"trailing_std\": 118.7, \"trailing_mean\": 815.1"
+                },
+                {
+                  "tool_call_id": "toolu_013kg54t6n3v2qciDCofh7EJ",
+                  "excerpt": "\"error_class\": \"QueryCanceled\", \"error_message\": \"canceling statement due to statement timeout\""
+                },
+                {
+                  "tool_call_id": "toolu_01YSAy7w55kVR5LCjEqZFQom",
+                  "excerpt": "Task failed with QueryCanceled: canceling statement due to statement timeout"
+                },
+                {
+                  "tool_call_id": "toolu_01FQ3BN4tq1RbLrjzXDiCXsj",
+                  "excerpt": "Loaded batch orders_20261028_01 from landing/orders/2026-10-28.csv: 28887 orders, 72230 order items"
+                },
+                {
+                  "tool_call_id": "toolu_011W6VwrKiChvZRyNyNtVgVt",
+                  "excerpt": "{\"logical_date\": \"2026-10-28\", \"n\": 28887, \"d\": 28887}"
+                },
+                {
+                  "tool_call_id": "toolu_016aQY4AiGZJHV3W9rUnkuZq",
+                  "excerpt": "\"cust\": 4981, \"batches\": 1, \"null_region\": 0}"
+                },
+                {
+                  "tool_call_id": "toolu_01D14V74LLrocG1iYSWM5mB1",
+                  "excerpt": "{\"n\": 72230, \"d\": 72230, \"orders\": 28887, \"orphan\": 0}"
+                },
+                {
+                  "tool_call_id": "toolu_012DJry1o29Jf2jk6PyxzRsf",
+                  "excerpt": "{\"overlap_prior\": 0}"
+                },
+                {
+                  "tool_call_id": "toolu_01J7kVWGpvHkCet4TdPMBME5",
+                  "excerpt": "\"deploys\": []"
+                },
+                {
+                  "tool_call_id": "toolu_01CZti91431LPS289z3DkHYm",
+                  "excerpt": "the fix is capacity, not code"
+                },
+                {
+                  "tool_call_id": "toolu_01CZti91431LPS289z3DkHYm",
+                  "excerpt": "retries use the same limit, so a deterministic timeout fails every attempt"
+                }
+              ],
+              "citations": [
+                "runbooks/resource#00",
+                "runbooks/resource#01",
+                "runbooks/resource#04",
+                "postmortems/2025-10-black-friday-timeouts#00"
+              ],
+              "hypotheses_considered": [
+                "duplicate_load: rejected - order_id and (order_id,line_no) all distinct, single batch, zero overlap with prior dates",
+                "bad_deploy: rejected - no deploys in last 96h",
+                "late_upstream: rejected - partition is oversized, not empty",
+                "data_quality / bogus backfill: unlikely - order_ts all within 2026-10-28, no orphan items; source team should still confirm the volume is genuine",
+                "flaky transient timeout: rejected - both attempts failed identically with the same timeout"
+              ],
+              "impacted_datasets": [
+                "stg.order_items",
+                "mart.daily_gmv_by_region",
+                "mart.sku_sell_through",
+                "mart.inventory_health"
+              ],
+              "proposed_actions": [
+                {
+                  "type": "escalate",
+                  "team": "data platform",
+                  "message": "stg_order_items for 2026-10-28 fails deterministically with statement timeout on a ~90x partition (72,230 order items vs ~815/day). Volume looks legitimate (distinct keys, single batch, in-day timestamps). Please approve a temporary statement_timeout increase for this run. Orders source team: please confirm the 28,887-order day is expected (sale event / backfill).",
+                  "rationale": "Runbook: if the volume is legitimate, raise the task timeout with data platform approval; retries with the same limit will keep failing."
+                },
+                {
+                  "type": "rerun_task",
+                  "task_id": "stg_order_items",
+                  "logical_date": "2026-10-28",
+                  "rationale": "Rerun once the timeout is raised. Input data is valid, so no code change is needed."
+                },
+                {
+                  "type": "backfill_partition",
+                  "table": "mart.daily_gmv_by_region",
+                  "logical_date": "2026-10-28",
+                  "rationale": "Skipped as upstream_failed; rebuild after stg.order_items succeeds."
+                },
+                {
+                  "type": "backfill_partition",
+                  "table": "mart.sku_sell_through",
+                  "logical_date": "2026-10-28",
+                  "rationale": "Skipped as upstream_failed; rebuild after stg.order_items succeeds."
+                },
+                {
+                  "type": "backfill_partition",
+                  "table": "mart.inventory_health",
+                  "logical_date": "2026-10-28",
+                  "rationale": "Skipped as upstream_failed; rebuild after stg.order_items succeeds."
+                }
+              ]
+            },
+            "name": "submit_rca",
+            "type": "tool_use",
+            "caller": {
+              "type": "direct"
+            }
+          }
+        ],
+        "stop_reason": "tool_use",
+        "usage": {
+          "input_tokens": 2,
+          "output_tokens": 2412,
+          "cache_read_input_tokens": 17801,
+          "cache_creation_input_tokens": 3398
+        },
+        "model": "claude-opus-5-5"
+      }
+    }
+  ],
+  "tool_outputs": [
+    {
+      "tool_call_id": "ctx-incident",
+      "name": "get_incident",
+      "input": {},
+      "ok": true,
+      "blocked_reason": null,
+      "content": "{\"ok\": true, \"data\": {\"incident\": {\"incident_id\": 46, \"status\": \"open\", \"root_candidate\": \"raw.order_items\", \"created_at\": \"2026-10-28 08:28:06.493153+00:00\"}, \"alerts\": [{\"alert_id\": 170, \"detector\": \"task_failure\", \"dataset\": \"stg.order_items\", \"error_class\": \"QueryCanceled\", \"severity\": \"critical\", \"logical_date\": \"2026-10-28\", \"count\": 1, \"first_seen\": \"2026-10-28 08:28:06.493153+00:00\", \"last_seen\": \"2026-10-28 08:28:06.493153+00:00\", \"payload\": {\"dag_id\": \"ecommerce_daily\", \"run_id\": \"20261028_3cfe61e5.stg_order_items.2\", \"outputs\": [\"stg.order_items\"], \"task_id\": \"stg_order_items\", \"error_message\": \"canceling statement due to statement timeout\"}}, {\"alert_id\": 175, \"detector\": \"freshness\", \"dataset\": \"mart.daily_gmv_by_region\", \"error_class\": \"partition_missing\", \"severity\": \"high\", \"logical_date\": \"2026-10-28\", \"count\": 1, \"first_seen\": \"2026-10-28 08:28:06.493153+00:00\", \"last_seen\": \"2026-10-28 08:28:06.493153+00:00\", \"payload\": {\"message\": \"no rows in mart.daily_gmv_by_region for logical_date=2026-10-28\"}}, {\"alert_id\": 171, \"detector\": \"freshness\", \"dataset\": \"stg.order_items\", \"error_class\": \"partition_missing\", \"severity\": \"high\", \"logical_date\": \"2026-10-28\", \"count\": 1, \"first_seen\": \"2026-10-28 08:28:06.493153+00:00\", \"last_seen\": \"2026-10-28 08:28:06.493153+00:00\", \"payload\": {\"message\": \"no rows in stg.order_items for logical_date=2026-10-28\"}}, {\"alert_id\": 172, \"detector\": \"freshness\", \"dataset\": \"mart.inventory_health\", \"error_class\": \"partition_missing\", \"severity\": \"high\", \"logical_date\": \"2026-10-28\", \"count\": 1, \"first_seen\": \"2026-10-28 08:28:06.493153+00:00\", \"last_seen\": \"2026-10-28 08:28:06.493153+00:00\", \"payload\": {\"message\": \"no rows in mart.inventory_health for logical_date=2026-10-28\"}}, {\"alert_id\": 173, \"detector\": \"freshness\", \"dataset\": \"mart.sku_sell_through\", \"error_class\": \"partition_missing\", \"severity\": \"high\", \"logical_date\": \"2026-10-28\", \"count\": 1, \"first_seen\": \"2026-10-28 08:28:06.493153+00:00\", \"last_seen\": \"2026-10-28 08:28:06.493153+00:00\", \"payload\": {\"message\": \"no rows in mart.sku_sell_through for logical_date=2026-10-28\"}}, {\"alert_id\": 169, \"detector\": \"volume\", \"dataset\": \"raw.orders\", \"error_class\": \"volume_high\", \"severity\": \"medium\", \"logical_date\": \"2026-10-28\", \"count\": 1, \"first_seen\": \"2026-10-28 08:28:06.493153+00:00\", \"last_seen\": \"2026-10-28 08:28:06.493153+00:00\", \"payload\": {\"z_score\": 683.31, \"row_count\": 28887, \"history_days\": 7, \"trailing_std\": 41.8, \"trailing_mean\": 323.0}}, {\"alert_id\": 168, \"detector\": \"volume\", \"dataset\": \"raw.order_items\", \"error_class\": \"volume_high\", \"severity\": \"medium\", \"logical_date\": \"2026-10-28\", \"count\": 1, \"first_seen\": \"2026-10-28 08:28:06.493153+00:00\", \"last_seen\": \"2026-10-28 08:28:06.493153+00:00\", \"payload\": {\"z_score\": 601.79, \"row_count\": 72230, \"history_days\": 7, \"trailing_std\": 118.7, \"trailing_mean\": 815.1}}, {\"alert_id\": 174, \"detector\": \"volume\", \"dataset\": \"stg.orders\", \"error_class\": \"volume_high\", \"severity\": \"medium\", \"logical_date\": \"2026-10-28\", \"count\": 1, \"first_seen\": \"2026-10-28 08:28:06.493153+00:00\", \"last_seen\": \"2026-10-28 08:28:06.493153+00:00\", \"payload\": {\"z_score\": 683.31, \"row_count\": 28887, \"history_days\": 7, \"trailing_std\": 41.8, \"trailing_mean\": 323.0}}], \"logical_dates\": [\"2026-10-28\"]}}"
+    },
+    {
+      "tool_call_id": "ctx-lineage",
+      "name": "get_lineage",
+      "input": {
+        "table": "raw.order_items",
+        "direction": "upstream",
+        "depth": 2
+      },
+      "ok": true,
+      "blocked_reason": null,
+      "content": "{\"ok\": true, \"data\": {\"table\": \"raw.order_items\", \"direction\": \"upstream\", \"depth\": 2, \"tables\": [{\"table\": \"raw.order_items\", \"hops\": 0, \"written_by\": [\"ingest_orders\"]}], \"table_edges\": [{\"from\": \"<external>\", \"to\": \"raw.order_items\", \"task\": \"ingest_orders\"}], \"column_edges\": []}}"
+    },
+    {
+      "tool_call_id": "toolu_011W6VwrKiChvZRyNyNtVgVt",
+      "name": "run_readonly_sql",
+      "input": {
+        "sql": "SELECT logical_date, count(*) AS n, count(DISTINCT order_id) AS d FROM raw.orders WHERE logical_date >= '2026-10-20' GROUP BY 1 ORDER BY 1"
+      },
+      "ok": true,
+      "blocked_reason": null,
+      "content": "{\"ok\": true, \"data\": {\"sql_executed\": \"SELECT logical_date, COUNT(*) AS n, COUNT(DISTINCT order_id) AS d FROM raw.orders WHERE logical_date >= '2026-10-20' GROUP BY 1 ORDER BY 1 LIMIT 200\", \"columns\": [\"logical_date\", \"n\", \"d\"], \"rows\": [{\"logical_date\": \"2026-10-20\", \"n\": 307, \"d\": 307}, {\"logical_date\": \"2026-10-21\", \"n\": 299, \"d\": 299}, {\"logical_date\": \"2026-10-22\", \"n\": 329, \"d\": 329}, {\"logical_date\": \"2026-10-23\", \"n\": 351, \"d\": 351}, {\"logical_date\": \"2026-10-24\", \"n\": 375, \"d\": 375}, {\"logical_date\": \"2026-10-25\", \"n\": 367, \"d\": 367}, {\"logical_date\": \"2026-10-26\", \"n\": 253, \"d\": 253}, {\"logical_date\": \"2026-10-27\", \"n\": 287, \"d\": 287}, {\"logical_date\": \"2026-10-28\", \"n\": 28887, \"d\": 28887}], \"row_count\": 9}}"
+    },
+    {
+      "tool_call_id": "toolu_013kg54t6n3v2qciDCofh7EJ",
+      "name": "get_task_runs",
+      "input": {
+        "limit": 15,
+        "task_id": "stg_order_items"
+      },
+      "ok": true,
+      "blocked_reason": null,
+      "content": "{\"ok\": true, \"data\": {\"task_id\": \"stg_order_items\", \"since\": \"2026-10-21\", \"runs\": [{\"run_id\": \"20261028_3cfe61e5.stg_order_items.2\", \"logical_date\": \"2026-10-28\", \"try_number\": 2, \"status\": \"failed\", \"started_at\": \"2026-10-28 08:28:06.328234+00:00\", \"ended_at\": \"2026-10-28 08:28:06.422640+00:00\", \"duration_s\": \"0.094\", \"error_class\": \"QueryCanceled\", \"error_message\": \"canceling statement due to statement timeout\"}, {\"run_id\": \"20261028_3cfe61e5.stg_order_items.1\", \"logical_date\": \"2026-10-28\", \"try_number\": 1, \"status\": \"up_for_retry\", \"started_at\": \"2026-10-28 08:28:06.264223+00:00\", \"ended_at\": \"2026-10-28 08:28:06.327766+00:00\", \"duration_s\": \"0.064\", \"error_class\": \"QueryCanceled\", \"error_message\": \"canceling statement due to statement timeout\"}, {\"run_id\": \"20261027_281c8463.stg_order_items.1\", \"logical_date\": \"2026-10-27\", \"try_number\": 1, \"status\": \"success\", \"started_at\": \"2026-10-28 02:52:18.350776+00:00\", \"ended_at\": \"2026-10-28 02:52:18.354600+00:00\", \"duration_s\": \"0.004\", \"error_class\": null, \"error_message\": null}, {\"run_id\": \"20261026_2545fc26.stg_order_items.1\", \"logical_date\": \"2026-10-26\", \"try_number\": 1, \"status\": \"success\", \"started_at\": \"2026-10-27 03:04:52.000235+00:00\", \"ended_at\": \"2026-10-27 03:04:52.005340+00:00\", \"duration_s\": \"0.005\", \"error_class\": null, \"error_message\": null}, {\"run_id\": \"20261025_98b03dd6.stg_order_items.1\", \"logical_date\": \"2026-10-25\", \"try_number\": 1, \"status\": \"success\", \"started_at\": \"2026-10-27 03:04:51.890663+00:00\", \"ended_at\": \"2026-10-27 03:04:51.908688+00:00\", \"duration_s\": \"0.018\", \"error_class\": null, \"error_message\": null}, {\"run_id\": \"20261024_1aab4275.stg_order_items.1\", \"logical_date\": \"2026-10-24\", \"try_number\": 1, \"status\": \"success\", \"started_at\": \"2026-10-27 03:04:51.805984+00:00\", \"ended_at\": \"2026-10-27 03:04:51.814959+00:00\", \"duration_s\": \"0.009\", \"error_class\": null, \"error_message\": null}, {\"run_id\": \"20261023_607686ef.stg_order_items.1\", \"logical_date\": \"2026-10-23\", \"try_number\": 1, \"status\": \"success\", \"started_at\": \"2026-10-27 03:04:51.733823+00:00\", \"ended_at\": \"2026-10-27 03:04:51.739171+00:00\", \"duration_s\": \"0.005\", \"error_class\": null, \"error_message\": null}, {\"run_id\": \"20261022_d46760f3.stg_order_items.1\", \"logical_date\": \"2026-10-22\", \"try_number\": 1, \"status\": \"success\", \"started_at\": \"2026-10-27 03:04:51.673216+00:00\", \"ended_at\": \"2026-10-27 03:04:51.678227+00:00\", \"duration_s\": \"0.005\", \"error_class\": null, \"error_message\": null}, {\"run_id\": \"20261021_8d87539c.stg_order_items.1\", \"logical_date\": \"2026-10-21\", \"try_number\": 1, \"status\": \"success\", \"started_at\": \"2026-10-27 03:04:51.613672+00:00\", \"ended_at\": \"2026-10-27 03:04:51.618099+00:00\", \"duration_s\": \"0.004\", \"error_class\": null, \"error_message\": null}, {\"run_id\": \"20261026_85acb250.stg_order_items.1\", \"logical_date\": \"2026-10-26\", \"try_number\": 1, \"status\": \"success\", \"started_at\": \"2026-10-27 03:03:10.739587+00:00\", \"ended_at\": \"2026-10-27 03:03:10.745908+00:00\", \"duration_s\": \"0.006\", \"error_class\": null, \"error_message\": null}, {\"run_id\": \"20261026_19a22dc7.stg_order_items.1\", \"logical_date\": \"2026-10-26\", \"try_number\": 1, \"status\": \"success\", \"started_at\": \"2026-10-27 03:03:10.178437+00:00\", \"ended_at\": \"2026-10-27 03:03:10.185013+00:00\", \"duration_s\": \"0.007\", \"error_class\": null, \"error_message\": null}, {\"run_id\": \"20261025_6322cdf3.stg_order_items.1\", \"logical_date\": \"2026-10-25\", \"try_number\": 1, \"status\": \"success\", \"started_at\": \"2026-10-27 03:03:10.089823+00:00\", \"ended_at\": \"2026-10-27 03:03:10.094668+00:00\", \"duration_s\": \"0.005\", \"error_class\": null, \"error_message\": null}, {\"run_id\": \"20261024_45f0d2c3.stg_order_items.1\", \"logical_date\": \"2026-10-24\", \"try_number\": 1, \"status\": \"success\", \"started_at\": \"2026-10-27 03:03:09.987017+00:00\", \"ended_at\": \"2026-10-27 03:03:09.992171+00:00\", \"duration_s\": \"0.005\", \"error_class\": null, \"error_message\": null}, {\"run_id\": \"20261023_31f44c30.stg_order_items.1\", \"logical_date\": \"2026-10-23\", \"try_number\": 1, \"status\": \"success\", \"started_at\": \"2026-10-27 03:03:09.888037+00:00\", \"ended_at\": \"2026-10-27 03:03:09.895048+00:00\", \"duration_s\": \"0.007\", \"error_class\": null, \"error_message\": null}, {\"run_id\": \"20261022_16c16ecb.stg_order_items.1\", \"logical_date\": \"2026-10-22\", \"try_number\": 1, \"status\": \"success\", \"started_at\": \"2026-10-27 03:03:09.798060+00:00\", \"ended_at\": \"2026-10-27 03:03:09.803367+00:00\", \"duration_s\": \"0.005\", \"error_class\": null, \"error_message\": null}]}}"
+    },
+    {
+      "tool_call_id": "toolu_014qjSkB8sPQvjWuxZ9UauJF",
+      "name": "get_task_runs",
+      "input": {
+        "limit": 10,
+        "task_id": "ingest_orders"
+      },
+      "ok": true,
+      "blocked_reason": null,
+      "content": "{\"ok\": true, \"data\": {\"task_id\": \"ingest_orders\", \"since\": \"2026-10-21\", \"runs\": [{\"run_id\": \"20261028_3cfe61e5.ingest_orders.1\", \"logical_date\": \"2026-10-28\", \"try_number\": 1, \"status\": \"success\", \"started_at\": \"2026-10-28 08:28:05.503125+00:00\", \"ended_at\": \"2026-10-28 08:28:06.263793+00:00\", \"duration_s\": \"0.761\", \"error_class\": null, \"error_message\": null}, {\"run_id\": \"20261027_281c8463.ingest_orders.1\", \"logical_date\": \"2026-10-27\", \"try_number\": 1, \"status\": \"success\", \"started_at\": \"2026-10-28 02:52:18.338601+00:00\", \"ended_at\": \"2026-10-28 02:52:18.350496+00:00\", \"duration_s\": \"0.012\", \"error_class\": null, \"error_message\": null}, {\"run_id\": \"20261026_2545fc26.ingest_orders.1\", \"logical_date\": \"2026-10-26\", \"try_number\": 1, \"status\": \"success\", \"started_at\": \"2026-10-27 03:04:51.987835+00:00\", \"ended_at\": \"2026-10-27 03:04:51.999750+00:00\", \"duration_s\": \"0.012\", \"error_class\": null, \"error_message\": null}, {\"run_id\": \"20261025_98b03dd6.ingest_orders.1\", \"logical_date\": \"2026-10-25\", \"try_number\": 1, \"status\": \"success\", \"started_at\": \"2026-10-27 03:04:51.864968+00:00\", \"ended_at\": \"2026-10-27 03:04:51.889430+00:00\", \"duration_s\": \"0.024\", \"error_class\": null, \"error_message\": null}, {\"run_id\": \"20261024_1aab4275.ingest_orders.1\", \"logical_date\": \"2026-10-24\", \"try_number\": 1, \"status\": \"success\", \"started_at\": \"2026-10-27 03:04:51.786066+00:00\", \"ended_at\": \"2026-10-27 03:04:51.805513+00:00\", \"duration_s\": \"0.019\", \"error_class\": null, \"error_message\": null}, {\"run_id\": \"20261023_607686ef.ingest_orders.1\", \"logical_date\": \"2026-10-23\", \"try_number\": 1, \"status\": \"success\", \"started_at\": \"2026-10-27 03:04:51.720043+00:00\", \"ended_at\": \"2026-10-27 03:04:51.733500+00:00\", \"duration_s\": \"0.013\", \"error_class\": null, \"error_message\": null}, {\"run_id\": \"20261022_d46760f3.ingest_orders.1\", \"logical_date\": \"2026-10-22\", \"try_number\": 1, \"status\": \"success\", \"started_at\": \"2026-10-27 03:04:51.659399+00:00\", \"ended_at\": \"2026-10-27 03:04:51.672869+00:00\", \"duration_s\": \"0.013\", \"error_class\": null, \"error_message\": null}, {\"run_id\": \"20261021_8d87539c.ingest_orders.1\", \"logical_date\": \"2026-10-21\", \"try_number\": 1, \"status\": \"success\", \"started_at\": \"2026-10-27 03:04:51.601776+00:00\", \"ended_at\": \"2026-10-27 03:04:51.613325+00:00\", \"duration_s\": \"0.012\", \"error_class\": null, \"error_message\": null}, {\"run_id\": \"20261026_85acb250.ingest_orders.1\", \"logical_date\": \"2026-10-26\", \"try_number\": 1, \"status\": \"success\", \"started_at\": \"2026-10-27 03:03:10.726851+00:00\", \"ended_at\": \"2026-10-27 03:03:10.738920+00:00\", \"duration_s\": \"0.012\", \"error_class\": null, \"error_message\": null}, {\"run_id\": \"20261026_19a22dc7.ingest_orders.1\", \"logical_date\": \"2026-10-26\", \"try_number\": 1, \"status\": \"success\", \"started_at\": \"2026-10-27 03:03:10.163061+00:00\", \"ended_at\": \"2026-10-27 03:03:10.177523+00:00\", \"duration_s\": \"0.014\", \"error_class\": null, \"error_message\": null}]}}"
+    },
+    {
+      "tool_call_id": "toolu_01YSAy7w55kVR5LCjEqZFQom",
+      "name": "get_task_logs",
+      "input": {
+        "run_id": "20261028_3cfe61e5.stg_order_items.1"
+      },
+      "ok": true,
+      "blocked_reason": null,
+      "content": "{\"ok\": true, \"data\": {\"run_id\": \"20261028_3cfe61e5.stg_order_items.1\", \"task_id\": \"stg_order_items\", \"total_lines\": 4, \"matched_lines\": 4, \"omitted\": 0, \"error_lines\": [{\"ts\": \"2026-10-28 08:28:06.316850+00:00\", \"message\": \"Task failed with QueryCanceled: canceling statement due to statement timeout\", \"attrs\": {\"dag_id\": \"ecommerce_daily\", \"task_id\": \"stg_order_items\", \"sql_file\": \"sql/stg/order_items.sql\", \"sqlstate\": \"57014\", \"dag_run_id\": \"20261028_3cfe61e5\", \"try_number\": 1, \"error_class\": \"QueryCanceled\", \"logical_date\": \"2026-10-28\"}}], \"lines\": [{\"ts\": \"2026-10-28 08:28:06.264225+00:00\", \"level\": \"INFO\", \"message\": \"Starting attempt 1 of 2\"}, {\"ts\": \"2026-10-28 08:28:06.264916+00:00\", \"level\": \"INFO\", \"message\": \"Executing sql/stg/order_items.sql\"}, {\"ts\": \"2026-10-28 08:28:06.316850+00:00\", \"level\": \"ERROR\", \"message\": \"Task failed with QueryCanceled: canceling statement due to statement timeout\"}, {\"ts\": \"2026-10-28 08:28:06.327231+00:00\", \"level\": \"INFO\", \"message\": \"Marking task as UP_FOR_RETRY\"}]}}"
+    },
+    {
+      "tool_call_id": "toolu_01FQ3BN4tq1RbLrjzXDiCXsj",
+      "name": "get_task_logs",
+      "input": {
+        "run_id": "20261028_3cfe61e5.ingest_orders.1"
+      },
+      "ok": true,
+      "blocked_reason": null,
+      "content": "{\"ok\": true, \"data\": {\"run_id\": \"20261028_3cfe61e5.ingest_orders.1\", \"task_id\": \"ingest_orders\", \"total_lines\": 5, \"matched_lines\": 5, \"omitted\": 0, \"error_lines\": [], \"lines\": [{\"ts\": \"2026-10-28 08:28:05.503126+00:00\", \"level\": \"INFO\", \"message\": \"Starting attempt 1 of 3\"}, {\"ts\": \"2026-10-28 08:28:05.503787+00:00\", \"level\": \"INFO\", \"message\": \"Running python callable rca.simulator.ingest:ingest_orders\"}, {\"ts\": \"2026-10-28 08:28:06.239826+00:00\", \"level\": \"INFO\", \"message\": \"Loaded batch orders_20261028_01 from landing/orders/2026-10-28.csv: 28887 orders, 72230 order items\"}, {\"ts\": \"2026-10-28 08:28:06.262950+00:00\", \"level\": \"INFO\", \"message\": \"Task succeeded; 101117 rows written\"}, {\"ts\": \"2026-10-28 08:28:06.263477+00:00\", \"level\": \"INFO\", \"message\": \"Marking task as SUCCESS\"}]}}"
+    },
+    {
+      "tool_call_id": "toolu_016g2wp1KDB4iKBEYXCXUk5m",
+      "name": "run_readonly_sql",
+      "input": {
+        "sql": "SELECT * FROM raw.orders WHERE logical_date = '2026-10-28' LIMIT 5"
+      },
+      "ok": true,
+      "blocked_reason": null,
+      "content": "{\"ok\": true, \"data\": {\"sql_executed\": \"SELECT * FROM raw.orders WHERE logical_date = '2026-10-28' LIMIT 5\", \"columns\": [\"order_id\", \"logical_date\", \"order_ts\", \"customer_id\", \"region\", \"status\", \"_batch_id\", \"_loaded_at\"], \"rows\": [{\"order_id\": 739917003582, \"logical_date\": \"2026-10-28\", \"order_ts\": \"2026-10-28 19:50:47+00:00\", \"customer_id\": 4139, \"region\": \"central\", \"status\": \"returned\", \"_batch_id\": \"orders_20261028_01\", \"_loaded_at\": \"2026-10-28 08:28:05.503687+00:00\"}, {\"order_id\": 739917003583, \"logical_date\": \"2026-10-28\", \"order_ts\": \"2026-10-28 19:04:48+00:00\", \"customer_id\": 3091, \"region\": \"west\", \"status\": \"completed\", \"_batch_id\": \"orders_20261028_01\", \"_loaded_at\": \"2026-10-28 08:28:05.503687+00:00\"}, {\"order_id\": 739917003584, \"logical_date\": \"2026-10-28\", \"order_ts\": \"2026-10-28 22:10:40+00:00\", \"customer_id\": 1920, \"region\": \"south\", \"status\": \"completed\", \"_batch_id\": \"orders_20261028_01\", \"_loaded_at\": \"2026-10-28 08:28:05.503687+00:00\"}, {\"order_id\": 739917003585, \"logical_date\": \"2026-10-28\", \"order_ts\": \"2026-10-28 04:16:32+00:00\", \"customer_id\": 4323, \"region\": \"central\", \"status\": \"completed\", \"_batch_id\": \"orders_20261028_01\", \"_loaded_at\": \"2026-10-28 08:28:05.503687+00:00\"}, {\"order_id\": 739917003586, \"logical_date\": \"2026-10-28\", \"order_ts\": \"2026-10-28 19:24:58+00:00\", \"customer_id\": 3673, \"region\": \"central\", \"status\": \"completed\", \"_batch_id\": \"orders_20261028_01\", \"_loaded_at\": \"2026-10-28 08:28:05.503687+00:00\"}], \"row_count\": 5, \"note\": \"row cap of 5 reached; aggregate or filter for the full picture\"}}"
+    },
+    {
+      "tool_call_id": "toolu_01J7kVWGpvHkCet4TdPMBME5",
+      "name": "get_recent_deploys",
+      "input": {
+        "since_hours": 96
+      },
+      "ok": true,
+      "blocked_reason": null,
+      "content": "{\"ok\": true, \"data\": {\"since_hours\": 96, \"deploys\": []}}"
+    },
+    {
+      "tool_call_id": "toolu_016aQY4AiGZJHV3W9rUnkuZq",
+      "name": "run_readonly_sql",
+      "input": {
+        "sql": "SELECT logical_date, min(order_ts) AS mn, max(order_ts) AS mx, count(DISTINCT customer_id) AS cust, count(DISTINCT _batch_id) AS batches, count(*) FILTER (WHERE region IS NULL) AS null_region FROM raw.orders WHERE logical_date >= '2026-10-25' GROUP BY 1 ORDER BY 1"
+      },
+      "ok": true,
+      "blocked_reason": null,
+      "content": "{\"ok\": true, \"data\": {\"sql_executed\": \"SELECT logical_date, MIN(order_ts) AS mn, MAX(order_ts) AS mx, COUNT(DISTINCT customer_id) AS cust, COUNT(DISTINCT _batch_id) AS batches, COUNT(*) FILTER(WHERE region IS NULL) AS null_region FROM raw.orders WHERE logical_date >= '2026-10-25' GROUP BY 1 ORDER BY 1 LIMIT 200\", \"columns\": [\"logical_date\", \"mn\", \"mx\", \"cust\", \"batches\", \"null_region\"], \"rows\": [{\"logical_date\": \"2026-10-25\", \"mn\": \"2026-10-25 00:03:28+00:00\", \"mx\": \"2026-10-25 23:59:02+00:00\", \"cust\": 351, \"batches\": 1, \"null_region\": 0}, {\"logical_date\": \"2026-10-26\", \"mn\": \"2026-10-26 00:07:30+00:00\", \"mx\": \"2026-10-26 23:49:43+00:00\", \"cust\": 244, \"batches\": 1, \"null_region\": 0}, {\"logical_date\": \"2026-10-27\", \"mn\": \"2026-10-27 00:08:58+00:00\", \"mx\": \"2026-10-27 23:56:20+00:00\", \"cust\": 279, \"batches\": 1, \"null_region\": 109}, {\"logical_date\": \"2026-10-28\", \"mn\": \"2026-10-28 00:00:00+00:00\", \"mx\": \"2026-10-28 23:59:57+00:00\", \"cust\": 4981, \"batches\": 1, \"null_region\": 0}], \"row_count\": 4}}"
+    },
+    {
+      "tool_call_id": "toolu_01LcacKoGf8M7EweBwHQV46r",
+      "name": "run_readonly_sql",
+      "input": {
+        "sql": "SELECT logical_date, count(*) AS n, count(DISTINCT (order_id, line_id)) AS d FROM raw.order_items WHERE logical_date >= '2026-10-25' GROUP BY 1 ORDER BY 1"
+      },
+      "ok": false,
+      "blocked_reason": null,
+      "content": "{\"ok\": false, \"error\": \"UndefinedColumn: column \\\"line_id\\\" does not exist\"}"
+    },
+    {
+      "tool_call_id": "toolu_01CZti91431LPS289z3DkHYm",
+      "name": "search_knowledge",
+      "input": {
+        "query": "canceling statement due to statement timeout stg_order_items volume spike"
+      },
+      "ok": true,
+      "blocked_reason": null,
+      "content": "{\"ok\": true, \"data\": {\"hits\": [{\"chunk_id\": \"runbooks/resource#00\", \"doc_type\": \"runbook\", \"title\": \"Resource exhaustion and statement timeouts\", \"section\": \"Overview\", \"score\": 0.0323, \"text\": \"Runbook: Resource exhaustion and statement timeouts > Overview\\n\\nUse this when tasks fail with `QueryCanceled: canceling statement due to statement timeout`, run\\nout of memory or disk, or retry repeatedly with the same timeout. Each task runs with its own\\n`statement_timeout`; retries use the same limit, so a deterministic timeout fails every attempt.\"}, {\"chunk_id\": \"postmortems/2026-02-fanout-join-after-deploy#00\", \"doc_type\": \"postmortem\", \"title\": \"Order lines multiplied after stg_order_items join change\", \"section\": \"Full postmortem\", \"score\": 0.0315, \"text\": \"Postmortem: Order lines multiplied after stg_order_items join change > Full postmortem\\n\\n## Summary\\nA deploy to `stg_order_items` changed the products join from `product_id` to a key that is not\\nunique in `raw.products`. Every order line matched several products. `stg.order_items` grew about\\n8x and GMV was inflated by the same factor. The run succeeded.\\n\\n## Impact\\n- GMV, sell-through and inventory-health marts wrong for one day; sell-through rates above 1.0.\\n\\n## Detection\\n`volume_high` on stg.order_items only (row count about 8x the trailing mean). Mart row counts did\\nnot change because they aggregate, so mart volume monitors stayed quiet.\\n\\n## Timeline (UTC)\\n- 00:40 deploy to stg_order_items (\\\"join products via category for the new taxonomy\\\").\\n- 01:20 run executes the deployed SQL (`Executing sql/stg/order_items.sql (deploy ..., commit ...)`).\\n- 01:35 volume alert on stg.order_items.\\n- 02:10 on-call lists deploys from the last 24h and reads the diff: join on `p.category`.\\n- 02:25 deploy reverted, stg_order_items rerun, marts backfilled.\\n\\n## Root cause\\nA join on a non-unique key passed review because the change looked like a refactor. No test\\nasserted one row per `(order_id, line_no)`.\\n\\n## Action items\\n- Uniqueness test on the stg.order_items grain in CI.\\n- Row-count diff against the previous version for staging SQL changes.\"}, {\"chunk_id\": \"postmortems/2025-10-black-friday-timeouts#00\", \"doc_type\": \"postmortem\", \"title\": \"stg_order_items timed out on an oversized sale-day partition\", \"section\": \"Full postmortem\", \"score\": 0.0311, \"text\": \"Postmortem: stg_order_items timed out on an oversized sale-day partition > Full postmortem\\n\\n## Summary\\nA flash sale plus a bulk backfill of delayed marketplace orders landed in a single logical date.\\n`raw.order_items` for 2025-10-27 was about 100x a normal day. `stg_order_items` ran with its usual\\ntight statement timeout and failed on every attempt with\\n`QueryCanceled: canceling statement due to statement timeout`. The three marts downstream were\\nskipped.\\n\\n## Impact\\n- GMV, sell-through and inventory-health marts were missing 2025-10-27 for six hours during the\\n  busiest reporting day of the quarter.\\n- Finance delayed the morning sales update.\\n\\n## Detection\\nTwo signals arrived together and were grouped into one incident:\\n- `task_failure` on stg.order_items with error class QueryCanceled (two attempts, same duration).\\n- `volume_high` on raw.orders and raw.order_items\\n[... 1373 characters truncated ...]\\nwell\\n- Alert correlation put the task failure and the raw volume alerts in one incident.\\n- The fix needed no code change.\\n\\n## What went poorly\\n- On-call investigated database health before input size.\\n- The timeout was not documented anywhere on-call could see it.\\n\\n## Action items\\n- Size task timeouts from p99 runtime plus headroom; review quarterly before sale periods.\\n- Route marketplace backfills to their original logical dates.\\n- Add partition-size context to task_failure alerts so the input size is visible at a glance.\\n- Document per-task timeouts next to the DAG definition.\"}, {\"chunk_id\": \"runbooks/resource#01\", \"doc_type\": \"runbook\", \"title\": \"Resource exhaustion and statement timeouts\", \"section\": \"Triage > Is the input unusually large?\", \"score\": 0.0311, \"text\": \"Runbook: Resource exhaustion and statement timeouts > Triage > Is the input unusually large?\\n\\nCompare the input partition with recent days before blaming the database:\\n\\n```sql\\nSELECT logical_date, count(*) FROM raw.order_items\\nWHERE logical_date >= current_date - 7\\nGROUP BY 1 ORDER BY 1;\\n```\\n\\nA partition many times larger than normal (sale event, bulk backfill landing in one day) explains\\nthe timeout; the fix is capacity, not code. Volume alerts on the raw table usually accompany it.\"}, {\"chunk_id\": \"runbooks/resource#04\", \"doc_type\": \"runbook\", \"title\": \"Resource exhaustion and statement timeouts\", \"section\": \"Remediation\", \"score\": 0.0308, \"text\": \"Runbook: Resource exhaustion and statement timeouts > Remediation\\n\\n- If the volume is legitimate, raise the task's timeout for the run (with the data platform team's\\n  approval) and `rerun_task`. Then `backfill_partition` downstream.\\n- If the volume is not legitimate (bad backfill, duplicate load), fix the input first \u2014 see the\\n  duplicate_load runbook.\\n- `escalate` to the data platform on-call for database capacity problems (disk, connections).\"}]}}"
+    },
+    {
+      "tool_call_id": "toolu_01D14V74LLrocG1iYSWM5mB1",
+      "name": "run_readonly_sql",
+      "input": {
+        "sql": "SELECT count(*) AS n, count(DISTINCT (order_id, line_no)) AS d, count(DISTINCT order_id) AS orders, count(*) FILTER (WHERE order_id NOT IN (SELECT order_id FROM raw.orders WHERE logical_date='2026-10-28')) AS orphan FROM raw.order_items WHERE logical_date = '2026-10-28'"
+      },
+      "ok": true,
+      "blocked_reason": null,
+      "content": "{\"ok\": true, \"data\": {\"sql_executed\": \"SELECT COUNT(*) AS n, COUNT(DISTINCT (order_id, line_no)) AS d, COUNT(DISTINCT order_id) AS orders, COUNT(*) FILTER(WHERE NOT order_id IN (SELECT order_id FROM raw.orders WHERE logical_date = '2026-10-28')) AS orphan FROM raw.order_items WHERE logical_date = '2026-10-28' LIMIT 200\", \"columns\": [\"n\", \"d\", \"orders\", \"orphan\"], \"rows\": [{\"n\": 72230, \"d\": 72230, \"orders\": 28887, \"orphan\": 0}], \"row_count\": 1}}"
+    },
+    {
+      "tool_call_id": "toolu_012DJry1o29Jf2jk6PyxzRsf",
+      "name": "run_readonly_sql",
+      "input": {
+        "sql": "SELECT count(*) AS overlap_prior FROM raw.orders a JOIN raw.orders b ON a.order_id = b.order_id AND b.logical_date < '2026-10-28' WHERE a.logical_date = '2026-10-28'"
+      },
+      "ok": true,
+      "blocked_reason": null,
+      "content": "{\"ok\": true, \"data\": {\"sql_executed\": \"SELECT COUNT(*) AS overlap_prior FROM raw.orders AS a JOIN raw.orders AS b ON a.order_id = b.order_id AND b.logical_date < '2026-10-28' WHERE a.logical_date = '2026-10-28' LIMIT 200\", \"columns\": [\"overlap_prior\"], \"rows\": [{\"overlap_prior\": 0}], \"row_count\": 1}}"
+    }
+  ]
+}

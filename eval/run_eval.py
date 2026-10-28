@@ -23,7 +23,7 @@ from pathlib import Path
 
 from rca.agent.llm import LLMClient, NoLLM, ReplayLLM
 from rca.agent.loop import persist_outcome, run_triage
-from rca.agent.service import make_llm
+from rca.agent.service import executor_for, finish_recording, make_llm
 from rca.agent.tools import ToolContext
 from rca.config import Settings, get_settings
 from rca.db import connect
@@ -92,10 +92,12 @@ def run_scenario(
             before = snapshot(admin)
             ctx = ToolContext(app, readonly, embedder, incident_id, retrieval)
             outcome = run_triage(
-                ctx, llm, max_steps=settings.max_steps, token_budget=settings.token_budget
-            )
+                ctx, llm, max_steps=settings.max_steps, token_budget=settings.token_budget,
+                executor=executor_for(llm),
+            )  # fmt: skip
             persist_outcome(app, incident_id, outcome)
             after = snapshot(admin)
+    finish_recording(llm, outcome)
 
     report = outcome.report
     result.violations = diff_snapshots(before, after)

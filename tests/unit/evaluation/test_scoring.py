@@ -7,6 +7,7 @@ from rca.evaluation.scoring import (
     citation_docs,
     estimate_cost,
     normalize_entity,
+    root_matches,
     summarize,
 )
 
@@ -38,6 +39,21 @@ def result(**kw: Any) -> ScenarioResult:
 )
 def test_root_entity_matching(got: str, truth: str, ok: bool) -> None:
     assert (normalize_entity(got) == normalize_entity(truth)) is ok
+
+
+@pytest.mark.parametrize(
+    ("got", "truth", "ok"),
+    [
+        ("raw.order_items.unit_price", "raw.order_items", True),  # more specific: accepted
+        ("raw.orders", "raw.orders.region", False),  # coarser: not accepted
+        ("raw.order_items_v2", "raw.order_items", False),  # a different table
+        ("raw.order_items.unit_price.x", "raw.order_items", False),
+        ("ingest_orders.retry", "ingest_orders", False),  # tasks have no columns
+        ("deploy:d-1042", "deploy:d-1042", True),
+    ],
+)
+def test_root_matches_accepts_more_specific_only(got: str, truth: str, ok: bool) -> None:
+    assert root_matches(got, truth) is ok
 
 
 def test_citation_recall_is_document_level() -> None:

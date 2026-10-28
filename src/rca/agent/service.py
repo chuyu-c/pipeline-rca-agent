@@ -4,8 +4,9 @@ from pathlib import Path
 from typing import Literal
 
 from rca.agent.llm import AnthropicClient, LLMClient, NoLLM, RecordingLLM, ReplayLLM
-from rca.agent.loop import TriageOutcome, persist_outcome, run_triage
-from rca.agent.tools import ToolContext
+from rca.agent.loop import Executor, TriageOutcome, persist_outcome, run_triage
+from rca.agent.replay import ReplayExecutor, attach_tool_outputs, has_tool_outputs
+from rca.agent.tools import ToolContext, execute
 from rca.config import Settings
 from rca.db import connect
 from rca.knowledge.embed import make_embedder
@@ -31,6 +32,19 @@ def make_llm(
     return RecordingLLM(llm, record, label=record.stem) if record else llm
 
 
+def executor_for(llm: LLMClient) -> Executor:
+    """Replays with a tool-output cassette serve recorded outputs; everything else runs tools."""
+    if isinstance(llm, ReplayLLM) and has_tool_outputs(llm.path):
+        return ReplayExecutor(llm.path)
+    return execute
+
+
+def finish_recording(llm: LLMClient, outcome: TriageOutcome) -> None:
+    """A recording also keeps the tool outputs the model saw, so it can be replayed faithfully."""
+    if isinstance(llm, RecordingLLM):
+        attach_tool_outputs(llm.path, outcome.trace)
+
+
 def triage_incident(settings: Settings, incident_id: int, llm: LLMClient) -> TriageOutcome:
     embedder = make_embedder(
         settings.embedder, settings.embedding_model, settings.embedding_cache_dir
@@ -41,9 +55,11 @@ def triage_incident(settings: Settings, incident_id: int, llm: LLMClient) -> Tri
     ):
         ctx = ToolContext(app, readonly, embedder, incident_id)
         outcome = run_triage(
-            ctx, llm, max_steps=settings.max_steps, token_budget=settings.token_budget
-        )
+            ctx, llm, max_steps=settings.max_steps, token_budget=settings.token_budget,
+            executor=executor_for(llm),
+        )  # fmt: skip
         persist_outcome(app, incident_id, outcome)
+    finish_recording(llm, outcome)
     return outcome
 
 

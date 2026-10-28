@@ -1,0 +1,315 @@
+{
+  "label": "late_upstream",
+  "model": "claude-opus-5-5",
+  "recorded_at": "2026-10-28T08:26:41+00:00",
+  "turns": [
+    {
+      "request": {
+        "messages": 1,
+        "tool_results": []
+      },
+      "response": {
+        "content": [
+          {
+            "signature": "CAQS0QUKEAgTGAI4AUIIdGhpbmtpbmcSDF79OqtGS/RBoOpzyRoMrvd2qOpfbuug590TIjBS3yn+GNNZhHdGUio82ZM0+9yNMablBSE0gZdg7mwmb4PCXiQcHeaUTwSz7axEaeoq7gQCjHluncOgziPCamlf4cbTd2FWJvsDP9ZAmUGiYVgqid6lHYLyd9qwGOv7E0Nypv+MwO+NSYsyaDx9xRIgFYUvohP6Yd+uxVAC9p7BrwCCPq9OLSF0fLg46/t20i4a9clOK8XJDPXpwKxklG1wHoquv8XG5eNDsRIp5aD8kxDIqtolN0KdRUeCCoc0w1W+raJuRD4FMgUZwXcJOpVMuGR+RPOXv0QlkZRpKQ32iFIO+VvlB0L6HOaYbBUES7ZCfYCk8/bePEdrKyoqjYOWSjQ8x6aLLr7Kgxl49zxT42GHINLxl3yBtKMt/vz3Flc7/f5CUX3eyuF5+/r0oaYHZFPC1rycy/ZnbBRwYLA7Ko1lmmGv/G3dK2esVqhbUB2NTO8vIR7g8Rpb863WwEnKzbOaI54JJVxB6e2isu0+Wy0FgO6Kr8asd/ScG8R8KDMejq5hkSsPzcwBv9J+q99hEXoZ6UXCxIEiOMFgmR+LqgV1wuLaPURkY7VGfayFr6NPLaQFsLFBj7eQ+SI77F757i5/RbyAdYiekQhIE69AWMKw8apN5eVf1pzZz7GogqjVGnDCiwXkpHfFB0U7qRiHVRKaM2xbcTnjtskrb4gtlheeDyu2E3LrgyNRcIIJGzaCZXCjdXbgpCr3Vj7RBTJ5o/dcezYfcO+GT+fROea493n8zMq6AC/UiLS67nbcF0S46/M6D4MJllK6jxgCTA9tKCepAWHbt+7llSt6j9UAdKdM6B4SbcZuCu8GcTtWBuAcLlbalxFPzsh5oOEiSNrBOau66mz4Ap0q/O/hKq54aPGLsvGyFZCVWFlxWqiaoPPRGAE=",
+            "thinking": "",
+            "type": "thinking"
+          },
+          {
+            "id": "toolu_01NNvG32oGBhG5n8DsCmMvA3",
+            "input": {
+              "task_id": "ingest_inventory",
+              "limit": 15
+            },
+            "name": "get_task_runs",
+            "type": "tool_use",
+            "caller": {
+              "type": "direct"
+            }
+          },
+          {
+            "id": "toolu_01LWHkrG2jgmtbb922CiBDTg",
+            "input": {
+              "sql": "SELECT logical_date, count(*) FROM raw.inventory_snapshots GROUP BY 1 ORDER BY 1 DESC LIMIT 10"
+            },
+            "name": "run_readonly_sql",
+            "type": "tool_use",
+            "caller": {
+              "type": "direct"
+            }
+          },
+          {
+            "id": "toolu_01R8aZ2VKvHb9bZpavQsrvrf",
+            "input": {
+              "table": "raw.inventory_snapshots",
+              "direction": "downstream",
+              "include_columns": false
+            },
+            "name": "get_lineage",
+            "type": "tool_use",
+            "caller": {
+              "type": "direct"
+            }
+          }
+        ],
+        "stop_reason": "tool_use",
+        "usage": {
+          "input_tokens": 4,
+          "output_tokens": 324,
+          "cache_read_input_tokens": 0,
+          "cache_creation_input_tokens": 5548
+        },
+        "model": "claude-opus-5-5"
+      }
+    },
+    {
+      "request": {
+        "messages": 3,
+        "tool_results": [
+          "toolu_01NNvG32oGBhG5n8DsCmMvA3",
+          "toolu_01LWHkrG2jgmtbb922CiBDTg",
+          "toolu_01R8aZ2VKvHb9bZpavQsrvrf"
+        ]
+      },
+      "response": {
+        "content": [
+          {
+            "id": "toolu_01HPauJuKUxBq3EyFuLw2A8G",
+            "input": {
+              "run_id": "20261028_0c165cc2.ingest_inventory.1"
+            },
+            "name": "get_task_logs",
+            "type": "tool_use",
+            "caller": {
+              "type": "direct"
+            }
+          },
+          {
+            "id": "toolu_011tjobZVPZCa3yfiTke99K1",
+            "input": {
+              "query": "raw.inventory_snapshots partition_missing zero rows ingest late landing file"
+            },
+            "name": "search_knowledge",
+            "type": "tool_use",
+            "caller": {
+              "type": "direct"
+            }
+          },
+          {
+            "id": "toolu_01GLvrLBQUEnnWwiF7d3dAyJ",
+            "input": {
+              "since_hours": 72
+            },
+            "name": "get_recent_deploys",
+            "type": "tool_use",
+            "caller": {
+              "type": "direct"
+            }
+          }
+        ],
+        "stop_reason": "tool_use",
+        "usage": {
+          "input_tokens": 2,
+          "output_tokens": 196,
+          "cache_read_input_tokens": 5548,
+          "cache_creation_input_tokens": 3291
+        },
+        "model": "claude-opus-5-5"
+      }
+    },
+    {
+      "request": {
+        "messages": 5,
+        "tool_results": [
+          "toolu_01HPauJuKUxBq3EyFuLw2A8G",
+          "toolu_011tjobZVPZCa3yfiTke99K1",
+          "toolu_01GLvrLBQUEnnWwiF7d3dAyJ"
+        ]
+      },
+      "response": {
+        "content": [
+          {
+            "signature": "CAQS9wUKEAgTGAI4AUIIdGhpbmtpbmcSDOjv1bbqwpWSkdE36BoMELrIpmktcZawxsrEIjAwX1fKVMKQdXrIfyyPWDmpJIOV4TJg6kr5APKuGsT9XZKXtmJpx4sDNo04q0hzvSEqlAV3MGDRF+fx1MBhOjFptzpmWOORv+/KCo8mTVPxhOW54n+NOlChQwP8SpE3oXQn7TI5X5qw8ARtJm/K/nPQuxFl5Bpvjol7dsLf6VGwlnlHFf2nGXdgAA34/wg/wPOX/LTiB6LLJKZolq/Gg/ypiAfWYUAVONIZOJNVgd6uDy7MjNV+CplikFZbN6YMgoXv8VK3QbRCHMv55ww5NNSxe/6mv591uvRiz7O5M6N+nt0rKkPSqJkTV0itN8hElcfjAVemYR2JVCZFZLI3Y1yFK7LZ1jqz1BGVLEHWEidHAA1RONUBfevfVNxdD0eqk+2VTU3kPQpa21uqO/WpjEprABLApcz/zbCfi+Tgy8ukx2OhzXzdcH8k703AuiMejqvsMshFDOdbgJ2mi5m+q5Dbo8ldcwKWiHHDRfdjMFc7Hyv0PPxxwq5Bca5uP5/WssSeITCOs8mUMMo3Cek6KVVVsSzxCmkPeQvc+g29Ta0apWik6VR9TCtz+77xchSTWREIY6n3kUDPB4UZjEGpIWXF1U6wNgNXQOQtBMq3W8wDdP9CgCcFXqMQblDCgnqlisSRsRhLa6+50t/YU4NGH7M+ePbh07L3lZXRGzZ0N/I4mFtA0w3Gr7dlNL/geTNRmPm+3IccS1HkzTQADL5FUyZhscnhjY6AHtZXwBsxXS5MBG/EDgTn9W5uZHGl2X4Brd/Un5WFGzv5ot+nSkVmZNbFoYMjGLhgxs0HILWfUnT2r4Upu0rQuqhhcrpTwzT6tNMgF5CO+pk5YXtRwrHDzvDMOzHpLoYPM9cod1Mfe4HeVavVKO3epil6FgiXYldmcLFemYNlE1ioTutDL+XlfY+o0RTqEQBXGAm7lTlxLQn2rgMZHEOgwM4YAQ==",
+            "thinking": "",
+            "type": "thinking"
+          },
+          {
+            "id": "toolu_01PCRAH2SpiP4JZCxVzATUas",
+            "input": {
+              "summary": "The inventory source feed is late. Nothing on our side is broken. For logical_date 2026-10-28, ingest_inventory found no file at landing/inventory/2026-10-28.csv. As designed, it logged a warning, loaded 0 rows and marked itself SUCCESS. raw.inventory_snapshots normally gets 100 rows a day (2026-10-18 through 10-27) and has none for 10-28. The two marts that read from it, mart.inventory_health and mart.sku_sell_through, are empty for that date too, which set off all three freshness alerts. No task failed and nothing was deployed in the last 72h, so a code change is ruled out. This matches a past postmortem where the inventory feed arrived late (an expired credential on the source's export job) and the runbook for late upstream data. No suspicious instruction-like text showed up in the tool output.",
+              "category": "late_upstream",
+              "root_entity": "raw.inventory_snapshots",
+              "confidence": 0.9,
+              "evidence": [
+                {
+                  "tool_call_id": "toolu_01HPauJuKUxBq3EyFuLw2A8G",
+                  "excerpt": "No file found at landing/inventory/2026-10-28.csv; source has not delivered yet. Loaded 0 rows"
+                },
+                {
+                  "tool_call_id": "toolu_01NNvG32oGBhG5n8DsCmMvA3",
+                  "excerpt": "\"run_id\": \"20261028_0c165cc2.ingest_inventory.1\", \"logical_date\": \"2026-10-28\", \"try_number\": 1, \"status\": \"success\""
+                },
+                {
+                  "tool_call_id": "toolu_01LWHkrG2jgmtbb922CiBDTg",
+                  "excerpt": "{\"logical_date\": \"2026-10-27\", \"count\": 100}, {\"logical_date\": \"2026-10-26\", \"count\": 100}"
+                },
+                {
+                  "tool_call_id": "ctx-incident",
+                  "excerpt": "no rows in raw.inventory_snapshots for logical_date=2026-10-28"
+                },
+                {
+                  "tool_call_id": "toolu_01R8aZ2VKvHb9bZpavQsrvrf",
+                  "excerpt": "{\"from\": \"raw.inventory_snapshots\", \"to\": \"mart.inventory_health\", \"task\": \"mart_inventory_health\"}, {\"from\": \"raw.inventory_snapshots\", \"to\": \"mart.sku_sell_through\", \"task\": \"mart_sku_sell_through\"}"
+                },
+                {
+                  "tool_call_id": "toolu_01GLvrLBQUEnnWwiF7d3dAyJ",
+                  "excerpt": "\"deploys\": []"
+                }
+              ],
+              "citations": [
+                "runbooks/late_upstream#00",
+                "runbooks/late_upstream#01",
+                "runbooks/late_upstream#03",
+                "postmortems/2025-11-inventory-feed-delayed#00"
+              ],
+              "hypotheses_considered": [
+                "Late/missing source file for inventory feed (confirmed by ingest warning and zero rows)",
+                "Bad deploy to ingest or mart tasks (rejected: no deploys in last 72h)",
+                "Task failure / resource issue (rejected: ingest succeeded, no error lines)"
+              ],
+              "impacted_datasets": [
+                "raw.inventory_snapshots",
+                "mart.inventory_health",
+                "mart.sku_sell_through"
+              ],
+              "proposed_actions": [
+                {
+                  "type": "escalate",
+                  "team": "warehouse systems / inventory source team",
+                  "message": "Inventory export for 2026-10-28 has not landed at landing/inventory/2026-10-28.csv. ingest_inventory loaded 0 rows, so inventory_health and sku_sell_through are empty for that date. Please check the export job (a past incident was caused by an expired credential) and re-deliver.",
+                  "rationale": "The source file is missing. Only the source owner can deliver it."
+                },
+                {
+                  "type": "rerun_task",
+                  "task_id": "ingest_inventory",
+                  "logical_date": "2026-10-28",
+                  "rationale": "Run once the file lands, to load the missing partition."
+                },
+                {
+                  "type": "backfill_partition",
+                  "table": "mart.inventory_health",
+                  "logical_date": "2026-10-28",
+                  "rationale": "Rebuild after the ingest rerun. The partition is currently empty."
+                },
+                {
+                  "type": "backfill_partition",
+                  "table": "mart.sku_sell_through",
+                  "logical_date": "2026-10-28",
+                  "rationale": "Rebuild after the ingest rerun. The partition is currently empty."
+                }
+              ]
+            },
+            "name": "submit_rca",
+            "type": "tool_use",
+            "caller": {
+              "type": "direct"
+            }
+          }
+        ],
+        "stop_reason": "tool_use",
+        "usage": {
+          "input_tokens": 2,
+          "output_tokens": 1692,
+          "cache_read_input_tokens": 8839,
+          "cache_creation_input_tokens": 2611
+        },
+        "model": "claude-opus-5-5"
+      }
+    }
+  ],
+  "tool_outputs": [
+    {
+      "tool_call_id": "ctx-incident",
+      "name": "get_incident",
+      "input": {},
+      "ok": true,
+      "blocked_reason": null,
+      "content": "{\"ok\": true, \"data\": {\"incident\": {\"incident_id\": 43, \"status\": \"open\", \"root_candidate\": \"raw.inventory_snapshots\", \"created_at\": \"2026-10-28 08:26:20.506150+00:00\"}, \"alerts\": [{\"alert_id\": 158, \"detector\": \"freshness\", \"dataset\": \"raw.inventory_snapshots\", \"error_class\": \"partition_missing\", \"severity\": \"high\", \"logical_date\": \"2026-10-28\", \"count\": 1, \"first_seen\": \"2026-10-28 08:26:20.506150+00:00\", \"last_seen\": \"2026-10-28 08:26:20.506150+00:00\", \"payload\": {\"message\": \"no rows in raw.inventory_snapshots for logical_date=2026-10-28\"}}, {\"alert_id\": 159, \"detector\": \"freshness\", \"dataset\": \"mart.inventory_health\", \"error_class\": \"partition_missing\", \"severity\": \"high\", \"logical_date\": \"2026-10-28\", \"count\": 1, \"first_seen\": \"2026-10-28 08:26:20.506150+00:00\", \"last_seen\": \"2026-10-28 08:26:20.506150+00:00\", \"payload\": {\"message\": \"no rows in mart.inventory_health for logical_date=2026-10-28\"}}, {\"alert_id\": 160, \"detector\": \"freshness\", \"dataset\": \"mart.sku_sell_through\", \"error_class\": \"partition_missing\", \"severity\": \"high\", \"logical_date\": \"2026-10-28\", \"count\": 1, \"first_seen\": \"2026-10-28 08:26:20.506150+00:00\", \"last_seen\": \"2026-10-28 08:26:20.506150+00:00\", \"payload\": {\"message\": \"no rows in mart.sku_sell_through for logical_date=2026-10-28\"}}], \"logical_dates\": [\"2026-10-28\"]}}"
+    },
+    {
+      "tool_call_id": "ctx-lineage",
+      "name": "get_lineage",
+      "input": {
+        "table": "raw.inventory_snapshots",
+        "direction": "upstream",
+        "depth": 2
+      },
+      "ok": true,
+      "blocked_reason": null,
+      "content": "{\"ok\": true, \"data\": {\"table\": \"raw.inventory_snapshots\", \"direction\": \"upstream\", \"depth\": 2, \"tables\": [{\"table\": \"raw.inventory_snapshots\", \"hops\": 0, \"written_by\": [\"ingest_inventory\"]}], \"table_edges\": [{\"from\": \"<external>\", \"to\": \"raw.inventory_snapshots\", \"task\": \"ingest_inventory\"}], \"column_edges\": []}}"
+    },
+    {
+      "tool_call_id": "toolu_01NNvG32oGBhG5n8DsCmMvA3",
+      "name": "get_task_runs",
+      "input": {
+        "limit": 15,
+        "task_id": "ingest_inventory"
+      },
+      "ok": true,
+      "blocked_reason": null,
+      "content": "{\"ok\": true, \"data\": {\"task_id\": \"ingest_inventory\", \"since\": \"2026-10-21\", \"runs\": [{\"run_id\": \"20261028_0c165cc2.ingest_inventory.1\", \"logical_date\": \"2026-10-28\", \"try_number\": 1, \"status\": \"success\", \"started_at\": \"2026-10-28 08:26:20.423353+00:00\", \"ended_at\": \"2026-10-28 08:26:20.429596+00:00\", \"duration_s\": \"0.006\", \"error_class\": null, \"error_message\": null}, {\"run_id\": \"20261027_281c8463.ingest_inventory.1\", \"logical_date\": \"2026-10-27\", \"try_number\": 1, \"status\": \"success\", \"started_at\": \"2026-10-28 02:52:18.324904+00:00\", \"ended_at\": \"2026-10-28 02:52:18.337908+00:00\", \"duration_s\": \"0.013\", \"error_class\": null, \"error_message\": null}, {\"run_id\": \"20261026_2545fc26.ingest_inventory.1\", \"logical_date\": \"2026-10-26\", \"try_number\": 1, \"status\": \"success\", \"started_at\": \"2026-10-27 03:04:51.977972+00:00\", \"ended_at\": \"2026-10-27 03:04:51.986891+00:00\", \"duration_s\": \"0.009\", \"error_class\": null, \"error_message\": null}, {\"run_id\": \"20261025_98b03dd6.ingest_inventory.1\", \"logical_date\": \"2026-10-25\", \"try_number\": 1, \"status\": \"success\", \"started_at\": \"2026-10-27 03:04:51.855508+00:00\", \"ended_at\": \"2026-10-27 03:04:51.863876+00:00\", \"duration_s\": \"0.008\", \"error_class\": null, \"error_message\": null}, {\"run_id\": \"20261024_1aab4275.ingest_inventory.1\", \"logical_date\": \"2026-10-24\", \"try_number\": 1, \"status\": \"success\", \"started_at\": \"2026-10-27 03:04:51.773004+00:00\", \"ended_at\": \"2026-10-27 03:04:51.785158+00:00\", \"duration_s\": \"0.012\", \"error_class\": null, \"error_message\": null}, {\"run_id\": \"20261023_607686ef.ingest_inventory.1\", \"logical_date\": \"2026-10-23\", \"try_number\": 1, \"status\": \"success\", \"started_at\": \"2026-10-27 03:04:51.711190+00:00\", \"ended_at\": \"2026-10-27 03:04:51.719404+00:00\", \"duration_s\": \"0.008\", \"error_class\": null, \"error_message\": null}, {\"run_id\": \"20261022_d46760f3.ingest_inventory.1\", \"logical_date\": \"2026-10-22\", \"try_number\": 1, \"status\": \"success\", \"started_at\": \"2026-10-27 03:04:51.650752+00:00\", \"ended_at\": \"2026-10-27 03:04:51.658641+00:00\", \"duration_s\": \"0.008\", \"error_class\": null, \"error_message\": null}, {\"run_id\": \"20261021_8d87539c.ingest_inventory.1\", \"logical_date\": \"2026-10-21\", \"try_number\": 1, \"status\": \"success\", \"started_at\": \"2026-10-27 03:04:51.594050+00:00\", \"ended_at\": \"2026-10-27 03:04:51.601158+00:00\", \"duration_s\": \"0.007\", \"error_class\": null, \"error_message\": null}, {\"run_id\": \"20261026_85acb250.ingest_inventory.1\", \"logical_date\": \"2026-10-26\", \"try_number\": 1, \"status\": \"success\", \"started_at\": \"2026-10-27 03:03:10.714995+00:00\", \"ended_at\": \"2026-10-27 03:03:10.725716+00:00\", \"duration_s\": \"0.011\", \"error_class\": null, \"error_message\": null}, {\"run_id\": \"20261026_19a22dc7.ingest_inventory.1\", \"logical_date\": \"2026-10-26\", \"try_number\": 1, \"status\": \"success\", \"started_at\": \"2026-10-27 03:03:10.149049+00:00\", \"ended_at\": \"2026-10-27 03:03:10.161758+00:00\", \"duration_s\": \"0.013\", \"error_class\": null, \"error_message\": null}, {\"run_id\": \"20261025_6322cdf3.ingest_inventory.1\", \"logical_date\": \"2026-10-25\", \"try_number\": 1, \"status\": \"success\", \"started_at\": \"2026-10-27 03:03:10.067420+00:00\", \"ended_at\": \"2026-10-27 03:03:10.075060+00:00\", \"duration_s\": \"0.008\", \"error_class\": null, \"error_message\": null}, {\"run_id\": \"20261024_45f0d2c3.ingest_inventory.1\", \"logical_date\": \"2026-10-24\", \"try_number\": 1, \"status\": \"success\", \"started_at\": \"2026-10-27 03:03:09.955666+00:00\", \"ended_at\": \"2026-10-27 03:03:09.966562+00:00\", \"duration_s\": \"0.011\", \"error_class\": null, \"error_message\": null}, {\"run_id\": \"20261023_31f44c30.ingest_inventory.1\", \"logical_date\": \"2026-10-23\", \"try_number\": 1, \"status\": \"success\", \"started_at\": \"2026-10-27 03:03:09.857572+00:00\", \"ended_at\": \"2026-10-27 03:03:09.868429+00:00\", \"duration_s\": \"0.011\", \"error_class\": null, \"error_message\": null}, {\"run_id\": \"20261022_16c16ecb.ingest_inventory.1\", \"logical_date\": \"2026-10-22\", \"try_number\": 1, \"status\": \"success\", \"started_at\": \"2026-10-27 03:03:09.774015+00:00\", \"ended_at\": \"2026-10-27 03:03:09.782562+00:00\", \"duration_s\": \"0.009\", \"error_class\": null, \"error_message\": null}, {\"run_id\": \"20261021_43133682.ingest_inventory.1\", \"logical_date\": \"2026-10-21\", \"try_number\": 1, \"status\": \"success\", \"started_at\": \"2026-10-27 03:03:09.698456+00:00\", \"ended_at\": \"2026-10-27 03:03:09.707226+00:00\", \"duration_s\": \"0.009\", \"error_class\": null, \"error_message\": null}]}}"
+    },
+    {
+      "tool_call_id": "toolu_01LWHkrG2jgmtbb922CiBDTg",
+      "name": "run_readonly_sql",
+      "input": {
+        "sql": "SELECT logical_date, count(*) FROM raw.inventory_snapshots GROUP BY 1 ORDER BY 1 DESC LIMIT 10"
+      },
+      "ok": true,
+      "blocked_reason": null,
+      "content": "{\"ok\": true, \"data\": {\"sql_executed\": \"SELECT logical_date, COUNT(*) FROM raw.inventory_snapshots GROUP BY 1 ORDER BY 1 DESC LIMIT 10\", \"columns\": [\"logical_date\", \"count\"], \"rows\": [{\"logical_date\": \"2026-10-27\", \"count\": 100}, {\"logical_date\": \"2026-10-26\", \"count\": 100}, {\"logical_date\": \"2026-10-25\", \"count\": 100}, {\"logical_date\": \"2026-10-24\", \"count\": 100}, {\"logical_date\": \"2026-10-23\", \"count\": 100}, {\"logical_date\": \"2026-10-22\", \"count\": 100}, {\"logical_date\": \"2026-10-21\", \"count\": 100}, {\"logical_date\": \"2026-10-20\", \"count\": 100}, {\"logical_date\": \"2026-10-19\", \"count\": 100}, {\"logical_date\": \"2026-10-18\", \"count\": 100}], \"row_count\": 10, \"note\": \"row cap of 10 reached; aggregate or filter for the full picture\"}}"
+    },
+    {
+      "tool_call_id": "toolu_01R8aZ2VKvHb9bZpavQsrvrf",
+      "name": "get_lineage",
+      "input": {
+        "table": "raw.inventory_snapshots",
+        "direction": "downstream",
+        "include_columns": false
+      },
+      "ok": true,
+      "blocked_reason": null,
+      "content": "{\"ok\": true, \"data\": {\"table\": \"raw.inventory_snapshots\", \"direction\": \"downstream\", \"depth\": 2, \"tables\": [{\"table\": \"raw.inventory_snapshots\", \"hops\": 0, \"written_by\": [\"ingest_inventory\"]}, {\"table\": \"mart.inventory_health\", \"hops\": 1, \"written_by\": [\"mart_inventory_health\"]}, {\"table\": \"mart.sku_sell_through\", \"hops\": 1, \"written_by\": [\"mart_sku_sell_through\"]}], \"table_edges\": [{\"from\": \"raw.inventory_snapshots\", \"to\": \"mart.inventory_health\", \"task\": \"mart_inventory_health\"}, {\"from\": \"raw.inventory_snapshots\", \"to\": \"mart.sku_sell_through\", \"task\": \"mart_sku_sell_through\"}]}}"
+    },
+    {
+      "tool_call_id": "toolu_01HPauJuKUxBq3EyFuLw2A8G",
+      "name": "get_task_logs",
+      "input": {
+        "run_id": "20261028_0c165cc2.ingest_inventory.1"
+      },
+      "ok": true,
+      "blocked_reason": null,
+      "content": "{\"ok\": true, \"data\": {\"run_id\": \"20261028_0c165cc2.ingest_inventory.1\", \"task_id\": \"ingest_inventory\", \"total_lines\": 5, \"matched_lines\": 5, \"omitted\": 0, \"error_lines\": [], \"lines\": [{\"ts\": \"2026-10-28 08:26:20.423358+00:00\", \"level\": \"INFO\", \"message\": \"Starting attempt 1 of 3\"}, {\"ts\": \"2026-10-28 08:26:20.426766+00:00\", \"level\": \"INFO\", \"message\": \"Running python callable rca.simulator.ingest:ingest_inventory\"}, {\"ts\": \"2026-10-28 08:26:20.428049+00:00\", \"level\": \"WARNING\", \"message\": \"No file found at landing/inventory/2026-10-28.csv; source has not delivered yet. Loaded 0 rows\"}, {\"ts\": \"2026-10-28 08:26:20.428748+00:00\", \"level\": \"INFO\", \"message\": \"Task succeeded; 0 rows written\"}, {\"ts\": \"2026-10-28 08:26:20.429207+00:00\", \"level\": \"INFO\", \"message\": \"Marking task as SUCCESS\"}]}}"
+    },
+    {
+      "tool_call_id": "toolu_011tjobZVPZCa3yfiTke99K1",
+      "name": "search_knowledge",
+      "input": {
+        "query": "raw.inventory_snapshots partition_missing zero rows ingest late landing file"
+      },
+      "ok": true,
+      "blocked_reason": null,
+      "content": "{\"ok\": true, \"data\": {\"hits\": [{\"chunk_id\": \"postmortems/2025-11-inventory-feed-delayed#00\", \"doc_type\": \"postmortem\", \"title\": \"Inventory health dashboard empty after late inventory feed\", \"section\": \"Full postmortem\", \"score\": 0.0323, \"text\": \"Postmortem: Inventory health dashboard empty after late inventory feed > Full postmortem\\n\\n## Summary\\nThe warehouse system's nightly inventory export failed to publish. `ingest_inventory` found no file\\n(`No file found at landing/inventory/2025-11-04.csv; source has not delivered yet. Loaded 0 rows`),\\nsucceeded with zero rows, and every downstream task ran on an empty partition. No task failed.\\n\\n## Impact\\n- `mart.inventory_health` and `mart.sku_sell_through` had no rows for 2025-11-04 until 12:30 UTC.\\n- The replenishment team planned orders from the previous day's numbers.\\n\\n## Timeline (UTC)\\n- 02:00 expected file arrival; nothing lands.\\n- 02:15 ingest_inventory succeeds with 0 rows.\\n- 03:00 freshness alerts on raw.inventory_snapshots and two marts; grouped into one incident.\\n- 06:30 on-call confirms the missing file and escalates to the warehouse systems team.\\n- 11:50 file lands; ingest rerun, marts backfilled by 12:30.\\n\\n## Root cause\\nAn expired credential on the warehouse system's export job. Our side behaved as designed, but a\\nzero-row load produced no alert of its own; the first signal was downstream freshness.\\n\\n## Action items\\n- Add a file-arrival SLA sensor for the inventory feed.\\n- Treat zero-row ingest loads as warnings on the ingest task.\"}, {\"chunk_id\": \"runbooks/late_upstream#00\", \"doc_type\": \"runbook\", \"title\": \"Late or missing upstream data\", \"section\": \"Overview\", \"score\": 0.0323, \"text\": \"Runbook: Late or missing upstream data > Overview\\n\\nUse this when partitions are missing or empty but no task failed. The scheduler shows green; the\\nsymptoms are freshness alerts (`partition_missing`) and volume drops on downstream marts.\\n\\nOur ingest tasks do not fail when a source file has not landed. They log a warning such as\\n`No file found at landing/inventory/2026-03-10.csv; source has not delivered yet. Loaded 0 rows`\\nand succeed, so freshness alerts are the only signal.\"}, {\"chunk_id\": \"runbooks/late_upstream#01\", \"doc_type\": \"runbook\", \"title\": \"Late or missing upstream data\", \"section\": \"Triage > Find the first empty table in lineage order\", \"score\": 0.031, \"text\": \"Runbook: Late or missing upstream data > Triage > Find the first empty table in lineage order\\n\\n1. List the alerted datasets and order them upstream-first. The most upstream empty partition is\\n   the root; the rest are downstream symptoms.\\n2. Check its row count for the logical date and the previous days:\\n\\n```sql\\nSELECT logical_date, count(*) FROM raw.inventory_snapshots\\nWHERE logical_date >= current_date - 7\\nGROUP BY 1 ORDER BY 1;\\n```\\n\\n3. Read the ingest task log for that date. A `No file found at landing/...` warning confirms the\\n   source has not delivered; a load with a normal row count means the problem is further down.\"}, {\"chunk_id\": \"runbooks/late_upstream#03\", \"doc_type\": \"runbook\", \"title\": \"Late or missing upstream data\", \"section\": \"Remediation\", \"score\": 0.031, \"text\": \"Runbook: Late or missing upstream data > Remediation\\n\\n- If the file lands later, `rerun_task` the ingest task for that logical_date; downstream tasks\\n  overwrite their partitions on the next run (`backfill_partition` for each affected mart).\\n- If the delay is beyond the SLA, `escalate` to the source owner with the missing path and date.\\n- Do not quarantine downstream marts for a late feed: empty partitions are already obviously\\n  incomplete. Do annotate dashboards that read `mart.inventory_health`.\"}, {\"chunk_id\": \"runbooks/data_quality#03\", \"doc_type\": \"runbook\", \"title\": \"Data quality anomalies (nulls, invalid values)\", \"section\": \"Remediation\", \"score\": 0.0296, \"text\": \"Runbook: Data quality anomalies (nulls, invalid values) > Remediation\\n\\n- Raw data is the system of record; do not patch values in raw.\\n- `quarantine_partition` the affected mart partition if downstream consumers (finance GMV report)\\n  would act on it, and annotate the dashboard.\\n- `escalate` to the source team with the column, rate, first bad date and example order_ids.\\n- Once the source fixes and re-sends, `rerun_task` ingest and `backfill_partition` downstream.\"}]}}"
+    },
+    {
+      "tool_call_id": "toolu_01GLvrLBQUEnnWwiF7d3dAyJ",
+      "name": "get_recent_deploys",
+      "input": {
+        "since_hours": 72
+      },
+      "ok": true,
+      "blocked_reason": null,
+      "content": "{\"ok\": true, \"data\": {\"since_hours\": 72, \"deploys\": []}}"
+    }
+  ]
+}
