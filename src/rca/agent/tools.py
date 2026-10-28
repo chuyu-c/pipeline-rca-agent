@@ -23,7 +23,7 @@ from rca.agent.schema import RCAReport
 from rca.db import Connection
 from rca.guardrails import SqlGuardError, sanitize_tool_output, truncate, validate
 from rca.knowledge.embed import Embedder
-from rca.knowledge.search import search
+from rca.knowledge.search import Mode, search
 from rca.lineage.build import load_edges
 from rca.lineage.graph import LineageGraph
 from rca.observability.logging import get_logger
@@ -43,6 +43,7 @@ class ToolContext:
     readonly_conn: Connection  # rca_readonly: the only connection LLM-written SQL ever runs on
     embedder: Embedder
     incident_id: int
+    retrieval_mode: Mode = "hybrid"  # search_knowledge retriever (eval ablation: vector-only)
 
 
 @dataclass
@@ -443,14 +444,19 @@ class KnowledgeArgs(_Args):
 
 @tool(
     "search_knowledge",
-    "Hybrid (keyword + semantic) search over on-call runbooks and past postmortems. Exact error "
+    "Search the on-call runbooks and past postmortems. Exact error "
     "strings and table names work well as queries. Each hit has a chunk_id: cite the chunk_ids you "
     "relied on in submit_rca.citations.",
     KnowledgeArgs,
 )
 def search_knowledge(ctx: ToolContext, args: KnowledgeArgs) -> ToolResult:
     hits = search(
-        ctx.app_conn, ctx.embedder, args.query, mode="hybrid", k=args.k, doc_type=args.doc_type
+        ctx.app_conn,
+        ctx.embedder,
+        args.query,
+        mode=ctx.retrieval_mode,
+        k=args.k,
+        doc_type=args.doc_type,
     )
     return ToolResult.success(
         {
