@@ -1,12 +1,15 @@
 """Postgres `AlertStore` and the transactional wrapper around `ingest`."""
 
 from collections.abc import Iterable
-from datetime import datetime
+from datetime import date, datetime
 
 from psycopg.types.json import Jsonb
 
 from rca.db import Connection
-from rca.monitor.detectors import AlertCandidate
+from rca.lineage.build import load_edges
+from rca.lineage.graph import LineageGraph
+from rca.monitor.config import MonitorConfig
+from rca.monitor.detectors import AlertCandidate, run_detectors
 from rca.monitor.ingest import IngestResult, Lineage, ingest, upstream_first
 
 # Serializes ingest across processes so two alerts can't both open an incident for one break.
@@ -80,6 +83,39 @@ class PgAlertStore:
             " WHERE ops.jobs.status = 'queued'",
             (incident_id, Jsonb({"incident_id": incident_id}), run_after),
         )
+
+
+def run_monitors(
+    conn: Connection, config: MonitorConfig, logical_date: date, now: datetime
+) -> list[tuple[AlertCandidate, IngestResult]]:
+    """Detect alerts for `logical_date` against the stored lineage graph and ingest them."""
+    graph = LineageGraph(load_edges(conn))
+    return ingest_all(conn, run_detectors(conn, config, graph, logical_date), graph, now)
+
+
+def format_incidents(conn: Connection, incident_ids: Iterable[int]) -> str:
+    rows = conn.execute(
+        "SELECT i.incident_id, i.status, i.root_candidate, count(a.*) AS alerts,"
+        " sum(a.count) AS occurrences, j.status AS job_status"
+        " FROM ops.incidents i JOIN ops.alerts a USING (incident_id)"
+        " LEFT JOIN ops.jobs j ON j.incident_id = i.incident_id AND j.kind = 'triage'"
+        " WHERE i.incident_id = ANY(%s)"
+        " GROUP BY i.incident_id, j.status ORDER BY i.incident_id",
+        (sorted(set(incident_ids)),),
+    )
+    return "\n".join(
+        f"  #{r['incident_id']} {r['status']:<8} root_candidate={r['root_candidate']}"
+        f"  alerts={r['alerts']} occurrences={r['occurrences']} triage={r['job_status']}"
+        for r in rows
+    )
+
+
+def format_alerts(results: Iterable[tuple[AlertCandidate, IngestResult]]) -> str:
+    return "\n".join(
+        f"  [{c.severity:<8}] {c.detector:<12} {c.dataset:<26} {c.error_class:<20}"
+        f" -> incident #{r.incident_id} ({r.action})"
+        for c, r in results
+    )
 
 
 def ingest_all(
