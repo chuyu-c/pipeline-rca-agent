@@ -1,7 +1,8 @@
-"""`make demo`: reset → inject → run the pipeline → run monitors → show the incident."""
+"""`make demo`: reset → inject → run the pipeline → run monitors → triage → print the RCA."""
 
 from datetime import UTC, date, datetime
 
+from rca.agent.service import LLMKind, format_outcome, make_llm, triage_incident
 from rca.config import Settings
 from rca.db import connect
 from rca.faults.inject import inject, reset
@@ -12,7 +13,13 @@ from rca.simulator.dag import load_dag
 from rca.simulator.runner import format_run, run_pg
 
 
-def run_demo(settings: Settings, scenario_id: str, logical_date: date, dag_id: str) -> int:
+def run_demo(
+    settings: Settings,
+    scenario_id: str,
+    logical_date: date,
+    dag_id: str,
+    llm: LLMKind = "anthropic",
+) -> int:
     scenarios = load_scenarios(settings.scenarios_dir)
     if scenario_id not in scenarios:
         print(f"unknown scenario {scenario_id!r}; choose from: {', '.join(scenarios)}")
@@ -45,7 +52,18 @@ def run_demo(settings: Settings, scenario_id: str, logical_date: date, dag_id: s
             print("\n-- incident(s)")
             print(format_incidents(conn, (r.incident_id for _, r in results)))
 
+    if not results:
+        return 1
+    incident_id = results[0][1].incident_id
+    print(f"\n-- triage incident #{incident_id} (llm={llm})")
+    outcome = triage_incident(settings, incident_id, make_llm(settings, llm))
+    print(format_outcome(outcome))
+
     truth = scenario.ground_truth
+    hit = (
+        outcome.report.category == truth.category,
+        outcome.report.root_entity == truth.root_entity,
+    )
     print(f"\n-- ground truth: category={truth.category} root_entity={truth.root_entity}")
-    print("   (triage/RCA is not wired into the demo yet)")
-    return 0 if results else 1
+    print(f"   category {'✓' if hit[0] else '✗'}  root_entity {'✓' if hit[1] else '✗'}")
+    return 0

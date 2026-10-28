@@ -1,8 +1,9 @@
 SCENARIO ?= schema_drift
+LLM ?= anthropic
 DATE ?= $(shell date +%F)
 EXEC := docker compose exec app
 
-.PHONY: install up down migrate seed lineage index run monitor reset demo retrieval-eval test test-integration eval lint fmt
+.PHONY: install up down migrate seed lineage index run monitor reset demo triage retrieval-eval test test-integration eval lint fmt
 
 install:  ## Create .venv with dev extras
 	uv sync --extra dev
@@ -36,8 +37,11 @@ monitor:  ## Run detectors for DATE and ingest alerts into incidents
 reset:  ## Undo all fault scenarios and resolve open incidents
 	$(EXEC) python -m rca.faults reset --date $(DATE)
 
-demo:  ## Reset, inject SCENARIO, run the pipeline and monitors, print the incident (triage: Phase 7)
-	$(EXEC) python -m rca.faults demo $(SCENARIO) --date $(DATE)
+demo:  ## Reset, inject SCENARIO, run pipeline + monitors, triage with LLM=anthropic|none, print RCA
+	$(EXEC) python -m rca.faults demo $(SCENARIO) --date $(DATE) --llm $(LLM)
+
+triage:  ## Triage INCIDENT with LLM=anthropic|none
+	$(EXEC) python -m rca.agent triage --incident $(INCIDENT) --llm $(LLM)
 
 test:  ## Unit tests — no Docker, no network, no API key
 	uv run --extra dev pytest -m "not integration and not system"

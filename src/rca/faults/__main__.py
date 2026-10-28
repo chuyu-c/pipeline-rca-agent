@@ -30,6 +30,8 @@ def main() -> int:
         p.add_argument("scenario")
         p.add_argument("--date", type=date.fromisoformat, default=date.today())
         p.add_argument("--dag", default="ecommerce_daily")
+        if name == "demo":
+            p.add_argument("--llm", choices=["anthropic", "replay", "none"], default="anthropic")
     reset_p = sub.add_parser("reset", help="undo all scenarios and resolve open incidents")
     reset_p.add_argument("--date", type=date.fromisoformat, default=date.today())
     args = parser.parse_args()
@@ -43,7 +45,7 @@ def main() -> int:
             print(f"{s.id:<16} {s.ground_truth.category:<15} {s.title}")
         return 0
     if args.command == "demo":
-        return run_demo(settings, args.scenario, args.date, args.dag)
+        return run_demo(settings, args.scenario, args.date, args.dag, args.llm)
     if args.command == "inject" and args.scenario not in scenarios:
         print(f"unknown scenario {args.scenario!r}; choose from: {', '.join(scenarios)}")
         return 2
