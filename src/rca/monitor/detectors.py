@@ -150,10 +150,56 @@ def detect_task_failures(
     return alerts
 
 
+def detect_task_retries(
+    conn: Connection, graph: LineageGraph, logical_date: date
+) -> list[AlertCandidate]:
+    """Tasks that succeeded only after retrying (low severity: often transient, sometimes the
+    first sign of a degrading source). Error class is that of the last failed attempt."""
+    rows = conn.execute(
+        "SELECT latest.task_id, latest.run_id, latest.dag_id, latest.try_number,"
+        "       failed.error_class, failed.error_message"
+        " FROM ("
+        "  SELECT DISTINCT ON (task_id) * FROM ops.task_runs WHERE logical_date = %s"
+        "  ORDER BY task_id, started_at DESC, try_number DESC"
+        " ) latest"
+        " JOIN LATERAL ("
+        "  SELECT error_class, error_message FROM ops.task_runs f"
+        "  WHERE f.task_id = latest.task_id AND f.logical_date = latest.logical_date"
+        "    AND f.status = 'up_for_retry'"
+        "    AND split_part(f.run_id, '.', 1) = split_part(latest.run_id, '.', 1)"
+        "  ORDER BY f.try_number DESC LIMIT 1"
+        " ) failed ON true"
+        " WHERE latest.status = 'success' AND latest.try_number > 1 ORDER BY latest.task_id",
+        (logical_date,),
+    )
+    alerts = []
+    for r in rows:
+        outputs = graph.outputs(r["task_id"])
+        alerts.append(
+            AlertCandidate(
+                "task_retry",
+                outputs[0] if outputs else f"task:{r['task_id']}",
+                r["error_class"] or "UnknownError",
+                "low",
+                logical_date,
+                {
+                    "task_id": r["task_id"],
+                    "dag_id": r["dag_id"],
+                    "run_id": r["run_id"],
+                    "attempts": r["try_number"],
+                    "error_message": r["error_message"],
+                    "outputs": outputs,
+                },
+            )
+        )
+    return alerts
+
+
 def run_detectors(
     conn: Connection, config: MonitorConfig, graph: LineageGraph, logical_date: date
 ) -> list[AlertCandidate]:
     alerts = detect_task_failures(conn, graph, logical_date)
+    alerts += detect_task_retries(conn, graph, logical_date)
     for dataset, monitors in config.datasets.items():
         row_count = _count(conn, dataset, monitors, logical_date)
         candidates: list[AlertCandidate | None] = []

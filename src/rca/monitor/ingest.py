@@ -31,6 +31,8 @@ class Lineage(Protocol):
 
     def topo_order(self, tables: Iterable[str] | None = None) -> list[str]: ...
 
+    def producers(self, table: str) -> set[str]: ...
+
 
 class AlertStore(Protocol):
     def find_recent_alert(self, fingerprint: str, since: datetime) -> tuple[int, int] | None:
@@ -66,13 +68,18 @@ class IngestResult:
 
 
 def same_lineage_path(a: str, b: str, lineage: Lineage) -> bool:
-    """True if `a` and `b` are the same dataset or one feeds the other."""
+    """True if `a` and `b` are the same dataset, one feeds the other, or one task writes both
+    (e.g. raw.orders and raw.order_items come from the same ingest load)."""
     if a == b:
         return True
     known = lineage.tables
     if a not in known or b not in known:
         return False
-    return a in lineage.ancestors(b) or b in lineage.ancestors(a)
+    return (
+        a in lineage.ancestors(b)
+        or b in lineage.ancestors(a)
+        or bool(lineage.producers(a) & lineage.producers(b))
+    )
 
 
 def root_candidate(datasets: Iterable[str], lineage: Lineage) -> str:

@@ -293,3 +293,23 @@ def test_enqueue_does_not_touch_a_job_already_running(
     store.jobs[1].status = "running"
     ingest(alert("mart.x"), store, lineage, T0 + timedelta(minutes=5))
     assert store.jobs[1].run_after == T0 + TRIAGE_DEBOUNCE
+
+
+def test_tables_written_by_the_same_task_correlate(lineage: LineageGraph) -> None:
+    # One ingest load writes both raw.a and raw.b (like raw.orders + raw.order_items).
+    shared = LineageGraph([
+        *lineage.edges,
+        Edge(None, None, "raw.a", None, "ingest"),
+        Edge(None, None, "raw.b", None, "ingest"),
+    ])  # fmt: skip
+    store = FakeAlertStore()
+    batch = [alert(d, "volume", "volume_high") for d in ("raw.a", "raw.b", "stg.a", "stg.b")]
+    for candidate in upstream_first(batch, shared):
+        ingest(candidate, store, shared, T0)
+    assert len(store.incidents) == 1
+
+    # Without the shared producer, the two branches stay separate.
+    separate = FakeAlertStore()
+    for candidate in upstream_first(batch, lineage):
+        ingest(candidate, separate, lineage, T0)
+    assert len(separate.incidents) == 2
