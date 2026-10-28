@@ -16,13 +16,12 @@ from typing import Any, Protocol
 from psycopg import ClientCursor
 from psycopg.types.json import Jsonb
 
-from rca.db import Connection
+from rca.db import Connection, connect
 from rca.observability.logging import get_logger
-from rca.simulator.dag import Dag, Task, TaskContext
+from rca.simulator.conditions import load_fault
+from rca.simulator.dag import Dag, LogFn, Task, TaskContext
 
 log = get_logger(__name__)
-
-LogFn = Callable[[str], None]
 
 
 class TaskStatus(StrEnum):
@@ -64,7 +63,7 @@ class DagRunResult:
 
 
 class TaskExecutor(Protocol):
-    def execute(self, dag: Dag, task: Task, logical_date: date, log: LogFn) -> int:
+    def execute(self, dag: Dag, task: Task, logical_date: date, try_number: int, log: LogFn) -> int:
         """Run one attempt atomically; return rows affected. Raise on failure."""
         ...
 
@@ -124,14 +123,18 @@ def run_dag(
             attrs = {**base_attrs, "try_number": try_number}
 
             def task_log(
-                message: str, *, _run_id: str = run_id, _attrs: dict[str, Any] = attrs
+                message: str,
+                level: str = "INFO",
+                *,
+                _run_id: str = run_id,
+                _attrs: dict[str, Any] = attrs,
             ) -> None:
-                store.log(_run_id, "INFO", message, _attrs)
+                store.log(_run_id, level, message, _attrs)
 
             started = _now()
             task_log(f"Starting attempt {try_number} of {max_tries}")
             try:
-                rows = executor.execute(dag, task, logical_date, task_log)
+                rows = executor.execute(dag, task, logical_date, try_number, task_log)
             except Exception as exc:
                 error_class = type(exc).__name__
                 error_message = (str(exc).strip().splitlines() or [""])[0]
@@ -165,6 +168,23 @@ def run_dag(
     return result
 
 
+def format_run(logical_date: date, result: DagRunResult) -> str:
+    lines = [f"{logical_date}  dag_run={result.dag_run_id}"]
+    for task_id, run in result.final.items():
+        error = f"  {run.error_class}: {run.error_message}" if run.error_class else ""
+        lines.append(f"  {task_id:<28} {run.status:<16} try={run.try_number}{error}")
+    return "\n".join(lines)
+
+
+def run_pg(database_url: str, dag: Dag, logical_date: date, seed: int) -> DagRunResult:
+    """Run `dag` against Postgres: one connection for task work, one for runs/logs."""
+    with (
+        connect(database_url, autocommit=True) as work_conn,
+        connect(database_url, autocommit=True) as ops_conn,
+    ):
+        return run_dag(dag, logical_date, PgExecutor(work_conn, seed), PgRunStore(ops_conn))
+
+
 def _resolve(spec: str) -> Callable[[TaskContext], int]:
     module_name, _, func_name = spec.partition(":")
     func: Callable[[TaskContext], int] = getattr(importlib.import_module(module_name), func_name)
@@ -172,22 +192,43 @@ def _resolve(spec: str) -> Callable[[TaskContext], int]:
 
 
 class PgExecutor:
-    """Runs each attempt in its own transaction on an autocommit connection, as `rca_app`."""
+    """Runs each attempt in its own transaction on an autocommit connection, as `rca_app`.
+
+    Honours injected task faults (`sim.faults`, target `task:<id>`):
+      statement_timeout_ms   override the task's timeout
+      transient_failures     fail the first N attempts with `transient_error` (a TimeoutError)
+      sql, deploy_id, commit_sha   run a deployed SQL version instead of the repo file
+    """
 
     def __init__(self, conn: Connection, seed: int) -> None:
         self.conn = conn
         self.seed = seed
 
-    def execute(self, dag: Dag, task: Task, logical_date: date, log: LogFn) -> int:
+    def execute(self, dag: Dag, task: Task, logical_date: date, try_number: int, log: LogFn) -> int:
+        fault = load_fault(self.conn, f"task:{task.id}")
+        timeout_ms = int(fault.get("statement_timeout_ms", task.timeout_s * 1000))
         with self.conn.transaction():
-            self.conn.execute(f"SET LOCAL statement_timeout = {task.timeout_s * 1000}")
+            self.conn.execute(f"SET LOCAL statement_timeout = {timeout_ms}")
             if task.python:
                 log(f"Running python callable {task.python}")
-                return _resolve(task.python)(TaskContext(self.conn, logical_date, self.seed))
+            else:
+                log(f"Executing {task.sql_file}" + (
+                    f" (deploy {fault['deploy_id']}, commit {fault['commit_sha']})"
+                    if "sql" in fault else ""
+                ))  # fmt: skip
+            if try_number <= int(fault.get("transient_failures", 0)):
+                raise TimeoutError(
+                    str(fault.get("transient_error", "operation timed out")).format(
+                        logical_date=logical_date
+                    )
+                )
+
+            if task.python:
+                ctx = TaskContext(self.conn, logical_date, self.seed, try_number, log)
+                return _resolve(task.python)(ctx)
 
             assert task.sql_file is not None
-            sql = (dag.root / task.sql_file).read_text(encoding="utf-8")
-            log(f"Executing {task.sql_file}")
+            sql = fault.get("sql") or (dag.root / task.sql_file).read_text(encoding="utf-8")
             # ClientCursor: multiple statements + parameters in one execute().
             with ClientCursor(self.conn) as cur:
                 cur.execute(sql, {"logical_date": logical_date})

@@ -13,25 +13,12 @@ from rca.db import connect
 from rca.observability.logging import configure_logging
 from rca.simulator.dag import load_dag
 from rca.simulator.ingest import load_products
-from rca.simulator.runner import DagRunResult, PgExecutor, PgRunStore, run_dag
+from rca.simulator.runner import DagRunResult, format_run, run_pg
 
 
 def _run(settings: Settings, dag_id: str, logical_date: date) -> DagRunResult:
     dag = load_dag(settings.dags_dir / f"{dag_id}.yaml")
-    with (
-        connect(settings.database_url, autocommit=True) as work_conn,
-        connect(settings.database_url, autocommit=True) as ops_conn,
-    ):
-        return run_dag(
-            dag, logical_date, PgExecutor(work_conn, settings.sim_seed), PgRunStore(ops_conn)
-        )
-
-
-def _print_summary(logical_date: date, result: DagRunResult) -> None:
-    print(f"{logical_date}  dag_run={result.dag_run_id}")
-    for task_id, run in result.final.items():
-        error = f"  {run.error_class}: {run.error_message}" if run.error_class else ""
-        print(f"  {task_id:<28} {run.status:<16} try={run.try_number}{error}")
+    return run_pg(settings.database_url, dag, logical_date, settings.sim_seed)
 
 
 def main() -> int:
@@ -53,7 +40,7 @@ def main() -> int:
 
     if args.command == "run":
         result = _run(settings, args.dag, args.date)
-        _print_summary(args.date, result)
+        print(format_run(args.date, result))
         return 0 if result.ok else 1
 
     with connect(settings.database_url, autocommit=True) as conn:
@@ -62,7 +49,7 @@ def main() -> int:
     for offset in range(args.days - 1, -1, -1):
         logical_date = args.end_date - timedelta(days=offset)
         result = _run(settings, args.dag, logical_date)
-        _print_summary(logical_date, result)
+        print(format_run(logical_date, result))
         ok &= result.ok
     return 0 if ok else 1
 

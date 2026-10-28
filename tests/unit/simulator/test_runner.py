@@ -1,8 +1,8 @@
 from datetime import date
 from typing import Any
 
-from rca.simulator.dag import Dag, Task
-from rca.simulator.runner import LogFn, TaskRun, TaskStatus, run_dag
+from rca.simulator.dag import Dag, LogFn, Task
+from rca.simulator.runner import TaskRun, TaskStatus, run_dag
 
 D = date(2026, 3, 2)
 
@@ -31,7 +31,7 @@ class FakeExecutor:
         self.failures = dict(failures or {})
         self.executed: list[str] = []
 
-    def execute(self, dag: Dag, task: Task, logical_date: date, log: LogFn) -> int:
+    def execute(self, dag: Dag, task: Task, logical_date: date, try_number: int, log: LogFn) -> int:
         self.executed.append(task.id)
         if self.failures.get(task.id, 0) > 0:
             self.failures[task.id] -= 1

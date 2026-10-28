@@ -5,7 +5,7 @@ from collections.abc import Iterable, Mapping
 from dataclasses import dataclass
 from datetime import date
 from pathlib import Path
-from typing import Self
+from typing import Protocol, Self
 
 import yaml
 from pydantic import BaseModel, Field, PrivateAttr, model_validator
@@ -66,6 +66,16 @@ def _find_cycle(blocked: set[str], upstream: Mapping[str, set[str]]) -> list[str
     return [*path[seen[node] :], node]
 
 
+class LogFn(Protocol):
+    """Writes one line to the current attempt's task log (`ops.task_logs`)."""
+
+    def __call__(self, message: str, level: str = "INFO") -> None: ...
+
+
+def _no_log(message: str, level: str = "INFO") -> None:
+    pass
+
+
 @dataclass
 class TaskContext:
     """What a `python:` task callable receives."""
@@ -73,6 +83,8 @@ class TaskContext:
     conn: Connection
     logical_date: date
     seed: int
+    try_number: int = 1
+    log: LogFn = _no_log
 
 
 class Task(BaseModel):

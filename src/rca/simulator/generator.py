@@ -6,7 +6,7 @@ All names are invented; no real companies, people or products.
 """
 
 import random
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from datetime import UTC, date, datetime, time, timedelta
 from decimal import Decimal
 
@@ -23,6 +23,7 @@ _WEEKDAY_FACTOR = (0.90, 0.95, 1.00, 1.00, 1.10, 1.25, 1.20)
 N_PRODUCTS = 50
 BASE_ORDERS_PER_DAY = 300
 N_CUSTOMERS = 5_000
+_IDS_PER_DAY = 1_000_000
 # orders/day x mean lines/order (2.5) x mean quantity/line (1.4)
 _EXPECTED_UNITS_PER_DAY = BASE_ORDERS_PER_DAY * 2.5 * 1.4
 
@@ -92,17 +93,25 @@ def _popularity(products: list[Product]) -> list[float]:
     return [1.0 / (rank**0.8) for rank in range(1, len(products) + 1)]
 
 
-def generate_orders(logical_date: date, seed: int) -> tuple[list[Order], list[OrderItem]]:
+def generate_orders(
+    logical_date: date, seed: int, *, scale: float = 1.0
+) -> tuple[list[Order], list[OrderItem]]:
+    """One day of orders. `scale` multiplies volume (e.g. a sale event or a bad backfill)."""
     rng = random.Random(f"{seed}:orders:{logical_date.isoformat()}")
     products = generate_products(seed)
     weights = _popularity(products)
 
     n_orders = round(
-        BASE_ORDERS_PER_DAY * _WEEKDAY_FACTOR[logical_date.weekday()] * rng.uniform(0.9, 1.1)
+        BASE_ORDERS_PER_DAY
+        * _WEEKDAY_FACTOR[logical_date.weekday()]
+        * rng.uniform(0.9, 1.1)
+        * scale
     )
+    if n_orders >= _IDS_PER_DAY:
+        raise ValueError(f"{n_orders} orders exceed the per-day id space")
     day_start = datetime.combine(logical_date, time.min, tzinfo=UTC)
     # Unique across dates without coordination: date ordinal prefix + sequence.
-    id_base = logical_date.toordinal() * 10_000
+    id_base = logical_date.toordinal() * _IDS_PER_DAY
 
     orders: list[Order] = []
     items: list[OrderItem] = []
@@ -132,6 +141,14 @@ def generate_orders(logical_date: date, seed: int) -> tuple[list[Order], list[Or
                 )
             )
     return orders, items
+
+
+def blank_regions(orders: list[Order], rate: float, seed: int) -> list[Order]:
+    """Null `region` on a deterministic `rate` fraction of orders (a source data-quality bug)."""
+    if not orders:
+        return orders
+    rng = random.Random(f"{seed}:null_regions:{orders[0].logical_date.isoformat()}")
+    return [replace(o, region=None) if rng.random() < rate else o for o in orders]
 
 
 def generate_inventory(logical_date: date, seed: int) -> list[InventorySnapshot]:
